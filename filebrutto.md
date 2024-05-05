@@ -10,6 +10,8 @@
 -creazione progetto e upload su github
 -discussione su user stories 
 -selezione e creazione user stories (file us.txt).
+
+
 TODO per PROSSIMA RIUNIONE:
    -cancellare user stories ridondanti e sistemare quelle gia scritte
    -creare altre user stories 
