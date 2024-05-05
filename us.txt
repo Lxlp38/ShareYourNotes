@@ -1,0 +1,142 @@
+
+
+
+8 - ShareYourNotes è un'applicazione che permette a studenti universitari di condividere i propri appunti con gli altri. L'applicazione deve permettere creare categorie e sotto-categorie (esempio: facoltà, corso di laurea) da associare agli appunti che verranno caricati dagli utenti (in formato pdf). Deve essere inoltre possibile associare dei tag ai file in modo da poter effettuare ricerche e recuperare tutti gli appunti appartenenti a uno specifico tag, rilasciare recensioni su un particolare file condiviso (un valore esempio da 1 a 5, che può essere usato come filtro nelle ricerche), scaricare i file e anche caricarli direttamente sullo spazio google  drive personale. Sono previsti almeno due tipi di utenti: amministratore (l'unico che può creare categorie e i tag) e l'utente (può caricare i propri appunti associandoli alle rispettive categorie e tag, ricercare appunti e rilasciare un feedback sugli appunti degli altri). 
+Esempio di API: Autenticazione tramite XXX (a scelta), google drive
+
+
+GUEST = UTENTE NON LOGGATO
+USER = UTENTE GENERICO
+LOGGED-IN USER = UTENTE LOGGATO
+
+As a guest, 
+I want to be able to access the web site without any log-in,
+so that I can visualize the notes
+
+2) as a logged-in user, I want to be able to choose a tool, so that I can edit the file
+
+3)as a user, I want to be able to authenticate with my google credentials, so that I can avoid creating a new account 
+      
+       
+        as a guest
+i want to signup via github
+so that the log-in operation is simpler
+        
+
+4) As a website administrator, I need robust OAuth integration to manage user authentication efficiently and securely, enhancing the overall user experience.
+
+5) As a logged-in user, I want to be able to upload files to my account, ensuring they are securely stored and accessible only to me.
+
+6) As a logged-in user, I want to be able to read 
+
+7)As a user, I expect a smooth experience navigating through files and folders, with permissions dynamically adjusting based on my logged-in status to ensure data security and integrity.
+
+8)As a team leader, I require the ability to manage user roles and permissions, ensuring that team members have appropriate access levels to files and folders based on their login credentials.
+
+9) as a logged-in student, I want to be able to access my google drive account, so that I can work on my own files separately from... 
+
+10) As a user, I want to securely store and access my files online, similar to Google Drive, so I can access them from any device with an internet connection.
+
+11) --> bottone per fare share del file: 
+    As a registered user, I want to be able to upload a file from my file system via the ShareYourNotes home page, so that I can share ready-made files.
+    
+12) as a developer of ShareYourNotes web page, I want to show my contacts on the footer of my web site, so that I can have some credit 
+
+13) as a developer of ShareYourNotes web page, I want to show some help FAQs on the footer of my web site, so that I can help people to understand the rules and tools offered by my webApp. 
+
+14) pagina area personale --> as a logged-in user, I want to enter my personal area, so that I can set username, password, profile image, ecc
+
+15) as a logged-in user, I want to be able to access the files I've shared on the website, so that I can remove or modify them.
+
+16) as a logged-in user, I want to be able to access the files I've worked on on the web site, so that I can remove or modify them.
+
+17) as a as a logged-in user, I want to be able to se the files I've worked on on the web site in tempo order
+
+Premessa:
+Si presuppone l'esistenza di due pagine:
+ ⁃ una pagina in cui è visibile una lista di utenti in cui si possa fare anche una ricerca (per esempio dello username), per azioni varie sugli utenti
+ ⁃ una pagina visibile solamente agli amministratori in cui sono visibili richieste o messaggi inviate da chi è registrato sul sito (pensavo che le notifiche si potrebbero organizzare come una coda FIFO, con ogni notifica avente un pulsante o due del tipo "Done" oppure "Dismiss" o altro
+
+As an administrator
+I want to be able to block or suspend user's posted notes
+So that there won't be inappropriate content, and eventually give the opportunity to correct it
+
+As an administrator
+I want to be able to edit users notes tags
+So that they can be easily filtered
+
+as a guest
+i want to signup into the website using at least an username and a password
+so that i can fully enjoy the website's features
+
+as a guest
+i want to login into the website
+because i want to be able to use my previously made account
+
+As a guest
+i want to be able to login into the website using any linked account
+so that I can login more comfortably
+ 
+
+As an user
+I want to see a preview of the notes
+So I can choose more easily
+
+As an user
+I want to be able to search for username and name of a specific course of study
+So that i can easily find useful notes
+
+As a user
+I want to add filters to my serch
+So that i can do accurate research
+
+As a logged-in user
+I want to bookmark /add to favourites the notes i’m using
+So that i do not have to serach them again
+
+As a logged-in user 
+I want to leave a review
+So that i can help other user to chose notes (form per lasciare recensione e bottone per inviare)
+
+as a logged-in user, I want to read the reviews left under my notes, in order to improve
+
+As an administartor
+I want to edit and delete reviews
+So that there won’t be inappropiate content
+
+As a logged-in user
+I want to see notes relating to my studies
+So that i can see usefull notes
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+DA SISTEMARE:
+
+As an administrator
+I want to receive user's complaints on a "requests&issues" queue visible to all the administrators
+So that all the problems can be verified and fixed quickly (eg. deleting some plagiarized notes or editing wrong tags) 
+
+
+As an administrator
+I want to mark worthy users as "trusted"
+So that their notes can appear on top of other notes or be filtered easier
+
+(ad esempio se qualcuno pubblica spesso e sono contenuti di qualità)
+
+
+DA DIVIDERE IN PIU USER STORIES:
+As a site administrator and developer
+I want to be able to give admin roles to trusted users or revoke them
+So that the platform can be regulated and work as intended
+
+(permessi, ban, sospensione etc. degli utenti si possono gestire tutti da una singola pagina)
+
+
+6)
+As an administrator 
+I want to be able to edit user's usernames
+So that offensive or deceptive usernames can be changed
+
+da fare: user stories riguardanti download, upload, pagina di editing dei file, si possono scrivere appunti direttamente dal sito / dalla pagina di editing
+
+
