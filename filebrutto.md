@@ -16,3 +16,14 @@ TODO per PROSSIMA RIUNIONE:
    -cancellare user stories ridondanti e sistemare quelle gia scritte
    -creare altre user stories 
    -fare sketches e storyboard.
+
+
+## 06/05/2024
+-termine creazione user stories
+-scelta API da utilizzare per il progetto
+-creazione definitiva degli sketches/wireframe (almeno fino alla fase 2 del progetto)
+-compilazione modulo google per presentare progetto.
+  
+TODO per PROSSIMA RIUNIONE:
+   -fase 2 progetto, ovvero parlare con il prof tutor assegnato 
+
