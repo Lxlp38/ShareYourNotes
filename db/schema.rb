@@ -15,8 +15,10 @@ ActiveRecord::Schema.define(version: 2024_06_03_165414) do
   create_table "accounts", force: :cascade do |t|
     t.string "google"
     t.string "github"
+    t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
   create_table "courses", force: :cascade do |t|
@@ -99,14 +101,13 @@ ActiveRecord::Schema.define(version: 2024_06_03_165414) do
     t.string "email", null: false
     t.string "password", null: false
     t.integer "university_details_id"
-    t.integer "login_details_id"
     t.string "role"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["login_details_id"], name: "index_users_on_login_details_id"
     t.index ["university_details_id"], name: "index_users_on_university_details_id"
   end
 
+  add_foreign_key "accounts", "users"
   add_foreign_key "courses", "universities"
   add_foreign_key "note_reports", "notes"
   add_foreign_key "notes", "courses"
@@ -116,6 +117,5 @@ ActiveRecord::Schema.define(version: 2024_06_03_165414) do
   add_foreign_key "reviews", "users", column: "owner_id"
   add_foreign_key "tickets", "users"
   add_foreign_key "user_reports", "users"
-  add_foreign_key "users", "accounts", column: "login_details_id"
   add_foreign_key "users", "universities", column: "university_details_id"
 end
