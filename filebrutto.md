@@ -46,8 +46,12 @@ PAGINE DEL SITO:
 TODO per PROSSIMA RIUNIONE:
    -fase 2 progetto, ovvero parlare con il prof tutor assegnato 
 
-## 05/06/2024  [Giorgio, Lorenzo, Martina, Giuseppe, Leo]
+## 03/06/2024  [Giorgio, Lorenzo, Martina, Giuseppe, Leo]
    -fix user stories 
    -progetto su trello 
    -creazione tabelle database 
   
+## 03/06/2024  [Giorgio, Lorenzo, Martina, Giuseppe]
+   -creazione modelli
+   -seed database
+   -inizio creazione routes/views 
