@@ -4,7 +4,7 @@ class CreaDb < ActiveRecord::Migration[6.1]
     create_table :users do |t|
       t.string :username, null: false
       t.string :email, null: false
-      t.string :password, null: false
+      t.string :password_digest, null: false
       t.references :university_details, null: true, foreign_key: { to_table: :universities }
       t.string :role
 

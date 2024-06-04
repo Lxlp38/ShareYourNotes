@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+    
+
+    has_secure_password
 
     belongs_to :university_details, class_name: "University", foreign_key: "university_details_id"
     has_one :account

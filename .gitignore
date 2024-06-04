@@ -67,3 +67,5 @@ yarn-debug.log*
 /storage/*
 !/storage/.keep
 /public/uploads
+
+db/migrate/20240603165414_crea_db.rb
