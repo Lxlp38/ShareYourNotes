@@ -25,11 +25,11 @@
         <td><%= user.university_details_id %></td>
         <td><%= user.role %></td>
         <td><%= user.created_at %></td>
-        <td><%= user.update_at %></td>
+        <td><%= user.updated_at %></td>
         <td><%= user.email %></td>
         <td><%= user.encrypted_password %></td>
         <td><%= user.reset_password_sent_at %></td>
-        <td><%= user.remeber_created_at %></td>
+        <td><%= user.remember_created_at%></td>
         <td><%= link_to 'Show', user %></td>
         <td><%= link_to 'Edit', edit_user_path(user) %></td>
         <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
