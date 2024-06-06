@@ -7,9 +7,14 @@ Rails.application.routes.draw do
 
     devise_scope :user do
       get '/users/sign_out', to: 'users/sessions#destroy'
+      #get '/auth/:provider/callback', to: 'users/sessions#create', as: 'omniauth_callback'
+      #get '/auth/failure', to: redirect('/')
+      #get '/signout', to: 'users/sessions#destroy', as: 'signout'    
     end
     
   resources :users
+ 
+
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: 'users#index'
