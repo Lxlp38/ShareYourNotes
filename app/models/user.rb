@@ -2,10 +2,27 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
-    
+         :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: [:github]
+
+      def self.from_omniauth(access_token)
+          data = access_token.info
+          user = User.where(email: data['email']).first
+      
+           #Uncomment the section below if you want users to be created if they don't exist
+           unless user
+               user = User.create(
+                  email: data['email'],
+                  password: Devise.friendly_token[0,20]
+               )
+           end
+          user
+      end
 
     #has_secure_password
+
+    def persisted
+      
+    end
 
     belongs_to :university_details, class_name: "University", foreign_key: "university_details_id"
     has_one :account
