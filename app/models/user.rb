@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
     
 
-    has_secure_password
+    #has_secure_password
 
     belongs_to :university_details, class_name: "University", foreign_key: "university_details_id"
     has_one :account
