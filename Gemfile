@@ -2,6 +2,10 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.2'
+#github
+gem 'omniauth'
+gem 'omniauth-github'
+gem "omniauth-rails_csrf_protection"
 #Devise per la gestione degli utenti
 gem 'devise'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'

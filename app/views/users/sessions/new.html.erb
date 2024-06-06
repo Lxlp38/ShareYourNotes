@@ -28,8 +28,11 @@
 
     <%= render "users/shared/links" %>
 
+    <%= form_tag('/auth/developer', method: 'post', data: {turbo: false}) do %>
+      <!--#<button type='submit'>Login with Developer</button>-->
+    <% end %>
+
     <p class="notice p-0 m-0"><%= notice %></p>
-    <p class="alert p-0 m-0"><%= alert %></p>
   
   </div>
 </div>
