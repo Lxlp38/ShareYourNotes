@@ -69,4 +69,6 @@
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
-<%= button_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' } %>
+<% if can? :destroy, @user %>
+  <%= button_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' } %>
+<% end %>
