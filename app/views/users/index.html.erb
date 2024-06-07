@@ -1,4 +1,7 @@
-<p id="notice"><%= notice %></p>
+<%= render 'header' %>
+
+<p><%= notice %></p>
+<p id="notice text-success bg-dark"></p>
 
 <h1>Users</h1>
 
@@ -41,4 +44,3 @@
 <br>
 
 <%= link_to 'New User', new_user_path %>
-<%= link_to 'Logout', destroy_user_session_path, method: :delete %>

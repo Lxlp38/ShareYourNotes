@@ -5,6 +5,7 @@ ruby '2.7.2'
 #github
 gem 'omniauth'
 gem 'omniauth-github'
+gem 'omniauth-google-oauth2'
 gem "omniauth-rails_csrf_protection"
 #Devise per la gestione degli utenti
 gem 'devise'
