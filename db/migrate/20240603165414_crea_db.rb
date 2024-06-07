@@ -29,8 +29,8 @@ class CreaDb < ActiveRecord::Migration[6.1]
 
     # Create the accounts table
     create_table :accounts do |t|
-      t.string :google
-      t.string :github
+      t.string :google, default: 'false'
+      t.string :github, default: 'false'
       t.references :user, null: true, foreign_key: true
       t.timestamps
     end

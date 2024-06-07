@@ -13,8 +13,8 @@
 ActiveRecord::Schema.define(version: 2024_06_05_154004) do
 
   create_table "accounts", force: :cascade do |t|
-    t.string "google"
-    t.string "github"
+    t.string "google", default: "false"
+    t.string "github", default: "false"
     t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
