@@ -7,9 +7,9 @@ Rails.application.routes.draw do
 
     devise_scope :user do
       get '/users/sign_out', to: 'users/sessions#destroy'
-      #get '/auth/:provider/callback', to: 'users/sessions#create', as: 'omniauth_callback'
-      #get '/auth/failure', to: redirect('/')
-      #get '/signout', to: 'users/sessions#destroy', as: 'signout'    
+      get '/auth/:provider/callback', to: 'users/sessions#create', as: 'omniauth_callback'
+      get '/auth/failure', to: redirect('/')
+      get '/signout', to: 'users/sessions#destroy', as: 'signout'    
     end
     
   resources :users
