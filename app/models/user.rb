@@ -6,7 +6,6 @@ class User < ActiveRecord::Base
 
       def self.from_omniauth(access_token)
         data = access_token.info
-        puts data['email']
         user = User.where(email: data['email']).first
     
          #Uncomment the section below if you want users to be created if they don't exist
@@ -17,15 +16,17 @@ class User < ActiveRecord::Base
                 password: Devise.friendly_token[0,20],
                 role: 'user',
                 university_details_id: nil,
+                account_attributes: { github: 'true' }
             )
-            user.save!
-        end
-        user.username = access_token.info.name
-        #user.image = access_token.info.image
-        #user.uid = access_token.uid
-        #user.provider = access_token.provider
-        user.save
 
+            user.save!
+
+        end
+        # user.username = access_token.info.name
+        # #user.image = access_token.info.image
+        # #user.uid = access_token.uid
+        # #user.provider = access_token.provider
+        # user.save
         user
       end
 
@@ -35,7 +36,8 @@ class User < ActiveRecord::Base
     end
 
     belongs_to :university_details, class_name: "University", foreign_key: "university_details_id", optional: true
-    has_one :account
+    has_one :account, class_name: "Account", dependent: :destroy, :required => false
+    accepts_nested_attributes_for :account
 
 
     has_many :tickets, dependent: :destroy

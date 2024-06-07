@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(version: 2024_06_05_154004) do
   create_table "users", force: :cascade do |t|
     t.string "username", null: false
     t.integer "university_details_id"
+    t.integer "account_id"
     t.string "role"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -107,6 +108,7 @@ ActiveRecord::Schema.define(version: 2024_06_05_154004) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.index ["account_id"], name: "index_users_on_account_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["university_details_id"], name: "index_users_on_university_details_id"
@@ -122,5 +124,6 @@ ActiveRecord::Schema.define(version: 2024_06_05_154004) do
   add_foreign_key "reviews", "users", column: "owner_id"
   add_foreign_key "tickets", "users"
   add_foreign_key "user_reports", "users"
+  add_foreign_key "users", "accounts"
   add_foreign_key "users", "universities", column: "university_details_id"
 end
