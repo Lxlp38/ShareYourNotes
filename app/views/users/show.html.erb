@@ -5,6 +5,16 @@
   <%= @user.username %>
 </p>
 
+<!--<p>
+  current_user:
+  <%= current_user.id %>
+  data:
+  <%= session.each do |key|%>
+    <%= key %>
+  <% end %>
+<p>
+-->
+
 <p>
   <strong>University details:</strong>
   <%= @user.university_details_id %>
@@ -17,10 +27,13 @@
 
 <p>
     <strong>Accounts:</strong>
-    <% @user.account.attributes.slice("github", "google").each do |key, value| %>
+    <% @user.account.attributes.slice("github", "google_oauth2").each do |key, value| %>
       <p>
         - <strong><%= key.to_s.capitalize %>:</strong>
         <%= value %>
+        <% if @user == current_user && value == 'false' %>
+          <%= link_to 'Connect', user_omniauth_authorize_path(current_user.id, key.to_sym) %>
+        <% end %>
       </p>
     <% end %>
 

@@ -60,6 +60,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def authorize
+    @user = current_user
+    provider = params[:provider]
+    if @user.account[provider] == 'false'
+      @user.account.update(provider => 'true')
+    end
+    redirect_to user_url(@user)
+  end
   
   private
     # Use callbacks to share common setup or constraints between actions.

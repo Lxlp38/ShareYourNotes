@@ -7,7 +7,8 @@ class CreaDb < ActiveRecord::Migration[6.1]
       #t.string :password_digest, null: false
       t.references :university_details, null: true, foreign_key: { to_table: :universities }
       t.references :account, null: true, foreign_key: true
-      t.string :role
+      t.string :role, :default => 'user'
+      
 
       t.timestamps
     end
@@ -29,7 +30,7 @@ class CreaDb < ActiveRecord::Migration[6.1]
 
     # Create the accounts table
     create_table :accounts do |t|
-      t.string :google, default: 'false'
+      t.string :google_oauth2, default: 'false'
       t.string :github, default: 'false'
       t.references :user, null: true, foreign_key: true
       t.timestamps

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   end
 
   delete '/users/:id', to: 'users#destroy', as: 'destroy_user'
+  get '/users/:id/:provider/authorize', to: 'users#authorize', as: 'user_omniauth_authorize'
   resources :users
 
 

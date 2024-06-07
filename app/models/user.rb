@@ -9,23 +9,26 @@ class User < ActiveRecord::Base
         provider = access_token.provider
         user = User.where(email: data['email']).first
     
+        puts "data: #{data}"
+
         unless user
-          User.create(
-            username: data['name'],
+          user = User.create(
+            username: Account.validateName(provider, data),
             email: data['email'],
             password: Devise.friendly_token[0,20],
             role: 'user',
             university_details_id: nil,
-            account_attributes: { provider.to_sym => 'true' }
+            account_attributes: { provider.to_sym => Account.validateAttribute(provider, data)}
           )
           user.save!
         end
 
 
-        if user.account[provider] != 'true'
+        if user.account[provider] == 'false'
           user = nil
         end
 
+        
 
         # user.username = access_token.info.name
         # #user.image = access_token.info.image
