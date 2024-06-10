@@ -1,0 +1,53 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Notes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Pdf</th>
+      <th>Owner</th>
+      <th>Course</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @notes.each do |note| %>
+      <tr>
+      <% if note.pdf.present? %>
+        <% note.pdf.each do |pdf| %>
+          <td> <%= link_to note.title, pdf.url %></td>
+          <td><%= note.owner_id %></td>
+          <td><%= note.course_id %></td>
+          <td><%= link_to 'Show', note %></td>
+          <td><%= link_to 'Edit', edit_note_path(note) %></td>
+          <td><%= link_to 'Destroy', note, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        
+         
+        <% end %>
+      <% else %>
+        No PDF available
+      <% end %>
+        </tr>   
+    <% end %>
+    <tr>
+        <td><%= link_to 'Log in', new_user_session_url%></td>
+        <td><%= link_to 'Sign up', new_user_registration_url %></td>
+    </tr>
+    <% if user_signed_in?%>
+      <% if current_user.has_role?(:admin)%>
+        <tr>
+          <td><%= link_to 'User list', users_url %></td>
+        </tr>
+      <% end %>
+    <% end %> 
+  </tbody>
+
+</table>
+
+
+
+<br>
+  <%= link_to 'New Note', new_note_path %>

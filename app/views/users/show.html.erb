@@ -81,10 +81,10 @@
   <%#</p>%>
 
   <p>
-  <% @user.pdf.each do |pdf| %>
-    <%= link_to "Download PDF", pdf.url %><br>
-  <% end %>
-</p>
+    <% @user.pdf.each do |pdf| %>
+      <%= link_to "Download PDF", pdf.url %><br>
+    <% end %>
+  </p>
 
 
 <%= link_to 'Edit', edit_user_path(@user) %> |

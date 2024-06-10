@@ -33,14 +33,15 @@ class Ability
     #user ||= User.new # guest user (not logged in)
     if user.has_role? :admin
       can :manage, :all
-    else
+    end
+    if user.has_role? :user
+      can :new, Note 
       can :show, User do |u|
         u.id == user.id
       end
       can :destroy, User do |u|
         u.id == user.id
       end
-  
     end
   end
 end

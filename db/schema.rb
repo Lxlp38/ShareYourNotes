@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2024_06_09_200243) do
 
   create_table "notes", force: :cascade do |t|
     t.string "title", null: false
-    t.string "pdf", null: false
+    t.string "pdf"
     t.integer "owner_id", null: false
     t.string "tags"
     t.boolean "visibility"

@@ -39,7 +39,7 @@ class CreaDb < ActiveRecord::Migration[6.1]
     # Create the notes table
     create_table :notes do |t|
       t.string :title, null: false
-      t.string :pdf, null: false
+      t.string :pdf
       t.references :owner, null: false, foreign_key: { to_table: :users }
       t.string :tags
       t.boolean :visibility

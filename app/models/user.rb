@@ -1,13 +1,13 @@
 class User < ActiveRecord::Base
   rolify 
-  #after_create :assign_default_role
+  after_create :assign_default_role
   resourcify
   has_and_belongs_to_many :roles, join_table: :users_roles
   
   #Mount the uploader
   mount_uploader :avatar, AvatarUploader
-  mount_uploaders :pdf, PdfUploader
-  serialize :pdf, JSON # If you use SQLite, add this line
+  #mount_uploaders :pdf, PdfUploader
+  #serialize :pdf, JSON # If you use SQLite, add this line
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -69,8 +69,8 @@ class User < ActiveRecord::Base
     validates :role, presence: true
 
 
-#    def assign_default_role
-#      self.add_role(:user) if self.roles.blank?
-#    end
+    def assign_default_role
+      self.add_role(:user) if self.roles.blank?
+    end
 
 end
