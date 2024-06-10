@@ -33,14 +33,10 @@ class UsersController < ApplicationController
 
     #authorize! :create, @user, :message => "You are not authorized to create a user"
 
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to user_url(@user), notice: "User was successfully created." }
-        format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+    if @user.update(name: user_params[:name], email: user_params[:email])
+      redirect_to @user, notice: 'User was successfully updated.'
+    else
+      render :edit
     end
   end
 
@@ -84,6 +80,10 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:username, :university_details_id, :account_id, :role, :created_at, :updated_at, :email, :encrypted_password, :reset_password_sent_at, :remeber_created_at)
+#      if params[:user][:password].blank?
+#        params.require(:user).permit(:username, :university_details_id, :account_id, :role, :email, :reset_password_sent_at, :remember_created_at)
+#      else
+        params.require(:user).permit(:username, :university_details_id, :account_id, :password, :role, :created_at, :updated_at, :email, :encrypted_password, :reset_password_sent_at, :remeber_created_at, :avatar, { pdf: [] })
+      #end
     end
 end

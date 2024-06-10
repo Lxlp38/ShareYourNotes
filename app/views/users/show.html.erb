@@ -67,6 +67,26 @@
   <%= @user.remember_created_at%>
 </p>
 
+<p>
+<% if @user.avatar? %>
+  <strong>Avatar:</strong>
+  <%= image_tag @user.avatar.thumb.url %>
+<% end %>
+</p>
+
+  <%# CODICE NON FUNZIONANTE <p>%>
+  <%#<% @user.pdf.each do |pdf| %>
+  <%#  <%= link_to "Download PDF", @user.pdf.url %>
+  <%#<% end %>
+  <%#</p>%>
+
+  <p>
+  <% @user.pdf.each do |pdf| %>
+    <%= link_to "Download PDF", pdf.url %><br>
+  <% end %>
+</p>
+
+
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
 <% if can? :destroy, @user %>

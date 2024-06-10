@@ -27,33 +27,26 @@
   </div>
 
   <div class="field">
-    <%= form.label :created_at %>
-    <%= form.text_field :created_at %>
-  </div>
-
-  <div class="field">
-    <%= form.label :updated_at %>
-    <%= form.text_field :updated_at %>
-  </div>
-
-  <div class="field">
     <%= form.label :email %>
     <%= form.text_field :email %>
   </div>
 
-  <div class="field">
-    <%= form.label :encrypted_password %>
-    <%= form.text_field :encrypted_password %>
+  <div>
+  <%= form.label :avatar %>
+  <%= form.file_field :avatar %>
   </div>
 
-  <div class="field">
-    <%= form.label :reset_password_sent_at %>
-    <%= form.text_field :reset_password_sent_at %>
-  </div>
+  <div>
+  <%#<% user.pdf.each do |pdf| %>
+  <%#  <%= hidden_field :user, :pdf, multiple: true, value: pdf.identifier %>
+  <%#<% end %>
+  <%= form.file_field :pdf, multiple: true %>  
+    </div>
+    
 
   <div class="field">
-    <%= form.label :remember_created_at%>
-    <%= form.text_field :remember_created_at%>
+    <p><%= form.label :password, "Inserire la password per confermare le modifiche" %></p>
+    <p><%= form.password_field :password, autocomplete: "current-password" %></p>
   </div>
 
   <div class="actions">

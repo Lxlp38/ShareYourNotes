@@ -3,6 +3,12 @@ class User < ActiveRecord::Base
   #after_create :assign_default_role
   resourcify
   has_and_belongs_to_many :roles, join_table: :users_roles
+  
+  #Mount the uploader
+  mount_uploader :avatar, AvatarUploader
+  mount_uploaders :pdf, PdfUploader
+  serialize :pdf, JSON # If you use SQLite, add this line
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

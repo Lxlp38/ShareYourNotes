@@ -9,6 +9,11 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-google-oauth2'
 gem "omniauth-rails_csrf_protection"
+
+#Carriewave per la gestione degli upload
+gem 'carrierwave', '~> 3.0'
+gem 'mini_magick'
+
 #Devise per la gestione degli utenti
 gem 'devise'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
