@@ -16,9 +16,7 @@
         <%end%>
         <% if user_signed_in?%>
           <% if current_user.has_role?(:admin)%>
-            <li class="nav-item">
-              <a aria-current="page"><%= link_to 'User list', users_url, class:"nav-link active text-info" %></a>
-            </li>
+            <%= render "layouts/headerAdminActions" %>
           <% end %>
         <% end %> 
         <li class="nav-item">
@@ -28,7 +26,15 @@
     </div>
       <a class="navbar-brand mx-auto text-warning p-0 justify-content-center cedarville-cursive-regular">ShareYourNotes</a>
     <div class="collapse navbar-collapse justify-content-end w-50" id="navbarSupportedContent">
-      <% if !user_signed_in?%><sup class="text-danger delicious-handrawn-regular h6" style="flex: 1 0 auto;">Guest Edition!</sup><%end%>
+
+      <% if !user_signed_in?%>
+        <sup class="text-danger delicious-handrawn-regular h6" style="flex: 1 0 auto;">Guest Edition!</sup>
+      <% else %>
+        <% if current_user.has_role?(:admin)%>
+          <sup class="text-info delicious-handrawn-regular h6" style="flex: 1 0 auto;">SuperUser Edition!</sup>
+        <% end %>
+      <% end %> 
+      
       <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
