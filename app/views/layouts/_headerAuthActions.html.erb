@@ -1,0 +1,10 @@
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle bg-danger text-warning rounded" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Authenticate
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <li><%= link_to 'Log in', new_user_session_url%></li>
+        <li><%= link_to 'Sign up', new_user_registration_url %></li>
+        <li><hr class="dropdown-divider"></li>
+    </ul>
+</li>

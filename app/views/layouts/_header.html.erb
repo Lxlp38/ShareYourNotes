@@ -1,0 +1,38 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse w-50" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <%= render :partial => "layouts/headerAuthActions" if !user_signed_in? %>
+        <li class="nav-item">
+          <a aria-current="page"><%= link_to "Home", notes_path, class:"nav-link active"%></a>
+        </li>
+        <% if user_signed_in?%>
+        <li class="nav-item">
+          <a aria-current="page"><%= link_to "Upload", new_note_path, class:"nav-link active"%></a>
+        </li>
+        <li class="nav-item">
+          <a aria-current="page"><%= link_to "Profile", users_path, class:"nav-link active"%></a>
+        </li>
+        <%end%>
+        <% if user_signed_in?%>
+          <% if current_user.has_role?(:admin)%>
+            <li class="nav-item">
+              <a aria-current="page"><%= link_to 'User list', users_url, class:"nav-link active text-info" %></a>
+            </li>
+          <% end %>
+        <% end %> 
+        <li class="nav-item">
+          <% if user_signed_in?%><%= link_to 'Logout', destroy_user_session_path, method: :delete, class:"nav-link active text-danger" %><%end%>
+        </li>
+      </ul>
+    </div>
+      <a class="navbar-brand mx-auto text-warning p-0 justify-content-center cedarville-cursive-regular">ShareYourNotes</a>
+    <div class="collapse navbar-collapse justify-content-end w-50" id="navbarSupportedContent">
+      <% if !user_signed_in?%><sup class="text-danger delicious-handrawn-regular h6" style="flex: 1 0 auto;">Guest Edition!</sup><%end%>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
