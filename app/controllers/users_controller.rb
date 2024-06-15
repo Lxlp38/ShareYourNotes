@@ -23,7 +23,7 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
     #possono modificare solo gli admin e l'utente stesso
-    authorize! :update, @user, :message => "Not authorized as an administrator."
+    authorize! :edit, @user, :message => "Not authorized as an administrator."
 
   end
 

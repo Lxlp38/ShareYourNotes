@@ -13,6 +13,7 @@ class NotesController < ApplicationController
   # GET /notes/new
   def new
     @note = Note.new
+    @courses = Course.all
     authorize! :new, @note, :message => "Not authorized as an administrator."
     
 

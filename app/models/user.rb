@@ -6,8 +6,7 @@ class User < ActiveRecord::Base
   
   #Mount the uploader
   mount_uploader :avatar, AvatarUploader
-  #mount_uploaders :pdf, PdfUploader
-  #serialize :pdf, JSON # If you use SQLite, add this line
+
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -65,7 +64,7 @@ class User < ActiveRecord::Base
 
     validates :username, presence: true
     validates :email, presence: true, uniqueness: true
-    validates :password, presence: true
+    validates :password, presence: true, on: :create
     validates :role, presence: true
 
 

@@ -35,19 +35,9 @@
   <%= form.label :avatar %>
   <%= form.file_field :avatar %>
   </div>
-
-  <div>
-    <%#<% note.pdf.each do |pdf| %>
-    <%#  <%= hidden_field :note, :pdf, multiple: true, value: pdf.identifier %>
-    <%#<% end %>
-    <%= form.file_field :pdf, multiple: true %>  
-  </div>
     
 
-  <div class="field">
-    <p><%= form.label :password, "Inserire la password per confermare le modifiche" %></p>
-    <p><%= form.password_field :password, autocomplete: "current-password" %></p>
-  </div>
+
 
   <div class="actions">
     <%= form.submit %>

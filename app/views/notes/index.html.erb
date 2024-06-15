@@ -8,7 +8,6 @@
   <thead>
     <tr>
       <th>Title</th>
-      <th>Pdf</th>
       <th>Owner</th>
       <th>Course</th>
       <th colspan="3"></th>
@@ -21,8 +20,8 @@
       <% if note.pdf.present? %>
         <% note.pdf.each do |pdf| %>
           <td> <%= link_to note.title, pdf.url %></td>
-          <td><%= note.owner_id %></td>
-          <td><%= note.course_id %></td>
+          <td>  <%= link_to note.user.username, user_path(note.user) %></td>
+          <td><%= note.course.name %></td>
           <td><%= link_to 'Show', note %></td>
           <td><%= link_to 'Edit', edit_note_path(note) %></td>
           <td><%= link_to 'Destroy', note, method: :delete, data: { confirm: 'Are you sure?' } %></td>

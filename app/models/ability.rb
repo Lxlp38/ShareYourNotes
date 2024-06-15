@@ -39,6 +39,9 @@ class Ability
       can :show, User do |u|
         u.id == user.id
       end
+      can :edit, User do |u|
+        u.id == user.id        
+      end
       can :destroy, User do |u|
         u.id == user.id
       end
