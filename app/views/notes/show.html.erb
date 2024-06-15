@@ -1,25 +1,26 @@
 <%= render "layouts/header" %>
-
 <p id="notice"><%= notice %></p>
 
 <p>
   <strong>Title:</strong>
   <%= @note.title %>
-</p>
-
-<p>
-  <strong>Pdf:</strong>
-  <%= @note.pdf %>
-</p>
-
-<p>
   <strong>Owner:</strong>
-  <%= @note.owner_id %>
+  <%= link_to @note.user.username, user_path(@note.user) %>
 </p>
+
+<% if @note.pdf.present? %>
+  <div class="pdf-container ratio ratio-21x9">
+    <% @note.pdf.each do |pdf| %>
+      <iframe src="<%= pdf.url %>" >
+        <a href="<%= pdf.url %>">Scarica il PDF</a>.
+      </iframe>
+    <% end %>
+  </div>
+<% end %>
 
 <p>
   <strong>Course:</strong>
-  <%= @note.course_id %>
+  <%= @note.course.name %>
 </p>
 
 <%= link_to 'Edit', edit_note_path(@note) %> |

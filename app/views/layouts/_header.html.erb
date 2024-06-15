@@ -11,7 +11,7 @@
           <a aria-current="page"><%= link_to "Upload", new_note_path, class:"nav-link active"%></a>
         </li>
         <li class="nav-item">
-          <a aria-current="page"><%= link_to "Profile", users_path, class:"nav-link active"%></a>
+          <a aria-current="page"><%= link_to "Profile", current_user, class:"nav-link active"%></a>
         </li>
         <%end%>
         <% if user_signed_in?%>
