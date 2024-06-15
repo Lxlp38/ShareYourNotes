@@ -6,6 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+University.destroy_all
 
 more_universities=[
     {:name => 'Sapienza'}
@@ -15,6 +16,11 @@ more_universities.each do |uni|
     University.create!(uni)
 end
 
+p "Created #{University.count} Universities"
+
+
+
+User.destroy_all
 
 more_users=[
     {:username => 'Admin1', :email => 'dellaratta.1994569@studenti.uniroma1.it',
@@ -29,12 +35,15 @@ more_users=[
     :password => 'Admin@5', :university_details => University.find_by(name:'Sapienza'), :role => 'admin', :account_attributes => {}}
 ]
 
-
-
 more_users.each do |user|
     User.create!(user)
 end 
 
+p "Created #{User.count} Users"
+
+
+
+Course.destroy_all
 
 more_courses=[
     {:name => 'Analisi I', :university => University.find_by(name: 'Sapienza')},
@@ -44,3 +53,5 @@ more_courses=[
 more_courses.each do |corso|
     Course.create!(corso)
 end
+
+p "Created #{Course.count} Courses"

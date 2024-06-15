@@ -15,7 +15,7 @@
         </li>
         <%end%>
         <% if user_signed_in?%>
-          <% if current_user.has_role?(:admin)%>
+          <% if current_user.has_role?(:admin) || current_user.role == "admin" %>
             <%= render "layouts/headerAdminActions" %>
           <% end %>
         <% end %> 
@@ -30,7 +30,7 @@
       <% if !user_signed_in?%>
         <sup class="text-danger delicious-handrawn-regular h6" style="flex: 1 0 auto;">Guest Edition!</sup>
       <% else %>
-        <% if current_user.has_role?(:admin)%>
+        <% if current_user.has_role?(:admin) || current_user.role == "admin" %>
           <sup class="text-info delicious-handrawn-regular h6" style="flex: 1 0 auto;">SuperUser Edition!</sup>
         <% end %>
       <% end %> 
