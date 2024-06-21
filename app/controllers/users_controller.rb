@@ -12,7 +12,12 @@ class UsersController < ApplicationController
   # GET /users/1 or /users/1.json
   def show
     @user = User.find(params[:id])
-    authorize! :show, @user, :message => "Not authorized as an administrator."
+    #authorize! :show, @user, :message => "Not authorized as an administrator."
+    if current_user == @user
+      @notes = @user.notes
+    else
+      @notes = @user.notes.where(visibility: true)
+    end
   end
 
   # GET /users/new

@@ -19,17 +19,13 @@
       <tr>
       <% if note.pdf.present? %>
         <% note.pdf.each do |pdf| %>
-          <td> <%= link_to note.title, pdf.url %></td>
+          <td> <%= link_to note.title, note_path(note) %></td>
           <td>  <%= link_to note.user.username, user_path(note.user) %></td>
           <td><%= note.course.name %></td>
           <td><%= link_to 'Show', note %></td>
           <td><%= link_to 'Edit', edit_note_path(note) %></td>
           <td><%= link_to 'Destroy', note, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        
-         
         <% end %>
-      <% else %>
-        No PDF available
       <% end %>
         </tr>   
     <% end %>

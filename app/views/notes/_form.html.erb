@@ -31,6 +31,11 @@
     <%= form.select :course_id, options_for_select(@courses.map { |c| [c.name, c.id] }, note.course_id) %>
   </div>
 
+  <div>
+    <%= form.label :visibility, "Vuoi renderlo pubblico?" %>
+    <%= form.check_box :visibility %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

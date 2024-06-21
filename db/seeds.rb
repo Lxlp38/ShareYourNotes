@@ -32,7 +32,8 @@ more_users=[
 
 
 more_users.each do |user|
-    User.create!(user)
+    user = User.create!(user)
+    user.add_role user[:role]
 end 
 
 
