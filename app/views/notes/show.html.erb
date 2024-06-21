@@ -17,11 +17,12 @@
     <% end %>
   </div>
 <% end %>
-
+<p><%= link_to 'Review the notes', new_note_review_path(@note) %></p>
+<p><%= link_to 'Show the review', note_reviews_path(@note) %></p>
+<p>
 <p>
   <strong>Course:</strong>
   <%= @note.course.name %>
 </p>
 
-<%= link_to 'Edit', edit_note_path(@note) %> |
 <%= link_to 'Back', notes_path %>
