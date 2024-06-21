@@ -6,6 +6,9 @@
   <%= @note.title %>
   <strong>Owner:</strong>
   <%= link_to @note.user.username, user_path(@note.user) %>
+  <strong>Course:</strong>
+  <%= @note.course.name %>
+
 </p>
 
 <% if @note.pdf.present? %>
@@ -16,13 +19,31 @@
       </iframe>
     <% end %>
   </div>
+
 <% end %>
+
+
+<% if @reviews.present? %>
+  <% @reviews.take(5).each do |review| %>
+    <p>
+      <strong>Title:</strong>
+      <%= review.title %>
+    </p>
+    <p>
+      <strong>Rating:</strong>
+      <%= review.rating %>
+    </p>
+    <p>
+      <strong>Text:</strong>
+      <%= review.text %>
+    </p>
+  <% end %>
+<% end %>
+
 <p><%= link_to 'Review the notes', new_note_review_path(@note) %></p>
-<p><%= link_to 'Show the review', note_reviews_path(@note) %></p>
+<p><%= link_to 'Show the review', note_reviews_path(@note) %></p> 
 <p>
-<p>
-  <strong>Course:</strong>
-  <%= @note.course.name %>
-</p>
+<td><%= button_to 'Destroy', @note, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
 
 <%= link_to 'Back', notes_path %>

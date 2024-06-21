@@ -58,8 +58,8 @@ class User < ActiveRecord::Base
 
 
     has_many :tickets, dependent: :destroy
-    has_many :reviews, foreign_key: "owner_id" #dependent: :destroy
-    has_many :notes, foreign_key: "owner_id" #dependent: :destroy
+    has_many :reviews, foreign_key: "owner_id", dependent: :destroy
+    has_many :notes, foreign_key: "owner_id", dependent: :destroy
     has_many :user_reports, dependent: :destroy
 
     validates :username, presence: true

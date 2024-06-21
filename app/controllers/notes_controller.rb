@@ -1,6 +1,7 @@
 class NotesController < ApplicationController
   before_action :set_note, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: [:index, :show]
+
   # GET /notes or /notes.json
   def index
     @notes = Note.where(visibility: true)
@@ -8,6 +9,8 @@ class NotesController < ApplicationController
 
   # GET /notes/1 or /notes/1.json
   def show
+    @note = Note.find(params[:id])
+    @reviews = @note.reviews
   end
 
   # GET /notes/new

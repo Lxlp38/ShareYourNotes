@@ -7,13 +7,14 @@ class ReviewsController < ApplicationController
 
   # GET /reviews or /reviews.json
   def index
-    @reviews = Review.all
+    @note = Note.find(params[:note_id])
+    @reviews = @note.reviews
+    
   end
 
   # GET /reviews/1 or /reviews/1.json
   def show
     @note = Note.find(params[:note_id])
-
   end
 
   # GET /reviews/new
@@ -31,7 +32,6 @@ class ReviewsController < ApplicationController
   # POST /reviews or /reviews.json
   def create
     @review = Review.new(review_params)
-
     @note.reviews << @review
     current_user.reviews << @review  
 
@@ -64,7 +64,7 @@ class ReviewsController < ApplicationController
     @review.destroy
 
     respond_to do |format|
-      format.html { redirect_to note_review_path, notice: "Review was successfully destroyed." }
+      format.html { redirect_to note_reviews_path, notice: "Review was successfully destroyed." }
       format.json { head :no_content }
     end
   end

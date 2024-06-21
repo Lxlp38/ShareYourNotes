@@ -78,7 +78,7 @@
   <% note.pdf.each do |pdf| %>
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title"><%= note.title %></h5>
+        <h5 class="card-title"><%= link_to note.title, note_path(note) %></h5>
         <div class="embed-responsive embed-responsive-16by9">
           <iframe class="embed-responsive-item" src="<%= pdf.url %>"></iframe>
         </div>
