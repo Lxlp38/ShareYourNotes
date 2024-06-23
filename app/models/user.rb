@@ -2,8 +2,8 @@ class User < ActiveRecord::Base
   rolify 
   after_create :assign_default_role
   resourcify
-  #has_and_belongs_to_many :roles, join_table: :users_roles # already defined by rolify (row 2), it creates conflicts on db:seed
-
+  has_and_belongs_to_many :roles, join_table: :users_roles
+  
   #Mount the uploader
   mount_uploader :avatar, AvatarUploader
 
@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
         data = access_token.info
         provider = access_token.provider
         user = User.where(email: data['email']).first
-
+    
         puts "data: #{data}"
 
         unless user
@@ -32,12 +32,15 @@ class User < ActiveRecord::Base
           user.save!
         end
 
+
         if user.account[provider] == 'false'
           user = nil
-        end     
+        end
+
+        
 
         # user.username = access_token.info.name
-        # user.avatar = access_token.info.image
+        # #user.image = access_token.info.image
         # #user.uid = access_token.uid
         # #user.provider = access_token.provider
         # user.save
@@ -55,8 +58,8 @@ class User < ActiveRecord::Base
 
 
     has_many :tickets, dependent: :destroy
-    has_many :reviews, foreign_key: "owner_id" #dependent: :destroy
-    has_many :notes, foreign_key: "owner_id" #dependent: :destroy
+    has_many :reviews, foreign_key: "owner_id", dependent: :destroy
+    has_many :notes, foreign_key: "owner_id", dependent: :destroy
     has_many :user_reports, dependent: :destroy
 
     validates :username, presence: true

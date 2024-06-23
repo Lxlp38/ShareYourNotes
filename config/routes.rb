@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
 
-  resources :notes
+  resources :notes do 
+    resources :reviews
+  end
+  
   devise_for :users, controllers: {
       sessions: 'users/sessions',
       omniauth_callbacks: 'users/omniauth_callbacks'

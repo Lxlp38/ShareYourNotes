@@ -34,3 +34,9 @@ body{
     font-family: "Delicious Handrawn", cursive;
     font-style: normal;
 }
+
+.card-img {
+    width: 100%;
+    height: 10vw;
+    object-fit: cover;
+}

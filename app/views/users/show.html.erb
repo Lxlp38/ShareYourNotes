@@ -74,6 +74,19 @@
 <% end %>
 </p>
 
+<% @notes.each do |note| %>
+  <% note.pdf.each do |pdf| %>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"><%= link_to note.title, note_path(note) %></h5>
+        <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="<%= pdf.url %>"></iframe>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

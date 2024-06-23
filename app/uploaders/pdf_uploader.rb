@@ -1,7 +1,7 @@
 class PdfUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
+  include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
   storage :file
@@ -30,7 +30,7 @@ class PdfUploader < CarrierWave::Uploader::Base
 
   # Create different versions of your uploaded files:
   # version :thumb do
-  #   process resize_to_fit: [50, 50]
+  #  process resize_to_fit: [50, 50]
   # end
 
   # Add an allowlist of extensions which are allowed to be uploaded.
@@ -44,4 +44,17 @@ class PdfUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg"
   # end
+
+  version :thumbnail do
+    process :thumbnail_pdf
+  end
+
+  def thumbnail_pdf
+    manipulate! do |image|
+      image.format("png", 0)
+      image.resize("147x210")
+      image = yield(image) if block_given?
+      image
+    end
+  end
 end

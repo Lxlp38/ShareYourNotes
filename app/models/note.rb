@@ -10,7 +10,7 @@ class Note<ActiveRecord::Base
     has_many :note_reports, dependent: :destroy
 
     validates :title, presence: true
-    #validates :pdf, presence: true
+    validates :pdf, presence: true
     validates :owner_id, presence: true
     validates :course_id, presence: true
 

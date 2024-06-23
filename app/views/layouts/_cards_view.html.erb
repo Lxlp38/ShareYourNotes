@@ -1,0 +1,46 @@
+<div class="row row-cols-1 row-cols-md-4 g-4">
+  <% @notes.each do |note| %>
+    <% if note.pdf.present? %>
+      <div class="col">
+        <div class="card">            
+          <div class="card-body d-flex justify-content-between">
+            <div class="d-flex flex-column justify-content-between">
+              <!-- Notes info -->
+              <div>
+                <h5 class="card-title"><%= link_to note.title, note_path(note), class:"text-primary text-decoration-none"%></h5>
+                <h8 class="card-title text-secondary"><%= note.course.name %></h8><br>
+                <p class="card-title text-secondary"><%= link_to "@#{note.user.username}", user_path(note.user), class:"text-secondary" %> </p>
+              </div>
+              
+              <!-- Notes buttons -->
+              <div class="d-flex">
+                <%= link_to 'Show', note, class:"btn btn-primary mt-1 mb-1 mr-1" %>
+                <% if current_user == note.user %>
+                  <%= link_to 'Edit', edit_note_path(note), class:"btn btn-primary m-1" %>
+                  <%= button_to 'Destroy', note_path(note), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger m-1" %>
+                <%end%>
+              </div>
+
+              <!-- Notes admin buttons -->
+              <% if current_user && current_user.has_role?(:admin) %>
+                <div class="d-flex justify-content-inline">
+                  <%= link_to 'Suspend', note, class:"btn btn-danger mt-1 mb-1 mr-1" %>
+                  <%= button_to 'Destroy', note_path(note), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger m-1" %>
+                </div>
+              <% end %>
+            </div>
+
+            <div>
+              <% @thumb = note.pdf[0].url(:thumbnail) %>
+              <% if @thumb %>
+                <img src="<%= @thumb %>" class="border border-3 shadow bg-body rounded card-img">
+              <% else %>
+                <%= image_tag asset_path("missing_thumbnail.png") %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <%end%>
+  <%end%>  
+</div>

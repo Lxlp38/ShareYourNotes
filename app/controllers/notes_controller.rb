@@ -1,13 +1,16 @@
 class NotesController < ApplicationController
   before_action :set_note, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: [:index, :show]
+
   # GET /notes or /notes.json
   def index
-    @notes = Note.all
+    @notes = Note.where(visibility: true)
   end
 
   # GET /notes/1 or /notes/1.json
   def show
+    @note = Note.find(params[:id])
+    @reviews = @note.reviews
   end
 
   # GET /notes/new
@@ -21,6 +24,7 @@ class NotesController < ApplicationController
 
   # GET /notes/1/edit
   def edit
+    @courses = Course.all
   end
 
   # POST /notes or /notes.json
@@ -71,6 +75,6 @@ class NotesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def note_params
-      params.require(:note).permit(:title, :owner_id, :course_id, { pdf: [] })
+      params.require(:note).permit(:title, :owner_id, :course_id, { pdf: [] }, :visibility)
     end
 end

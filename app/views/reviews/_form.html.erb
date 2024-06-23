@@ -1,0 +1,23 @@
+<%= form_with(model: [@note, @review], url: note_reviews_path(@note)) do |form| %>
+  <% if review.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(review.errors.count, "error") %> prohibited this review from being saved:</h2>
+
+      <ul>
+        <% review.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <label class="col-form-label">Title: </label>
+  <%= text_area_tag('review[title]', '', size: '10x5') %>
+  <label class="col-form-label"> How many star: </label>
+	<%= select_tag 'review[rating]', options_for_select(1..5) %>
+	<label class="col-form-label"> Comments: </label>
+	<%= text_area_tag('review[text]', 'Amazing movie!',size: '50x5') %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
