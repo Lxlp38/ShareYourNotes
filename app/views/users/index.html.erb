@@ -3,9 +3,9 @@
 <p><%= notice %></p>
 <p id="notice text-success bg-dark"></p>
 
-<h1>Users</h1>
+<h1>Registered Users&Admins</h1>
 
-<table>
+<table class="table table-dark table-striped">
   <thead>
     <tr>
       <th>Username</th>
@@ -31,15 +31,14 @@
         <td><%= user.email %></td>
         <td><%= user.reset_password_sent_at %></td>
         <td><%= user.remember_created_at%></td>
-        <td><%= link_to 'Show', user %></td>
-        <td><%= link_to 'Edit', edit_user_path(user) %></td>
-        <td><%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', user, class:"btn btn-primary"%></td>
+        <td><%= link_to 'Edit', edit_user_path(user), class:"btn btn-warning"%></td>
+        <td><%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger"%></td>
       </tr>
-      <tr></t
     <% end %>
   </tbody>
 </table>
 
 <br>
 
-<%= link_to 'New User', new_user_path %>
+<%= link_to 'New User', new_user_path, class:"btn btn-primary" %>

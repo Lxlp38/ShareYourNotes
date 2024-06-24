@@ -8,16 +8,18 @@
               <!-- Notes info -->
               <div>
                 <h5 class="card-title"><%= link_to note.title, note_path(note), class:"text-primary text-decoration-none"%></h5>
-                <h8 class="card-title text-secondary"><%= note.course.name %></h8><br>
+                <p class="card-title text-secondary"><%= note.course.name.truncate(30) %></p>
                 <p class="card-title text-secondary"><%= link_to "@#{note.user.username}", user_path(note.user), class:"text-secondary" %> </p>
               </div>
               
               <!-- Notes buttons -->
               <div class="d-flex">
                 <%= link_to 'Show', note, class:"btn btn-primary mt-1 mb-1 mr-1" %>
-                <% if current_user == note.user %>
+                <% if current_user && current_user == note.user %>
                   <%= link_to 'Edit', edit_note_path(note), class:"btn btn-primary m-1" %>
-                  <%= button_to 'Destroy', note_path(note), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger m-1" %>
+                  <% if !current_user.has_role?(:admin) %>
+                    <%= button_to 'Destroy', note_path(note), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger m-1" %>
+                  <% end %>
                 <%end%>
               </div>
 

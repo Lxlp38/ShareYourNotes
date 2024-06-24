@@ -1,95 +1,96 @@
+<%= render "layouts/header" %>
+
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Username:</strong>
-  <%= @user.username %>
-</p>
+<h1 class="ms-5 mt-5 text-dark"><i class="text-info">@<%= @user.username %></i> - Personal Page</h1>
+<div class="mx-5 p-5 rounded border shadow bg-body">
 
-<!--<p>
-  current_user:
-  <%= current_user.id %>
-  data:
-  <%= session.each do |key|%>
-    <%= key %>
-  <% end %>
-<p>
--->
-
-<p>
-  <strong>University details:</strong>
-  <%= @user.university_details_id %>
-</p>
-
-<p>
-  <strong>Role:</strong>
-  <%= @user.role %>
-</p>
-
-<p>
-    <strong>Accounts:</strong>
-    <% @user.account.attributes.slice("github", "google_oauth2").each do |key, value| %>
-      <p>
-        - <strong><%= key.to_s.capitalize %>:</strong>
-        <%= value %>
-        <% if @user == current_user && value == 'false' %>
-          <%= link_to 'Connect', user_omniauth_authorize_path(current_user.id, key.to_sym) %>
-        <% end %>
-      </p>
+  <!--<p>
+    current_user:
+    <%= current_user.id %>
+    data:
+    <%= session.each do |key|%>
+      <%= key %>
     <% end %>
+  <p>
+  -->
 
-<p>
-  <strong>Created at:</strong>
-  <%= @user.created_at %>
-</p>
+  <div class="form-group">
+    <label class="form-label">University details:</label>
+    <p class="form-control"> <%= @user.university_details_id.nil? ? "NIL" : @user.university_details_id %> </p>
+  </div>
 
-<p>
-  <strong>Update at:</strong>
-  <%= @user.updated_at %>
-</p>
+  <div class="form-group">
+    <label class="form-label">Role:</label>
+    <p class="form-control"> <%= @user.role.nil? ? "NIL" : @user.role %> </p>
+  </div>
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
-
-<p>
-  <strong>Encrypted password:</strong>
-  <%= @user.encrypted_password %>
-</p>
-
-<p>
-  <strong>Reset password sent at:</strong>
-  <%= @user.reset_password_sent_at %>
-</p>
-
-<p>
-  <strong>Remeber created at:</strong>
-  <%= @user.remember_created_at%>
-</p>
-
-<p>
-<% if @user.avatar? %>
-  <strong>Avatar:</strong>
-  <%= image_tag @user.avatar.thumb.url %>
-<% end %>
-</p>
-
-<% @notes.each do |note| %>
-  <% note.pdf.each do |pdf| %>
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title"><%= link_to note.title, note_path(note) %></h5>
-        <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item" src="<%= pdf.url %>"></iframe>
-        </div>
-      </div>
+  <div class="d-flex flex-fill">
+    <div class="form-group w-50 me-2">
+      <label class="form-label">Email:</label>
+      <p class="form-control"> <%= @user.email.nil? ? "NIL" : @user.email %> </p>
     </div>
+
+    <div class="form-group w-50 ms-2">
+      <label class="form-label">Encrypted password:</label>
+      <p class="form-control"> <%= @user.encrypted_password.nil? ? "NIL" : @user.encrypted_password %> </p>
+    </div>
+  </div>
+
+  <div class="d-flex flex-fill">
+    <div class="form-group w-50 me-2">
+      <label class="form-label">Created at:</label>
+      <p class="form-control"> <%= @user.created_at.nil? ? "NIL" : @user.created_at %> </p>
+    </div>
+
+    <div class="form-group w-50 ms-2">
+      <label class="form-label">Update at:</label>
+      <p class="form-control"> <%= @user.updated_at.nil? ? "NIL" : @user.updated_at %> </p>
+    </div>
+  </div>
+
+  <div class="d-flex flex-fill">
+    <div class="form-group w-50 me-2">
+      <label class="form-label">Reset password sent at:</label>
+      <p class="form-control"> <%= @user.reset_password_sent_at.nil? ? "NIL" : @user.reset_password_sent_at %> </p>
+    </div>
+
+    <div class="form-group w-50 ms-2">
+      <label class="form-label">Remeber created at:</label>
+      <p class="form-control"> <%= @user.remember_created_at.nil? ? "NIL" : @user.remember_created_at %> </p>
+    </div>
+  </div>
+
+  <label class="form-label">Accounts:</label>
+  <div class="d-flex flex-column">
+    <% @user.account.attributes.slice("github", "google_oauth2").each do |key, value| %>
+    <div>
+      <strong><%= key.to_s.capitalize %>:</strong>
+      <%= value %>
+      <% if @user == current_user && value == 'false' %>
+        <%= link_to 'Connect', user_omniauth_authorize_path(current_user.id, key.to_sym) %>
+      <% end %>
+    </div>
+    <% end %>
+  </div>
+
+  <% if @user.avatar? %>
+    <strong>Avatar:</strong>
+    <%= image_tag @user.avatar.thumb.url %>
   <% end %>
-<% end %>
 
+  <div class="d-flex justify-content-between mt-3">
+    <div class="d-flex">
+      <% if current_user == @user %><%= link_to 'Edit', edit_user_path(@user), class:"btn btn-primary me-3" %><%end%>
+      <%= link_to 'Back', users_path, class:"btn btn-warning" %>
+    </div>
+    <% if can? :destroy, @user %>
+      <%= button_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %>
+    <% end %>
+  </div>
+</div>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
-<% if can? :destroy, @user %>
-  <%= button_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' } %>
-<% end %>
+<h1 class="mx-5 mt-5 text-dark"><i class="text-info">@<%= @user.username %></i>'s - Personal Notes</h1>
+<div class="mx-5 mb-5 p-5 rounded border shadow bg-body">
+  <%= render "layouts/cards_view" %>
+</div>
