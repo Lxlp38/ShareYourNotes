@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
-  
+
   before_action :authenticate_user!
   protect_from_forgery prepend: true
 
@@ -73,10 +73,12 @@ class UsersController < ApplicationController
     provider = params[:provider]
     if @user.account[provider] == 'false'
       @user.account.update(provider => 'true')
+    else
+      @user.account.update(provider => 'false')
     end
     redirect_to user_url(@user)
   end
-  
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

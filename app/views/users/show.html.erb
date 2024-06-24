@@ -67,8 +67,12 @@
     <div>
       <strong><%= key.to_s.capitalize %>:</strong>
       <%= value %>
-      <% if @user == current_user && value == 'false' %>
-        <%= link_to 'Connect', user_omniauth_authorize_path(current_user.id, key.to_sym) %>
+      <% if @user == current_user %>
+        <% if value == 'false' %>
+          <%= link_to 'Connect', user_omniauth_authorize_path(current_user.id, key.to_sym) %>
+        <% else %>
+          <%= link_to 'Disconnect', user_omniauth_unauthorize_path(current_user.id, key.to_sym) %>
+        <% end %>
       <% end %>
     </div>
     <% end %>

@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
 
-  resources :notes do 
+  resources :notes do
     resources :reviews
   end
-  
+
   devise_for :users, controllers: {
       sessions: 'users/sessions',
       omniauth_callbacks: 'users/omniauth_callbacks'
@@ -13,11 +13,12 @@ Rails.application.routes.draw do
     get '/users/sign_out', to: 'users/sessions#destroy'
     get '/auth/:provider/callback', to: 'users/sessions#create', as: 'omniauth_callback'
     get '/auth/failure', to: redirect('/')
-    get '/signout', to: 'users/sessions#destroy', as: 'signout'    
+    get '/signout', to: 'users/sessions#destroy', as: 'signout'
   end
 
   delete '/users/:id', to: 'users#destroy', as: 'destroy_user'
   get '/users/:id/:provider/authorize', to: 'users#authorize', as: 'user_omniauth_authorize'
+  get '/users/:id/:provider/unauthorize', to: 'users#authorize', as: 'user_omniauth_unauthorize'
   resources :users
 
 
