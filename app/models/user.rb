@@ -32,12 +32,13 @@ class User < ActiveRecord::Base
           user.save!
         end
 
-
         if user.account[provider] == 'false'
           user = nil
+        else
+            user.account.update(provider.to_sym => Account.validateAttribute(provider, data))
+            user.save!
+          user.save!
         end
-
-        
 
         # user.username = access_token.info.name
         # #user.image = access_token.info.image

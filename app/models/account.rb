@@ -5,7 +5,7 @@ class Account < ActiveRecord::Base
     def self.validateAttribute(provider, data)
         case provider
         when 'google_oauth2'
-            return 'true'
+            return data.name.nil? ? data.email.split('@').get[1] : data.name
         when 'github'
             return data.urls.GitHub
         end
