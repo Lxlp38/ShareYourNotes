@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2024_06_09_195711) do
 
   create_table "courses", force: :cascade do |t|
     t.string "name", null: false
+    t.string "year", null: false
     t.integer "university_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -94,6 +95,13 @@ ActiveRecord::Schema.define(version: 2024_06_09_195711) do
 
   create_table "universities", force: :cascade do |t|
     t.string "name", null: false
+    t.string "op_name", null: false
+    t.string "status", null: false
+    t.string "uni_type", null: false
+    t.string "address", null: false
+    t.string "municipality", null: false
+    t.string "url", null: false
+    t.string "code", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

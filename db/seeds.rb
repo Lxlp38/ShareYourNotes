@@ -6,33 +6,21 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-University.destroy_all
-
-more_universities=[
-    {:name => 'Sapienza'}
-]
-
-more_universities.each do |uni|
-    University.create!(uni)
-end
-
-p "Created #{University.count} Universities"
-
-
+puts "\n\n\nRicorda! Per caricare tutti i seed usa il comando 'rake db:seed:all'!\n\n\n"
 
 User.destroy_all
 
 more_users=[
     {:username => 'Admin1', :email => 'dellaratta.1994569@studenti.uniroma1.it',
-    :password => 'Admin@1', :university_details => University.find_by(name:'Sapienza'), :role => 'admin', :account_attributes => {}},
+    :password => 'Admin@1', :university_details => University.find_by(code: '05801'), :role => 'admin', :account_attributes => {}},
     {:username => 'Admin2', :email => 'apa.1713337@studenti.uniroma1.it',
-    :password => 'Admin@2', :university_details => University.find_by(name:'Sapienza'), :role => 'admin', :account_attributes => {}},
+    :password => 'Admin@2', :university_details => University.find_by(code: '05801'), :role => 'admin', :account_attributes => {}},
     {:username => 'Admin3', :email => 'fortuna.1986101@studenti.uniroma1.it',
-    :password => 'Admin@3', :university_details => University.find_by(name:'Sapienza'), :role => 'admin', :account_attributes => {}},
+    :password => 'Admin@3', :university_details => University.find_by(code: '05801'), :role => 'admin', :account_attributes => {}},
     {:username => 'Admin4', :email => 'pierro.1990350@studenti.uniroma1.it',
-    :password => 'Admin@4', :university_details => University.find_by(name:'Sapienza'), :role => 'admin', :account_attributes => {}},
+    :password => 'Admin@4', :university_details => University.find_by(code: '05801'), :role => 'admin', :account_attributes => {}},
     {:username => 'Admin5', :email => 'mariut.1986191@studenti.uniroma1.it',
-    :password => 'Admin@5', :university_details => University.find_by(name:'Sapienza'), :role => 'admin', :account_attributes => {}}
+    :password => 'Admin@5', :university_details => University.find_by(code: '05801'), :role => 'admin', :account_attributes => {}}
 ]
 
 more_users.each do |user|
@@ -44,15 +32,15 @@ p "Created #{User.count} Users"
 
 
 
-Course.destroy_all
+# Course.destroy_all
 
-more_courses=[
-    {:name => 'Analisi I', :university => University.find_by(name: 'Sapienza')},
-    {:name => 'Analisi II', :university => University.find_by(name: 'Sapienza')}
-]
+# more_courses=[
+#     {:name => 'Analisi I', :university => University.find_by(code: '05801')},
+#     {:name => 'Analisi II', :university => University.find_by(code: '05801')}
+# ]
 
-more_courses.each do |corso|
-    Course.create!(corso)
-end
+# more_courses.each do |corso|
+#     Course.create!(corso)
+# end
 
-p "Created #{Course.count} Courses"
+# p "Created #{Course.count} Courses"

@@ -10,6 +10,8 @@ gem 'omniauth-github'
 gem 'omniauth-google-oauth2'
 gem "omniauth-rails_csrf_protection"
 
+gem 'httparty'
+
 #Carriewave per la gestione degli upload
 gem 'carrierwave', '~> 3.0'
 gem 'mini_magick'

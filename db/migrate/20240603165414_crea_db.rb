@@ -16,6 +16,13 @@ class CreaDb < ActiveRecord::Migration[6.1]
     # Create the universities table
     create_table :universities do |t|
       t.string :name, null: false
+      t.string :op_name, null: false
+      t.string :status, null: false
+      t.string :uni_type, null: false
+      t.string :address, null: false
+      t.string :municipality, null: false
+      t.string :url, null: false
+      t.string :code, null: false
 
       t.timestamps
     end
@@ -23,6 +30,7 @@ class CreaDb < ActiveRecord::Migration[6.1]
     # Create the courses table
     create_table :courses do |t|
       t.string :name, null: false
+      t.string :year, null: false
       t.references :university, null: false, foreign_key: true
 
       t.timestamps
