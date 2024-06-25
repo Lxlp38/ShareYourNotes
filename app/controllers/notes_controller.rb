@@ -1,10 +1,16 @@
 class NotesController < ApplicationController
-  before_action :set_note, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, only: %i[suspended_notes]
+  before_action :set_note, only: %i[ show edit admin_edit update destroy ]
   before_action :authenticate_user!, except: [:index, :show]
 
   # GET /notes or /notes.json
   def index
-    @notes = Note.where(visibility: true)
+    @notes = Note.where(visibility: true, suspended: false)
+  end
+
+  # GET /notes
+  def suspended_notes
+    @notes = Note.where(suspended: true)
   end
 
   # GET /notes/1 or /notes/1.json
@@ -18,8 +24,6 @@ class NotesController < ApplicationController
     @note = Note.new
     @courses = Course.all
     authorize! :new, @note, :message => "Not authorized as an administrator."
-    
-
   end
 
   # GET /notes/1/edit
@@ -27,9 +31,13 @@ class NotesController < ApplicationController
     @courses = Course.all
   end
 
+  # GET /notes/1/admin_edit
+  def admin_edit
+    @courses = Course.all
+  end
+
   # POST /notes or /notes.json
   def create
-
     @note = Note.new(note_params)
     @note.owner_id = current_user.id
 
@@ -75,6 +83,6 @@ class NotesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def note_params
-      params.require(:note).permit(:title, :owner_id, :course_id, { pdf: [] }, :visibility)
+      params.require(:note).permit(:title, :owner_id, :course_id, { pdf: [] }, :visibility, :suspended)
     end
 end

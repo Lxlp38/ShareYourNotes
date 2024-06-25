@@ -30,8 +30,6 @@ end
 
 p "Created #{User.count} Users"
 
-
-
 # Course.destroy_all
 
 # more_courses=[

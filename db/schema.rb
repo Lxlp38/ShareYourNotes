@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_06_09_195711) do
+ActiveRecord::Schema.define(version: 2024_06_25_192103) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "google_oauth2", default: "true"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 2024_06_09_195711) do
     t.integer "course_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "suspended", default: false
     t.index ["course_id"], name: "index_notes_on_course_id"
     t.index ["owner_id"], name: "index_notes_on_owner_id"
   end

@@ -4,7 +4,10 @@
     </a>
     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
         <li class="nav-item">
-            <a aria-current="page"><%= link_to 'User list', users_url, class:"nav-link active text-info text-dark" %></a>
+            <a aria-current="page"><%= link_to 'Reg. Users list', users_path, class:"nav-link active text-info text-dark" %></a>
+        </li>
+        <li class="nav-item">
+            <a aria-current="page"><%= link_to 'Suspended notes', suspended_notes_path, class:"nav-link active text-info text-dark" %></a>
         </li>
     </ul>
 </li>

@@ -3,31 +3,31 @@
     <% if note.pdf.present? %>
       <div class="col">
         <div class="card">            
-          <div class="card-body d-flex justify-content-between">
-            <div class="d-flex flex-column justify-content-between">
+          <div class="card-body d-flex justify-content-between bg-teal" style="background-color: #E0F2F1;">
+            <div class="d-flex flex-fill flex-column justify-content-between w-auto p-2">
               <!-- Notes info -->
               <div>
-                <h5 class="card-title"><%= link_to note.title, note_path(note), class:"text-primary text-decoration-none"%></h5>
+                <h5 class="card-title"><%= link_to note.title.truncate(24), note_path(note), class:"text-primary text-decoration-none"%></h5>
                 <p class="card-title text-secondary"><%= note.course.name.truncate(30) %></p>
                 <p class="card-title text-secondary"><%= link_to "@#{note.user.username}", user_path(note.user), class:"text-secondary" %> </p>
               </div>
               
               <!-- Notes buttons -->
               <div class="d-flex">
-                <%= link_to 'Show', note, class:"btn btn-primary mt-1 mb-1 mr-1" %>
+                <%= link_to 'Show', note, class:"btn btn-primary mt-1 mb-1 mr-1 w-50 btn-sm" %>
                 <% if current_user && current_user == note.user %>
-                  <%= link_to 'Edit', edit_note_path(note), class:"btn btn-primary m-1" %>
+                  <%= link_to 'Edit', edit_note_path(note), class:"btn btn-primary m-1 w-50 btn-sm" %>
                   <% if !current_user.has_role?(:admin) %>
-                    <%= button_to 'Destroy', note_path(note), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger m-1" %>
+                    <%= button_to 'Destroy', note_path(note), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger m-1 w-50 btn-sm" %>
                   <% end %>
                 <%end%>
               </div>
 
               <!-- Notes admin buttons -->
               <% if current_user && current_user.has_role?(:admin) %>
-                <div class="d-flex justify-content-inline">
-                  <%= link_to 'Suspend', note, class:"btn btn-danger mt-1 mb-1 mr-1" %>
-                  <%= button_to 'Destroy', note_path(note), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger m-1" %>
+                <div class="d-flex justify-content-inline w-100">
+                  <%= link_to 'Admin', admin_edit_note_path(note), class:"btn btn-warning mt-1 mb-1 mr-1 w-50 btn-sm" %>
+                  <%= button_to 'Admin Destroy', note_path(note), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger w-100 m-1 btn-sm" %>
                 </div>
               <% end %>
             </div>
