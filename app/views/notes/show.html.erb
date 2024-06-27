@@ -74,7 +74,11 @@
             <% if current_user == @note.user%>
               <%= link_to 'Edit', edit_note_path(@note), class:"btn btn-warning m-1 w-50" %>
             <% else %>
-              <%= link_to 'Leave a Review', new_note_review_path(@note), class: "btn btn-outline-primary m-1 w-50" %>
+              <!--<%= link_to 'Leave a Review', new_note_review_path(@note), class: "btn btn-outline-primary m-1 w-50" %>-->
+              <a type="button" class="btn btn-outline-primary m-1 w-50" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Leave a Review
+              </a>
+              <%= render "layouts/review_form", review: Review.new %>
             <% end %>
           <% end %>
           <% if current_user && (current_user.has_role?(:admin) || current_user == @note.user) %> 

@@ -1,0 +1,55 @@
+<%= form_with(model: [@note, review], url: note_reviews_path(@note)) do |form| %>
+  <% if review.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(review.errors.count, "error") %> prohibited this review from being saved:</h2>
+
+      <ul>
+        <% review.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Write a review!</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+            <!-- Review form begin -->
+            <%= form.label :rating, class:"form-label" %>
+            <div class="mb-3 field rating">
+                <%= form.collection_radio_buttons(:rating, [[5],[4],[3],[2],[1, {:checked => true}]], :first, :last) do |star| %>
+                    <%= star.radio_button %>
+                    <%= star.label(class: "text-white") %>
+                <% end %>
+            </div>
+
+            <div class="mb-3 field">
+                <%= form.label :title, class:"form-label" %>
+                <%= form.text_field :title, class:"form-control", autocomplete:"off"  %>
+            </div>
+
+            <div class="mb-3 field">
+                <%= form.label :text, class:"form-label" %>
+                <%= form.text_area :text, class:"form-control fixed_textarea", autocomplete:"off", :rows => 6 %>
+            </div>
+
+        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Back</button>
+                <%= form.hidden_field :note_id, :value => @note.id %>
+                <%= form.submit "Submit", class:"btn btn-danger"%>
+            </div>
+        </div>
+
+        <!-- Review form end -->
+    </div>
+    </div>
+
+<% end %>
