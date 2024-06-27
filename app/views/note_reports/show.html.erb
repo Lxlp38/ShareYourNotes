@@ -1,0 +1,25 @@
+<%= render "layouts/header" %>
+
+<p id="notice"><%= notice %></p>
+
+<h1 class="mt-5 mx-5"> Report details page </h1>
+<div class="mx-5 p-5 rounded border shadow bg-body">
+    <h3 class="bt-dashed w-100"> Note details: </h3>
+    <% @note = Note.find(@note_report.note_id) %>
+    <strong>Note title/link:</strong><%= link_to @note.title, note_path(@note) %>
+    <br>
+    <strong>Note id:</strong><%= @note_report.note_id %>
+
+    <h3 class="bt-dashed w-100"> Subject: </h3>
+    <h1> <%= @note_report.subject %> </h1>
+
+    <h3 class="bt-dashed w-100"> Details: </h3>
+    <p> <%= @note_report.report %> </p>
+
+    <%= button_to 'Destroy', @note_report, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger"%>
+</div>
+
+<div class="m-5">
+    <%= link_to 'Edit', edit_note_report_path(@note_report), class: "btn btn-primary" %>
+    <%= link_to 'Back', note_reports_path, class: "btn btn-primary"%>
+</div>

@@ -1,18 +1,47 @@
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">File a <i>report</i> for this note</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Back</button>
-        <button type="button" class="btn btn-danger">Send</button>
-      </div>
+<%= form_with(model: note_report) do |form| %>
+<% if note_report.errors.any? %>
+    <div id="error_explanation">
+    <h2><%= pluralize(note_report.errors.count, "error") %> prohibited this note_report from being saved:</h2>
+
+    <ul>
+        <% note_report.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+        <% end %>
+    </ul>
     </div>
-  </div>
-</div>
+<% end %>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">File a <i>report</i> for this note</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+            <!-- Report form begin -->
+            <div class="mb-3 field">
+                <%= form.label :subject, class:"form-label" %>
+                <%= form.text_field :subject, class:"form-control", autocomplete:"off"  %>
+            </div>
+
+            <div class="mb-3 field">
+                <%= form.label :report, class:"form-label" %>
+                <%= form.text_area :report, class:"form-control fixed_textarea", autocomplete:"off", :rows => 10 %>
+            </div>
+
+        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Back</button>
+                <%= form.hidden_field :note_id, :value => @note.id %>
+                <%= form.submit "Submit", class:"btn btn-danger"%>
+            </div>
+        </div>
+
+        <!-- Report form end -->
+    </div>
+    </div>
+
+<% end %>

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :note_reports
   get 'notes/:id/admin_edit', to: 'notes#admin_edit', as: 'admin_edit_note'
   get 'suspended_notes', to: 'notes#suspended_notes', as: 'suspended_notes'
 

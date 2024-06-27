@@ -50,3 +50,5 @@ body{
     border-style: dashed none none none;
     border-width: thin;
 }
+
+.fixed_textarea { resize: none; }

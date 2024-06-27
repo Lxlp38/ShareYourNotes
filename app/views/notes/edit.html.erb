@@ -1,8 +1,10 @@
 <%= render "layouts/header" %>
 
-<h1>Editing Note</h1>
+<h1 class="ms-5 mt-5 text-dark"><i class="text-warning">Note Edit Page</i></h1>
 
 <%= render 'form', note: @note %>
 
-<%= link_to 'Show', @note %> |
-<%= link_to 'Back', notes_path %>
+<div class="m-5">
+    <%= link_to 'Show', @note, class:"btn btn-outline-primary m-1" %>
+    <%= link_to 'Back', notes_path, class:"btn btn-primary m-1" %>
+</div>

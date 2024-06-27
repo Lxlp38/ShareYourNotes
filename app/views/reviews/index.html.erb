@@ -1,10 +1,17 @@
+<%= render "layouts/header" %>
+
+
 <p id="notice"><%= notice %></p>
 
 <h1>Reviews</h1>
 
-<table>
+<table class="table table-dark table-striped">
   <thead>
     <tr>
+      <th> Title </th>
+      <th> Rating </th>
+      <th> Text </th>
+      <th> Note ID </th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -13,16 +20,15 @@
     <% @reviews.each do |review| %>
       <tr>
         <td><%= review.title %></td>
-        <td><%= review.rating %></td>
+        <td><%= render "layouts/review_stars", review: review %></td>
         <td><%= review.text %></td>
         <td><%= review.note_id %></td>
-        <td><%= link_to 'Edit', edit_note_review_path(review.note_id, review) %></td>
-        <td><%= button_to 'Destroy', note_review_path(review.note_id, review), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', note_review_path(review.note_id, review), class:"btn btn-primary"%></td>
+        <% if current_user == review.user || current_user.has_role?(:admin) %>
+          <td><%= link_to 'Edit', edit_note_review_path(review.note_id, review), class:"btn btn-warning" %></td>
+        <% end %>
+        <td><%= button_to 'Destroy', note_review_path(review.note_id, review), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger"%></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-

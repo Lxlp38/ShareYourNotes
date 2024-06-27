@@ -1,0 +1,34 @@
+<!-- é necessario passare anche un note_id in un qualche modo -->
+
+<%= form_with(model: note_report) do |form| %>
+  <% if note_report.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(note_report.errors.count, "error") %> prohibited this note_report from being saved:</h2>
+
+      <ul>
+        <% note_report.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- Report form begin -->
+  <div class="mb-3 field">
+      <%= form.label :subject, class:"form-label" %>
+      <%= form.text_field :subject, class:"form-control", autocomplete:"off"  %>
+  </div>
+
+  <div class="mb-3 field">
+      <%= form.label :report, class:"form-label" %>
+      <%= form.text_area :report, class:"form-control fixed_textarea", autocomplete:"off", :rows => 10 %>
+  </div>
+
+  <div class="actions">
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Back</button>
+      <%= form.hidden_field :note_id, :value => @note.id %>
+      <%= form.submit "Submit", class:"btn btn-danger"%>
+    </div>
+  </div>
+<% end %>

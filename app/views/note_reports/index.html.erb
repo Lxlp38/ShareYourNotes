@@ -1,0 +1,30 @@
+<%= render "layouts/header" %>
+<p id="notice"><%= notice %></p>
+
+<h1>Note Reports</h1>
+
+<table class="table table-dark table-striped">
+  <thead> 
+      <tr>
+        <th class="w-25"> Subject </th>
+        <th class="w-25"> Report </th>
+        <th class="w-25"> Note Title </th>
+        <th> Note ID </th>
+        <th colspan="2"> </th>
+      </tr>
+  </thead>
+
+  <tbody>
+    <% @note_reports.each do |report| %>
+      <tr>
+        <% @note = Note.find(report.note_id) %>
+        <td> <%= report.subject %> </td>
+        <td> <%= report.report %> </td>
+        <td> <%= link_to @note.title, note_path(report.note_id) %>
+        <td> <%= report.note_id %> </td>
+        <td><%= link_to 'Show', report, class:"btn btn-primary"%></td>
+        <td><%= button_to 'Destroy', report, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger"%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

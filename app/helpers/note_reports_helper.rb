@@ -1,0 +1,2 @@
+module NoteReportsHelper
+end
