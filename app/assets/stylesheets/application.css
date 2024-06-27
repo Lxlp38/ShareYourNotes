@@ -40,3 +40,13 @@ body{
     height: 10vw;
     object-fit: cover;
 }
+
+.bb-dashed {
+    border-style: none none dashed none;
+    border-width: thin;
+}
+
+.bt-dashed {
+    border-style: dashed none none none;
+    border-width: thin;
+}
