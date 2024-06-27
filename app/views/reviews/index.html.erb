@@ -20,7 +20,7 @@
     <% @reviews.each do |review| %>
       <tr>
         <td><%= review.title %></td>
-        <td><%= render "layouts/review_stars", review: review %></td>
+        <td><%= render "layouts/reviews/review_stars", review: review %></td>
         <td><%= review.text %></td>
         <td><%= review.note_id %></td>
         <td><%= link_to 'Show', note_review_path(review.note_id, review), class:"btn btn-primary"%></td>

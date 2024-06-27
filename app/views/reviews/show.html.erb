@@ -1,5 +1,10 @@
 <%= render "layouts/header" %>
 <!--<p id="notice"><%= notice %></p>-->
 
+<h1> <%= @review.title %> </h1>
+<%= render "layouts/reviews/review_stars", review: @review %>
+<p> <%= @review.text %> </p>
+
+
 <%= link_to 'Edit', edit_note_review_path(@review) %> |
 <%= link_to 'Back', note_path %>

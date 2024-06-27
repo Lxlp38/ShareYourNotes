@@ -5,7 +5,7 @@
   <h3 class="my-5 text-center w-100"><i class="text-warning bg-danger p-1 rounded">!!!Notes SUSPENDED!!!</i> <br> <i class="text-warning bg-danger p-1 rounded">Admins are revisioning them...</i></h3>
 <% end %> 
 
-<div class="mx-5 mt-3 p-5 rounded border shadow bg-body">
+<div class="mx-5 mt-4 p-5 rounded border shadow bg-body">
 
   <div class="d-flex flex-row">
     <div class="w-75">
@@ -45,9 +45,23 @@
               <div class="rounded border m-1 p-3 d-flex flex-column" style="height: 15vh;">
                 <h5 class="border-0 m-0 p-0"><i><%= review.title %></i></h5>
 
-                <%= render "layouts/review_stars", review: review %>
+                <%= render "layouts/reviews/review_stars", review: review %>
 
                 <p><%= review.text %></p>
+
+                <div class="d-flex">
+                  <% if current_user && current_user != @note.user && !current_user.has_role?(:admin)%>
+                    <a type="button" class="m-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                      Report
+                    </a>
+                    <% @review = review %>
+                    <%= render "layouts/reports/report_review_form", review_report: ReviewReport.new %>
+                  <% end %>
+
+                  <% if current_user && current_user.has_role?(:admin) %>
+                    <%= button_to 'Destroy', note_review_path(@note, review), method: :delete, data: { confirm: 'Are you sure?'}, form_class: 'border-0 m-0 p-0', class: "m-1 p-0 btn btn-link text-danger" %>
+                  <% end %>
+                </div>
               </div>
             <% end %>
           <% end %>
@@ -61,7 +75,7 @@
             <a type="button" class="btn btn-outline-primary m-1 w-50" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
               Report Note
             </a>
-            <%= render "layouts/report_form", note_report: NoteReport.new%>
+            <%= render "layouts/reports/report_note_form", note_report: NoteReport.new%>
           <% end %>
 
           <% if current_user && current_user.has_role?(:admin) %>
@@ -78,7 +92,7 @@
               <a type="button" class="btn btn-outline-primary m-1 w-50" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 Leave a Review
               </a>
-              <%= render "layouts/review_form", review: Review.new %>
+              <%= render "layouts/reviews/review_form", review: Review.new %>
             <% end %>
           <% end %>
           <% if current_user && (current_user.has_role?(:admin) || current_user == @note.user) %> 

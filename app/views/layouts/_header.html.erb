@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="collapse navbar-collapse w-50" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <%= render :partial => "layouts/headerAuthActions" if !user_signed_in? %>
+        <%= render :partial => "layouts/header/headerAuthActions" if !user_signed_in? %>
         <li class="nav-item">
           <a aria-current="page"><%= link_to "Home", notes_path, class:"nav-link active"%></a>
         </li>
@@ -16,7 +16,7 @@
         <%end%>
         <% if user_signed_in?%>
           <% if current_user.has_role?(:admin)%>
-            <%= render "layouts/headerAdminActions" %>
+            <%= render "layouts/header/headerAdminActions" %>
           <% end %>
         <% end %> 
         <li class="nav-item">

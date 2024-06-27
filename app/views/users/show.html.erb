@@ -97,6 +97,6 @@
 <% if @user.notes.count > 0 %>
   <h1 class="mx-5 mt-5 text-dark"><i class="text-info">@<%= @user.username %></i>'s - Personal Notes</h1>
   <div class="mx-5 mb-5 p-5 rounded border shadow bg-body">
-    <%= render "layouts/cards_view" %>
+    <%= render "layouts/notes/cards_view" %>
   </div>
 <% end %>

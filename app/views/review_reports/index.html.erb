@@ -1,0 +1,31 @@
+<%= render "layouts/header" %>
+
+<p id="notice"><%= notice %></p>
+
+<h1>Review Reports</h1>
+
+<table class="table table-dark table-striped">
+  <thead>
+    <tr>
+        <th class="w-25"> Subject </th>
+        <th class="w-25"> Report </th>
+        <th class="w-25"> Review Title </th>
+        <th> Review ID </th>
+        <th colspan="2"> </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @review_reports.each do |review_report| %>
+      <tr>
+        <% @review = Review.find(review_report.review_id) %>
+        <td> <%= review_report.subject %> </td>
+        <td> <%= review_report.report %> </td>
+        <td> <%= link_to @review.title, note_review_path(@review.note_id, @review.id) %>
+        <td> <%= review_report.review_id %> </td>
+        <td><%= link_to 'Show', review_report, class:"btn btn-primary"%></td>
+        <td><%= button_to 'Destroy', review_report, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger"%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

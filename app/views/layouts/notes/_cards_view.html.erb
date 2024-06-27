@@ -8,13 +8,13 @@
               <!-- Notes info -->
               <div>
                 <% if note.suspended? %>
-                  <h5 class="card-title"><%= link_to ("Suspended: " + note.title).truncate(35), note_path(note), class:"p-1 rounded text-warning bg-danger text-decoration-none"%></h5>
+                  <h5 class="card-title"><%= link_to ("Suspended: " + note.title).truncate(30), note_path(note), class:"p-1 rounded text-warning bg-danger text-decoration-none"%></h5>
                 <% elsif note.visibility? %> 
-                  <h5 class="card-title"><%= link_to note.title.truncate(35), note_path(note), class:"text-primary text-decoration-none"%></h5>
+                  <h5 class="card-title"><%= link_to note.title.truncate(30), note_path(note), class:"text-primary text-decoration-none"%></h5>
                 <% else %>
-                  <h5 class="card-title"><%= link_to note.title.truncate(35), note_path(note), class:"p-1 rounded text-info bg-dark text-decoration-none" %></h5>
+                  <h5 class="card-title"><%= link_to note.title.truncate(30), note_path(note), class:"p-1 rounded text-info bg-dark text-decoration-none" %></h5>
                 <% end %>
-                <p class="card-title text-secondary"><%= note.course.name.truncate(50) %></p>
+                <p class="card-title text-secondary"><%= note.course.name.truncate(40) %></p>
                 <p class="card-title text-secondary"><%= link_to "@#{note.user.username}", user_path(note.user), class:"text-secondary" %> </p>
               </div>
               
