@@ -24,7 +24,7 @@
         <td><%= review.text %></td>
         <td><%= review.note_id %></td>
         <td><%= link_to 'Show', note_review_path(review.note_id, review), class:"btn btn-primary"%></td>
-        <% if current_user == review.user || current_user.has_role?(:admin) %>
+        <% if current_user && (current_user == review.user || current_user.has_role?(:admin)) %>
           <td><%= link_to 'Edit', edit_note_review_path(review.note_id, review), class:"btn btn-warning" %></td>
         <% end %>
         <td><%= button_to 'Destroy', note_review_path(review.note_id, review), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger"%></td>
