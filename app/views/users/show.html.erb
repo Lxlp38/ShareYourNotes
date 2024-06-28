@@ -31,35 +31,41 @@
       <p class="form-control"> <%= @user.email.nil? ? "NIL" : @user.email %> </p>
     </div>
 
-    <div class="form-group w-50 ms-2">
-      <label class="form-label">Encrypted password:</label>
-      <p class="form-control"> <%= @user.encrypted_password.nil? ? "NIL" : @user.encrypted_password %> </p>
-    </div>
+    <% if current_user && current_user == @user %>
+      <div class="form-group w-50 ms-2">
+        <label class="form-label">Encrypted password:</label>
+        <p class="form-control"> <%= @user.encrypted_password.nil? ? "NIL" : @user.encrypted_password %> </p>
+      </div>
+    <% end %>
   </div>
 
-  <div class="d-flex flex-fill">
-    <div class="form-group w-50 me-2">
-      <label class="form-label">Created at:</label>
-      <p class="form-control"> <%= @user.created_at.nil? ? "NIL" : @user.created_at %> </p>
-    </div>
+  <% if current_user && current_user == @user %>
+    <div class="d-flex flex-fill">
+      <div class="form-group w-50 me-2">
+        <label class="form-label">Created at:</label>
+        <p class="form-control"> <%= @user.created_at.nil? ? "NIL" : @user.created_at %> </p>
+      </div>
 
-    <div class="form-group w-50 ms-2">
-      <label class="form-label">Update at:</label>
-      <p class="form-control"> <%= @user.updated_at.nil? ? "NIL" : @user.updated_at %> </p>
+      <div class="form-group w-50 ms-2">
+        <label class="form-label">Update at:</label>
+        <p class="form-control"> <%= @user.updated_at.nil? ? "NIL" : @user.updated_at %> </p>
+      </div>
     </div>
-  </div>
+  <% end %>
 
-  <div class="d-flex flex-fill">
-    <div class="form-group w-50 me-2">
-      <label class="form-label">Reset password sent at:</label>
-      <p class="form-control"> <%= @user.reset_password_sent_at.nil? ? "NIL" : @user.reset_password_sent_at %> </p>
-    </div>
+  <% if current_user && current_user == @user %>
+    <div class="d-flex flex-fill">
+      <div class="form-group w-50 me-2">
+        <label class="form-label">Reset password sent at:</label>
+        <p class="form-control"> <%= @user.reset_password_sent_at.nil? ? "NIL" : @user.reset_password_sent_at %> </p>
+      </div>
 
-    <div class="form-group w-50 ms-2">
-      <label class="form-label">Remeber created at:</label>
-      <p class="form-control"> <%= @user.remember_created_at.nil? ? "NIL" : @user.remember_created_at %> </p>
+      <div class="form-group w-50 ms-2">
+        <label class="form-label">Remeber created at:</label>
+        <p class="form-control"> <%= @user.remember_created_at.nil? ? "NIL" : @user.remember_created_at %> </p>
+      </div>
     </div>
-  </div>
+  <% end %> 
 
   <label class="form-label">Accounts:</label>
   <div class="d-flex flex-column">
@@ -85,8 +91,16 @@
 
   <div class="d-flex justify-content-between mt-3">
     <div class="d-flex">
-      <% if current_user == @user %><%= link_to 'Edit', edit_user_path(@user), class:"btn btn-primary me-3" %><%end%>
-      <%= link_to 'Back', users_path, class:"btn btn-warning" %>
+      <% if current_user != @user %>
+        <a type="button" class="btn btn-outline-primary m-1" data-bs-toggle="modal" data-bs-target="#staticUserReport">
+          Report User
+        </a>
+        <%= render "layouts/reports/report_user_form", user_report: UserReport.new, user: @user %>
+      <%end%>
+      <% if current_user == @user %>
+        <%= link_to 'Edit', edit_user_path(@user), class:"btn btn-primary m-1 me-3" %>
+      <%end%>
+      <%= link_to 'Back', users_path, class:"btn btn-warning m-1" %>
     </div>
     <% if can? :destroy, @user %>
       <%= button_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %>
@@ -100,3 +114,5 @@
     <%= render "layouts/notes/cards_view" %>
   </div>
 <% end %>
+
+<%= render "layouts/footer" %>

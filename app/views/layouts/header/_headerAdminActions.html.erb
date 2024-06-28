@@ -4,16 +4,25 @@
     </a>
     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
         <li class="nav-item">
-            <a aria-current="page"><%= link_to 'Reg. Users list', users_path, class:"nav-link active text-info text-dark" %></a>
+            <a aria-current="page"><%= link_to 'Registered Users', users_path, class:"nav-link active text-info text-dark" %></a>
         </li>
+        
+        <li><hr class="dropdown-divider"></li>
+        
         <li class="nav-item">
             <a aria-current="page"><%= link_to 'Suspended notes', suspended_notes_path, class:"nav-link active text-info text-dark" %></a>
         </li>
+
+        <li><hr class="dropdown-divider"></li>
+
         <li class="nav-item">
-            <a aria-current="page"><%= link_to 'Notes reports', note_reports_path, class:"nav-link active text-info text-dark" %></a>
+            <a aria-current="page"><%= link_to 'Reported notes', note_reports_path, class:"nav-link active text-info text-dark" %></a>
         </li>
         <li class="nav-item">
-            <a aria-current="page"><%= link_to 'Review reports', review_reports_path, class:"nav-link active text-info text-dark" %></a>
+            <a aria-current="page"><%= link_to 'Reported users', user_reports_path, class:"nav-link active text-info text-dark" %></a>
+        </li>
+        <li class="nav-item">
+            <a aria-current="page"><%= link_to 'Reported review', review_reports_path, class:"nav-link active text-info text-dark" %></a>
         </li>
     </ul>
 </li>

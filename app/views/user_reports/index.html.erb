@@ -1,0 +1,31 @@
+<%= render "layouts/header" %>
+
+<h1>User Reports</h1>
+
+<table class="table table-dark table-striped">
+  <thead>
+    <tr>
+      <th class="w-25"> Subject </th>
+        <th class="w-25"> Report </th>
+        <th class="w-25"> Username </th>
+        <th> User ID </th>
+        <th colspan="2"> </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user_reports.each do |user_report| %>
+      <tr>
+        <% @user = User.find(user_report.user_id) %>
+        <td> <%= user_report.subject %> </td>
+        <td> <%= user_report.report %> </td>
+        <td> <%= link_to @user.username, user_path(@user) %>
+        <td> <%= user_report.user_id %> </td>
+        <td><%= link_to 'Show', user_report, class:"btn btn-outline-primary"%></td>
+        <td><%= button_to 'Destroy', user_report, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger"%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= render "layouts/footer" %>
