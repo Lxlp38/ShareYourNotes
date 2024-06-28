@@ -46,14 +46,14 @@ class PdfUploader < CarrierWave::Uploader::Base
   # end
 
   version :thumbnail do
-    process :thumbnail_pdf
-  end
+      process :thumbnail_pdf
+    end
 
   def thumbnail_pdf
     manipulate! do |image|
       image.format("png", 0)
-      image.resize("147x210")
-      image = yield(image) if block_given?
+      image=image.page(1).resize("147x210")
+      #image = yield(image) if block_given?
       image
     end
   end

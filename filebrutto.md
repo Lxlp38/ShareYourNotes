@@ -55,3 +55,6 @@ TODO per PROSSIMA RIUNIONE:
    -creazione modelli
    -seed database
    -inizio creazione routes/views 
+## 28/06/2024
+   -sudo sed -i 's/rights="none" pattern="PDF"/rights="read|write" pattern="PDF"/g' /etc/ImageMagick-*/policy.xml (comando per dare permessi ad image magick)
+   -image = image.page(1).resize("147x210") (sostituire all'interno di pdf_uploader.rb e commentare la riga seguente)

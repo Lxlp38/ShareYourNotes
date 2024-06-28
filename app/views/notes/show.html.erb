@@ -51,7 +51,7 @@
 
                 <div class="d-flex">
                   <% if current_user && current_user != @note.user && !current_user.has_role?(:admin)%>
-                    <a type="button" class="m-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    <a type="button" class="m-1" data-bs-toggle="modal" data-bs-target="#staticReviewReport">
                       Report
                     </a>
                     <% @review = review %>
@@ -72,7 +72,7 @@
           <%= link_to 'View Reviews', note_reviews_path(@note), class: "btn btn-outline-primary m-1 w-50" %>
           <!-- Button trigger modal -->
           <% if current_user && current_user != @note.user && !current_user.has_role?(:admin)%>
-            <a type="button" class="btn btn-outline-primary m-1 w-50" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <a type="button" class="btn btn-outline-primary m-1 w-50" data-bs-toggle="modal" data-bs-target="#staticNoteReport">
               Report Note
             </a>
             <%= render "layouts/reports/report_note_form", note_report: NoteReport.new%>
@@ -89,7 +89,7 @@
               <%= link_to 'Edit', edit_note_path(@note), class:"btn btn-warning m-1 w-50" %>
             <% else %>
               <!--<%= link_to 'Leave a Review', new_note_review_path(@note), class: "btn btn-outline-primary m-1 w-50" %>-->
-              <a type="button" class="btn btn-outline-primary m-1 w-50" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+              <a type="button" class="btn btn-outline-primary m-1 w-50" data-bs-toggle="modal" data-bs-target="#staticReview">
                 Leave a Review
               </a>
               <%= render "layouts/reviews/review_form", review: Review.new %>
