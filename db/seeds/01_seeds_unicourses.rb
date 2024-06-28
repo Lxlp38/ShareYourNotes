@@ -60,6 +60,7 @@ if response.code == 200
 
     courses = []
 
+    timenow = Time.now
     courses_universities = {}
     for uni in University.all
         courses_universities[uni.code] = uni.id
@@ -78,8 +79,8 @@ if response.code == 200
                 name: course['CorsoNOME'],
                 year: course['AnnoA'],
                 university_id: courses_universities[course['AteneoCOD'].to_s],
-                created_at: Time.now,
-                updated_at: Time.now
+                created_at: timenow,
+                updated_at: timenow
             }
         end
     end
