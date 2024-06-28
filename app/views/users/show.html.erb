@@ -14,15 +14,28 @@
     <% end %>
   <p>
   -->
+  
+  <div class="d-flex w-100 row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-label">University details:</label>
+        <p class="form-control"> <%= @user.university_details_id.nil? ? "NIL" : @user.university_details_id %> </p>
+      </div>
 
-  <div class="form-group">
-    <label class="form-label">University details:</label>
-    <p class="form-control"> <%= @user.university_details_id.nil? ? "NIL" : @user.university_details_id %> </p>
-  </div>
+      <div class="form-group">
+        <label class="form-label">Role:</label>
+        <p class="form-control"> <%= @user.role.nil? ? "NIL" : @user.role %> </p>
+      </div>
+    </div>
 
-  <div class="form-group">
-    <label class="form-label">Role:</label>
-    <p class="form-control"> <%= @user.role.nil? ? "NIL" : @user.role %> </p>
+    <% if @user.avatar? %>
+      <div class="col-lg-1 p-2 m-0 text-center">
+      <label class="form-label"> Avatar: </label>
+        <div class="ratio ratio-1x1 rounded-circle overflow-hidden w-100">
+              <%= image_tag @user.avatar.thumb.url, class:"w-100"%>
+        </div>
+      </div>
+    <% end %>
   </div>
 
   <div class="d-flex flex-fill">
@@ -83,11 +96,6 @@
     </div>
     <% end %>
   </div>
-
-  <% if @user.avatar? %>
-    <strong>Avatar:</strong>
-    <%= image_tag @user.avatar.thumb.url %>
-  <% end %>
 
   <div class="d-flex justify-content-between mt-3">
     <div class="d-flex">
