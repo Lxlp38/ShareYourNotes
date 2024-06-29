@@ -1,0 +1,15 @@
+<%= render "layouts/header" %>
+
+<div class="d-flex flex-column">
+    <h1> <%= @ticket.subject %> </h1>
+    <p> <%= @ticket.text %> </p>
+
+    <% @user = User.find(@ticket.user_id) %>
+    <%= link_to @user.username, user_path(@user) %>
+
+    <%= button_to 'Destroy', @ticket, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger"%>
+</div>
+
+<%= link_to 'Back', tickets_path, class:"btn btn-primary" %>
+
+<%= render "layouts/footer" %>

@@ -1,0 +1,31 @@
+<%= render "layouts/header" %>
+
+<h1>Tickets</h1>
+
+<table class="table table-dark table-striped">
+  <thead>
+    <tr>
+      <th class="w-25"> Subject </th>
+      <th class="w-25"> Ticket </th>
+      <th class="w-25"> Username </th>
+      <th> User ID </th>
+      <th colspan="2"> </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tickets.each do |ticket| %>
+      <tr>
+        <% @user = User.find(ticket.user_id) %>
+        <td> <%= ticket.subject %> </td>
+        <td> <%= ticket.text %> </td>
+        <td> <%= link_to @user.username, user_path(@user) %>
+        <td> <%= ticket.user_id %> </td>
+        <td><%= link_to 'Show', ticket, class:"btn btn-outline-primary"%></td>
+        <td><%= button_to 'Destroy', ticket, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger"%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= render "layouts/footer" %>
