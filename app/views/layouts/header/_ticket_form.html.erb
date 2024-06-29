@@ -35,7 +35,9 @@
         </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Back</button>
-                <%= form.hidden_field :user_id, :value => current_user.id %>
+                <% if current_user %>
+                  <%= form.hidden_field :user_id, :value => current_user.id %>
+                <% end %>
                 <%= form.submit "Submit", class:"btn btn-danger"%>
             </div>
         </div>

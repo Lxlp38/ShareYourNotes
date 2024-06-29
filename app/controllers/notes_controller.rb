@@ -5,7 +5,12 @@ class NotesController < ApplicationController
 
   # GET /notes or /notes.json
   def index
-    @notes = Note.where(visibility: true, suspended: false)
+    if params[:filter] && params[:filter].length > 0
+      @notes = Note.where("visibility IS true AND suspended IS false AND lower(title) LIKE ?", "%#{params[:filter].downcase}%") 
+      params.delete :filter
+    else 
+      @notes = Note.where(visibility: true, suspended: false)
+    end
   end
 
   # GET /notes
@@ -83,6 +88,6 @@ class NotesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def note_params
-      params.require(:note).permit(:title, :owner_id, :course_id, { pdf: [] }, :visibility, :suspended)
+      params.require(:note).permit(:title, :owner_id, :course_id, { pdf: [] }, :visibility, :suspended, :filter)
     end
 end

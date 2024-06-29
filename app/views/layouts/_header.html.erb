@@ -39,8 +39,10 @@
       <% end %> 
       
       <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <%= form_with url: "notes", method: :get do |form| %>
+          <%= form.text_field :filter, placeholder: "Search notes...", class:"form-control me-2"%>
+          <%= form.submit "Search", class:"btn btn-outline-success"%>
+        <% end %>
       </form>
     </div>
   </div>
