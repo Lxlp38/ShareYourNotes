@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   get '/users/:id/:provider/unauthorize', to: 'users#authorize', as: 'user_omniauth_unauthorize'
   resources :users
 
+  match '/frequently_asked' => "application#frequently_asked" , as: 'faq', via: [:get]
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: 'notes#index'

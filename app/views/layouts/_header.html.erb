@@ -16,12 +16,18 @@
         <li class="nav-item">
           <button class="nav-link active" data-bs-toggle="modal" data-bs-target="#staticTicket"> Ticket </button>
         </li>
-
-        <% if current_user.has_role?(:admin)%>
-          <%= render "layouts/header/headerAdminActions" %>
-        <% end %>
-
         <% end %> 
+
+        <li class="nav-item">
+          <a aria-current="page"><%= link_to "FAQs", faq_path, class:"nav-link active"%></a>
+        </li>
+
+        <% if user_signed_in?%>
+          <% if current_user.has_role?(:admin)%>
+            <%= render "layouts/header/headerAdminActions" %>
+          <% end %>
+        <% end %> 
+
         <li class="nav-item">
           <% if user_signed_in?%><%= link_to 'Logout', destroy_user_session_path, method: :delete, class:"nav-link active text-danger" %><%end%>
         </li>
