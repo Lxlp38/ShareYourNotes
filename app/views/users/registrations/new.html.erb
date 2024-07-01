@@ -9,6 +9,16 @@
   </div>
 
   <div class="field">
+    <%= f.label :username %><br />
+    <%= f.text_field :username, autofocus: true, autocomplete: "username" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :university_details_id %><br />
+    <%= f.select :university_details_id, options_for_select(University.all.map { |c| [c.name,c.id] }, @user.university_details_id),{}, {required: true, autofocus: 'true'} %>
+  </div>
+
+  <div class="field">
     <%= f.label :password %>
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>
