@@ -1,51 +1,100 @@
 <%= render "layouts/header" %>
 
-<div class="row m-0 p-0">
-  <div class="col-3 border-end overflow-auto m-0 p-0 my-3" style="height: 100vh;">
+<div class="row m-0 p-0 hidden_scrollbar" style="height: 80vh; scrollbar-width: none;">
+  <div class="col-3 border-end overflow-auto h-100 m-0 p-0 my-3" style="scrollbar-width: none;">
 
-    <h6> <a href="#general-questions-functionality" class="text-decoration-none text-info"> <b> General Questions - Functionality </b> </a> </h6>
+    <h6><a href="#general-questions-functionality" class="text-decoration-none text-info"><b>General Questions - Functionality</b></a></h6>
     <ul class="list-group list-group-flush">
       <li class="list-group-item border-0"><a class="text-decoration-none text-secondary" href="#general-questions-upload-a-note">How to upload a note?</a></li>
-      <li class="list-group-item border-0"><a class="text-decoration-none text-secondary" href="#general-questions-upload-a-note-2">How to upload a note 2?</a></li>
+      <li class="list-group-item border-0"><a class="text-decoration-none text-secondary" href="#general-questions-create-category">How to create a category?</a></li>
+      <li class="list-group-item border-0"><a class="text-decoration-none text-secondary" href="#general-questions-apply-tags">How to apply tags?</a></li>
+      <li class="list-group-item border-0"><a class="text-decoration-none text-secondary" href="#general-questions-leave-review">How to leave a review?</a></li>
+      <li class="list-group-item border-0"><a class="text-decoration-none text-secondary" href="#general-questions-search-notes">How to search for notes?</a></li>
+      <li class="list-group-item border-0"><a class="text-decoration-none text-secondary" href="#general-questions-download-notes">How to download notes?</a></li>
+      <li class="list-group-item border-0"><a class="text-decoration-none text-secondary" href="#general-questions-google-drive">How to upload notes to Google Drive?</a></li>
+    </ul>
+
+    <h6><a href="#account-management" class="text-decoration-none text-info"><b>Account Management</b></a></h6>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item border-0"><a class="text-decoration-none text-secondary" href="#account-management-create-account">How to create an account?</a></li>
+      <li class="list-group-item border-0"><a class="text-decoration-none text-secondary" href="#account-management-reset-password">How to reset your password?</a></li>
+      <li class="list-group-item border-0"><a class="text-decoration-none text-secondary" href="#account-management-delete-account">How to delete your account?</a></li>
+      <li class="list-group-item border-0"><a class="text-decoration-none text-secondary" href="#account-management-upgrade-account">How to upgrade your account?</a></li>
+    </ul>
+
+    <h6><a href="#administration" class="text-decoration-none text-info"><b>Administration</b></a></h6>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item border-0"><a class="text-decoration-none text-secondary" href="#administration-create-tags">How to create tags?</a></li>
+      <li class="list-group-item border-0"><a class="text-decoration-none text-secondary" href="#administration-manage-users">How to manage users?</a></li>
+      <li class="list-group-item border-0"><a class="text-decoration-none text-secondary" href="#administration-suspend-notes">How to suspend notes?</a></li>
+      <li class="list-group-item border-0"><a class="text-decoration-none text-secondary" href="#administration-handle-reports">How to handle reports from users?</a></li>
     </ul>
 
   </div>
 
-  <div class="col">
+  <div class="col h-100 overflow-auto hidden_scrollbar" style="scrollbar-width: none;">
     <div class="m-5">
       <h1 class="text-primary"> <b> <i> FAQs - Frequently Asked Questions </i> </b> </h1>
 
       <hr class="bg-danger border-2 border-top border-dark" />
 
-      <!-- Category start -->
-      <h2 class = "text-info" id="general-questions-functionality"> <b> General Questions - Functionality </b> </h2>
+        <!-- General Questions - Functionality -->
+        <h2 class="text-info" id="general-questions-functionality"><b>General Questions - Functionality</b></h2>
 
-        <!-- Question start -->
-        <h3 class = "my-3" id="general-questions-upload-a-note"> <b> 1. How to upload a note? </b> </h3>
+        <h3 class="my-3" id="general-questions-upload-a-note"><b>1. How to upload a note?</b></h3>
+        <p>To upload a note, log in to your account, navigate to the "Upload Note" section, select the appropriate category and sub-category, attach your PDF file, add relevant tags, and click "Submit".</p>
 
-        <p> To upload a note fai questo e quello e mi sono già annoiato di scrivere </p>
-        <!-- Question end -->
-        <h3 class = "my-3" id="general-questions-upload-a-note-2"> <b> 2. How to upload a note? </b> </h3>
+        <h3 class="my-3" id="general-questions-create-category"><b>2. How to create a category?</b></h3>
+        <p>Only administrators can create categories. If you need a new category, please contact the support team or submit a request through the "Submit Ticket" section.</p>
 
-        <p> To upload a note fai questo e quello e mi sono già annoiato di scrivere </p>
+        <h3 class="my-3" id="general-questions-apply-tags"><b>3. How to apply tags?</b></h3>
+        <p>When uploading a note, you can add tags in the designated field. Simply type the relevant keywords and press enter to add each tag. Tags help in categorizing and searching for notes more efficiently.</p>
 
-      <!-- Category end -->
+        <h3 class="my-3" id="general-questions-leave-review"><b>4. How to leave a review?</b></h3>
+        <p>To leave a review, go to the note you wish to review, scroll down to the review section, select a rating between 1 and 5 stars, and leave your comments. Click "Submit" to post your review.</p>
 
-      <hr class="bg-danger border-2 border-top border-dark" />
+        <h3 class="my-3" id="general-questions-search-notes"><b>5. How to search for notes?</b></h3>
+        <p>Use the search bar at the top of the page to enter keywords, tags, or categories. You can also apply filters based on ratings and categories to narrow down the results.</p>
 
-      <!-- Category start -->
-      <h2 class = "text-info" id="general-questions-functionality"> <b> General Questions 2 - Functionality 2 </b> </h2>
+        <h3 class="my-3" id="general-questions-download-notes"><b>6. How to download notes?</b></h3>
+        <p>To download a note, navigate to the note you wish to download and click on the "Download" button. The file will be saved to your device.</p>
 
-        <!-- Question start -->
-        <h3 class = "my-3" id="general-questions-upload-a-note"> <b> 3. How to upload a note? </b> </h3>
+        <h3 class="my-3" id="general-questions-google-drive"><b>7. How to upload notes to Google Drive?</b></h3>
+        <p>When uploading a note, you have the option to save a copy to your Google Drive. Check the "Save to Google Drive" option during the upload process and authenticate your Google account if prompted.</p>
 
-        <p> To upload a note fai questo e quello e mi sono già annoiato di scrivere </p>
-        <!-- Question end -->
-        <h3 class = "my-3" id="general-questions-upload-a-note-2"> <b> 4. How to upload a note? </b> </h3>
+        <hr class="bg-danger border-2 border-top border-dark" />
 
-        <p> To upload a note fai questo e quello e mi sono già annoiato di scrivere </p>
+        <!-- Account Management -->
+        <h2 class="text-info" id="account-management"><b>Account Management</b></h2>
 
-      <!-- Category end -->
+        <h3 class="my-3" id="account-management-create-account"><b>1. How to create an account?</b></h3>
+        <p>To create an account, click on the "Sign Up" button on the homepage, fill in your details, and follow the on-screen instructions to verify your email address.</p>
+
+        <h3 class="my-3" id="account-management-reset-password"><b>2. How to reset your password?</b></h3>
+        <p>If you forgot your password, click on "Forgot Password" on the login page, enter your email address, and follow the instructions sent to your email to reset your password.</p>
+
+        <h3 class="my-3" id="account-management-delete-account"><b>3. How to delete your account?</b></h3>
+        <p>To delete your account, go to your profile settings, select "Delete Account", and confirm your decision. Please note that this action is irreversible.</p>
+
+        <h3 class="my-3" id="account-management-upgrade-account"><b>4. How to upgrade your account?</b></h3>
+        <p>If you wish to upgrade your account for additional features, go to the "Upgrade Account" section in your profile settings and follow the instructions.</p>
+
+        <hr class="bg-danger border-2 border-top border-dark" />
+
+        <!-- Administration -->
+        <h2 class="text-info" id="administration"><b>Administration</b></h2>
+
+        <h3 class="my-3" id="administration-create-tags"><b>1. How to create tags?</b></h3>
+        <p>Administrators can create tags by going to the "Admin" panel, selecting "Manage Tags", and adding new tags as needed.</p>
+
+        <h3 class="my-3" id="administration-manage-users"><b>2. How to manage users?</b></h3>
+        <p>Administrators can manage users by accessing the "Admin" panel, selecting "User Management", and performing actions such as suspending, deleting, or upgrading user accounts.</p>
+
+        <h3 class="my-3" id="administration-suspend-notes"><b>3. How to suspend notes?</b></h3>
+        <p>To suspend a note, administrators should go to the "Admin" panel, select "Manage Notes", find the note in question, and click on "Suspend".</p>
+
+        <h3 class="my-3" id="administration-handle-reports"><b>4. How to handle reports from users?</b></h3>
+        <p>Administrators can handle reports by going to the "Admin" panel
 
     </div>
   </div>
