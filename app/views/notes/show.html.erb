@@ -8,11 +8,11 @@
 <div class="mx-5 mt-4 p-5 rounded border shadow bg-body">
 
   <div class="d-flex flex-row">
-    <div class="w-75">
+    <div class="w-75 row align-items-center">
       <% if @note.pdf.present? %>
         <div class="pdf-container ratio ratio-16x9">
           <% @note.pdf.each do |pdf| %>
-            <!--<a href="<%= pdf.url %>">Scarica il PDF</a>. <!-- Inutile, esiste già la funzione di download dell'iFrame --> -->
+            <!--<a href="<%= pdf.url %>">Scarica il PDF</a>.  Inutile, esiste già la funzione di download dell'iFrame -->
             <iframe src="<%= pdf.url %>", class="rounded shadow bg-body" >
             </iframe>
           <% end %>
@@ -39,7 +39,7 @@
       </div>
 
       <!-- Reviews viewer, maybe create a partial view for it -->
-      <div class="container py-3 px-0 m-0">
+      <div class="container py-3 px-0 m-0 overflow-auto hidden_scrollbar" style="height: 54vh;">
           <% if @reviews.present? %>
             <% @reviews.take(5).each do |review| %>
               <div class="rounded border m-1 p-3 d-flex flex-column" style="height: 15vh;">
