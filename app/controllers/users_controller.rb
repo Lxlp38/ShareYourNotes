@@ -23,6 +23,7 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
+    @user.build_account 
   end
 
   # GET /users/1/edit
@@ -35,13 +36,14 @@ class UsersController < ApplicationController
   # POST /users or /users.json
   def create
     @user = User.new(user_params)
+    @user.build_account unless @user.account
 
     #authorize! :create, @user, :message => "You are not authorized to create a user"
 
-    if @user.update(name: user_params[:name], email: user_params[:email])
+    if @user.save
       redirect_to @user, notice: 'User was successfully updated.'
     else
-      render :edit
+      render :new
     end
   end
 
@@ -79,7 +81,7 @@ class UsersController < ApplicationController
     redirect_to user_url(@user)
   end
 
-  private
+  protected
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
@@ -90,7 +92,7 @@ class UsersController < ApplicationController
 #      if params[:user][:password].blank?
 #        params.require(:user).permit(:username, :university_details_id, :account_id, :role, :email, :reset_password_sent_at, :remember_created_at)
 #      else
-        params.require(:user).permit(:username, :university_details_id, :account_id, :password, :role, :created_at, :updated_at, :email, :encrypted_password, :reset_password_sent_at, :remeber_created_at, :avatar, { pdf: [] })
+        params.require(:user).permit(:username, :university_details_id, :account_id, :password, :role, :created_at, :updated_at, :email, :encrypted_password, :reset_password_sent_at, :remember_created_at, :avatar, account_attributes: [:id],   pdf: [] )
       #end
     end
 end

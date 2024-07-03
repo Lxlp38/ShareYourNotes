@@ -53,8 +53,8 @@ class User < ActiveRecord::Base
     def persisted
     end
 
-    belongs_to :university_details, class_name: "University", foreign_key: "university_details_id", optional: true
-    has_one :account, class_name: "Account", dependent: :destroy, :required => false
+    belongs_to :university_details, foreign_key: "university_details_id", optional: true
+    has_one :account #class_name: "Account", dependent: :destroy, :required => false
     accepts_nested_attributes_for :account
 
 
@@ -67,7 +67,8 @@ class User < ActiveRecord::Base
     validates :email, presence: true, uniqueness: true
     validates :password, presence: true, on: :create
     validates :role, presence: true
-
+    validates :university_details_id,presence: true
+    
 
     def assign_default_role
       self.add_role(:user) if self.roles.blank?

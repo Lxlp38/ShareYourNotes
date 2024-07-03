@@ -12,15 +12,15 @@ User.destroy_all
 
 more_users=[
     {:username => 'Admin1', :email => 'dellaratta.1994569@studenti.uniroma1.it',
-    :password => 'Admin@1', :university_details => University.find_by(code: '05801'), :role => 'admin', :account_attributes => {}},
+    :password => 'Admin@1', :university_details_id => University.find_by(name: 'Università degli Studi di Catania').id, :role => 'admin', :account_attributes => {}},
     {:username => 'Admin2', :email => 'apa.1713337@studenti.uniroma1.it',
-    :password => 'Admin@2', :university_details => University.find_by(code: '05801'), :role => 'admin', :account_attributes => {}},
+    :password => 'Admin@2', :university_details_id => University.find_by(name: 'Università degli Studi di Catania').id, :role => 'admin', :account_attributes => {}},
     {:username => 'Admin3', :email => 'fortuna.1986101@studenti.uniroma1.it',
-    :password => 'Admin@3', :university_details => University.find_by(code: '05801'), :role => 'admin', :account_attributes => {}},
+    :password => 'Admin@3', :university_details_id => University.find_by(name: 'Università degli Studi di Catania').id, :role => 'admin', :account_attributes => {}},
     {:username => 'Admin4', :email => 'pierro.1990350@studenti.uniroma1.it',
-    :password => 'Admin@4', :university_details => University.find_by(code: '05801'), :role => 'admin', :account_attributes => {}},
+    :password => 'Admin@4', :university_details_id => University.find_by(name: 'Università degli Studi di Catania').id, :role => 'admin', :account_attributes => {}},
     {:username => 'Admin5', :email => 'mariut.1986191@studenti.uniroma1.it',
-    :password => 'Admin@5', :university_details => University.find_by(code: '05801'), :role => 'admin', :account_attributes => {}}
+    :password => 'Admin@5', :university_details_id => University.find_by(name: 'Università degli Studi di Catania').id, :role => 'admin', :account_attributes => {}}
 ]
 
 more_users.each do |user|
