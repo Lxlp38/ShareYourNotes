@@ -17,15 +17,11 @@
     <%= f.label :university_details_id %><br />
     <%= f.select :university_details_id, options_for_select(University.all.map { |c| [c.name,c.id] }, @user.university_details_id),{}, {required: true, autofocus: 'true'} %>
   </div>
-
+  
   <%= f.fields_for :account do |account_form| %>
     <!-- Escludi i campi github e google_oauth2 -->
-    <!-- <%= account_form.label :github %>
-    <%= account_form.text_field :github %>
-
-    <%= account_form.label :google_oauth2 %>
-    <%= account_form.text_field :google_oauth2 %> -->
   <% end %>
+
 
   <div class="field">
     <%= f.label :password %>

@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   
   #Mount the uploader
   mount_uploader :avatar, AvatarUploader
+  after_create :build_default_account
 
 
   # Include default devise modules. Others available are:
@@ -72,6 +73,12 @@ class User < ActiveRecord::Base
 
     def assign_default_role
       self.add_role(:user) if self.roles.blank?
+    end
+
+    private
+
+    def build_default_account
+      create_account unless account
     end
 
 end

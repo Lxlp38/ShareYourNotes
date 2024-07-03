@@ -38,8 +38,8 @@ class CreaDb < ActiveRecord::Migration[6.1]
 
     # Create the accounts table
     create_table :accounts do |t|
-      t.string :google_oauth2, default: 'true'
-      t.string :github, default: 'true'
+      t.string :google_oauth2, default: 'false'
+      t.string :github, default: 'false'
       t.references :user, null: true, foreign_key: true
       t.timestamps
     end

@@ -11,7 +11,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   #POST /resource
   def create
-    super
+    super do |resource|
+      resource.build_account unless resource.account
+      resource.save
+    end
   end
 
    #GET /resource/edit

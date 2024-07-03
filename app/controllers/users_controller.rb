@@ -92,7 +92,7 @@ class UsersController < ApplicationController
 #      if params[:user][:password].blank?
 #        params.require(:user).permit(:username, :university_details_id, :account_id, :role, :email, :reset_password_sent_at, :remember_created_at)
 #      else
-        params.require(:user).permit(:username, :university_details_id, :account_id, :password, :role, :created_at, :updated_at, :email, :encrypted_password, :reset_password_sent_at, :remember_created_at, :avatar, account_attributes: [:id],   pdf: [] )
+        params.require(:user).permit(:username, :university_details_id, :account_id, :password, :role, :created_at, :updated_at, :email, :encrypted_password, :reset_password_sent_at, :remember_created_at, :avatar, account_attributes: [:id, :github, :google_oauth2],   pdf: [] )
       #end
     end
 end

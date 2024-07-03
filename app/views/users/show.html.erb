@@ -80,7 +80,7 @@
     </div>
   <% end %> 
 
-<% if @account_attributes.present? %>
+
   <label class="form-label">Accounts:</label>
   <div class="d-flex flex-column">
     <% @user.account.attributes.slice("github", "google_oauth2").each do |key, value| %>
@@ -97,7 +97,7 @@
     </div>
     <% end %>
   </div>
-<% end %>
+
 
   <div class="d-flex justify-content-between mt-3">
     <div class="d-flex">
