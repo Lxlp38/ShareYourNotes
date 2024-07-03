@@ -24,7 +24,7 @@
                 <% if current_user && current_user == note.user %>
                   <%= link_to 'Edit', edit_note_path(note), class:"btn btn-outline-primary m-1 w-50 btn-sm" %>
                   <% if !current_user.has_role?(:admin) %>
-                    <%= button_to 'Destroy', note_path(note), method: :delete, data: { confirm: 'Are you sure?'}, form_class: 'border-0 w-50 m-1', class: "btn btn-danger btn-sm w-100" %>
+                    <%= button_to 'Destroy', note_path(note), method: :delete, data: { confirm: 'Are you sure?'}, form_class: 'border-0 w-50 m-1', class: "btn btn-outline-danger btn-sm w-100" %>
                   <% end %>
                 <%end%>
               </div>
@@ -32,8 +32,8 @@
               <!-- Notes admin buttons -->
               <% if current_user && current_user.has_role?(:admin) %>
                 <div class="d-flex justify-content-inline w-100">
-                  <%= link_to 'Admin', admin_edit_note_path(note), class:"btn btn-warning mt-1 mb-1 mr-1 w-50 btn-sm" %>
-                  <%= button_to 'Destroy', note_path(note), method: :delete, data: { confirm: 'Are you sure?'}, form_class: 'border-0 w-50 m-1', class: "btn btn-danger btn-sm w-100" %>
+                  <%= link_to 'Admin', admin_edit_note_path(note), class:"btn btn-outline-warning mt-1 mb-1 mr-1 w-50 btn-sm" %>
+                  <%= button_to 'Destroy', note_path(note), method: :delete, data: { confirm: 'Are you sure?'}, form_class: 'border-0 w-50 m-1', class: "btn btn-outline-danger btn-sm w-100" %>
                 </div>
               <% end %>
             </div>
