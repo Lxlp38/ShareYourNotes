@@ -8,27 +8,46 @@
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
       <%= render "users/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :university_details_id %><br />
-    <%= f.select :university_details_id, options_for_select(University.all.map { |c| [c.name,c.id] }, @user.university_details_id),{}, {required: true, autofocus: 'true'} %>
-  </div>
+      <div class="login_form d-flex my-4">
+        <div class="align-middle m-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+          </svg>
+        </div>
+        <%= f.email_field :email, placeholder:"Email", autocomplete: "email", autofocus: true, class:"text-muted bg-transparent w-100 border-0 m-2" %>
+      </div>
 
-  <%= f.fields_for :account do |account_form| %>
-    <!-- Escludi i campi github e google_oauth2 -->
-    <!-- <%= account_form.label :github %>
-    <%= account_form.text_field :github %>
+      <div class="login_form d-flex my-4">
+        <div class="align-middle m-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+          </svg>
+        </div>
+        <%= f.text_field :username, placeholder:"Username", autocomplete: "username", autofocus: true, class:"text-muted bg-transparent w-100 border-0 m-2" %>
+      </div>
 
-    <%= account_form.label :google_oauth2 %>
-    <%= account_form.text_field :google_oauth2 %> -->
-  <% end %>
+      <div class="login_form d-flex my-4">
+        <div class="align-middle m-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-mortarboard" viewBox="0 0 16 16">
+            <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917zM8 8.46 1.758 5.965 8 3.052l6.242 2.913z"/>
+            <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46z"/>
+          </svg>
+        </div>
+        <%= f.select :university_details_id, options_for_select(University.all.map { |c| [c.name,c.id] }, @user.university_details_id),{:prompt => 'University'}, {required: true, autofocus: 'true', class:"text-muted bg-transparent w-100 border-0 m-2"} %>
+      </div>
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
+      <%= f.fields_for :account do |account_form| %>
+        <!-- Escludi i campi github e google_oauth2 -->
+        <!-- <%= account_form.label :github %>
+        <%= account_form.text_field :github %>
+
+        <div class="field">
+          <%= f.label :password %>
+          <% if @minimum_password_length %>
+          <em>(<%= @minimum_password_length %> characters minimum)</em>
+          <% end %><br />
+          <%= f.password_field :password, autocomplete: "new-password" %>
+        </div>
 
         <%= account_form.label :google_oauth2 %>
         <%= account_form.text_field :google_oauth2 %> -->
