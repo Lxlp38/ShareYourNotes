@@ -13,10 +13,11 @@
  *= require_tree .
  *= require_self
  */
+
  @import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap');
  @import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Delicious+Handrawn&family=Fasthand&display=swap');
 
- label {
+label {
   position: relative;
 }
 
@@ -31,6 +32,10 @@ label > .icon {
 label > input {
   padding-left: calc(1em + 10px + 8px); /* icon width + icon padding-left + desired separation*/
   height: 2em;
+}
+
+.card-body {
+  background-color: #f8f9fa;
 }
 
 /*
@@ -63,7 +68,7 @@ label > input {
   background: transparent;
 }
 
-.login_form > textarea:focus, .login_form > input:focus{
+.login_form > textarea:focus, .login_form > input:focus, .login_form > select:focus{
   outline: none;
 }
 
