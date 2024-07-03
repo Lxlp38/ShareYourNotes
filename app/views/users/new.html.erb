@@ -1,5 +1,55 @@
-<h1>New User</h1>
+<div class="container d-flex align-items-center justify-content-center text-center login-bg">
+  <div class="row w-50 p-5">
 
-<%= render 'form', user: @user %>
+    <h1 class="cedarville-cursive-regular mb-5">ShareYourNotes</h1>
 
-<%= link_to 'Back', users_path %>
+    <h2 class="mb-3 text-primary">SIGN UP</h2>
+
+    <%= form_with(model: @user) do |form| %>
+    <% if user.errors.any? %>
+        <div id="error_explanation">
+        <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+        <ul>
+            <% @user.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+            <% end %>
+        </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+        <%= form.label :username %>
+        <%= form.text_field :username %>
+    </div>
+
+    <div class="field">
+        <%= form.label :university_details_id %>
+        <%= form.text_field :university_details_id %>
+    </div>
+
+    <div class="field">
+        <%= form.label :role %>
+        <%= form.text_field :role %>
+    </div>
+
+    <div class="field">
+        <%= form.label :email %>
+        <%= form.text_field :email %>
+    </div>
+
+    <div>
+    <%= form.label :avatar %>
+    <%= form.file_field :avatar %>
+    </div>
+        
+
+
+
+    <div class="actions">
+        <%= form.submit %>
+    </div>
+    <% end %>
+
+    </div>
+</div>

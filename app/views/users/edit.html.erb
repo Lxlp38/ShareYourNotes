@@ -1,6 +1,9 @@
-<h1>Editing User</h1>
+<%= render "layouts/header" %>
 
-<%= render 'form', user: @user %>
+<%= render 'styled_form', user: @user %>
 
-<%= link_to 'Show', @user %> |
-<%= link_to 'Back', users_path %>
+<div class="d-flex mx-5 my-3">
+    <%= link_to 'Back', user_path(@user), class:"btn btn-warning m-1" %>
+</div>
+
+<%= render "layouts/footer" %>

@@ -2,6 +2,11 @@
   <div class="container-fluid">
     <div class="collapse navbar-collapse w-50" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!--<% if user_signed_in? %>
+          <li class="nav-item">
+            <%= image_tag current_user.avatar.thumb.url, class:"rounded-circle m-1", style:"height: 3vh" %>
+          </li>
+        <% end %> -->
         <%= render :partial => "layouts/header/headerAuthActions" if !user_signed_in? %>
         <li class="nav-item">
           <a aria-current="page"><%= link_to "Home", notes_path, class:"nav-link active"%></a>
