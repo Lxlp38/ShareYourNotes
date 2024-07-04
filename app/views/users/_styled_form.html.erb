@@ -24,7 +24,12 @@
 
         <div class="form-group my-3">
           <label class="form-label">Role:</label>
-          <p class="form-control"> <%= @user.role.nil? ? "NIL" : @user.role %> </p>
+          <% if current_user.has_role?(:admin) %>
+            <%= form.select :role, options_for_select(Role.all.map { |r| [r.name, r.id] }, @user.role), {:prompt => @user.role}, {required: true, autofocus: 'true', class:"form-control"} %>
+            <%# form.text_field :role, :value => (@user.role.nil? ? "NIL" : @user.role), class: "form-control" %>
+          <% else %>
+            <p class="form-control"> <%= @user.role.nil? ? "NIL" : @user.role %> </p>
+          <% end %>
         </div>
       </div>
     
