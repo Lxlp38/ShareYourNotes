@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_06_25_192103) do
+ActiveRecord::Schema.define(version: 2024_07_06_170203) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "google_oauth2", default: "false"
@@ -53,6 +53,12 @@ ActiveRecord::Schema.define(version: 2024_06_25_192103) do
     t.index ["owner_id"], name: "index_notes_on_owner_id"
   end
 
+  create_table "notes_tags", id: false, force: :cascade do |t|
+    t.integer "note_id", null: false
+    t.integer "tag_id", null: false
+    t.index ["tag_id", "note_id"], name: "index_notes_tags_on_tag_id_and_note_id"
+  end
+
   create_table "review_reports", force: :cascade do |t|
     t.text "report", null: false
     t.string "subject", null: false
@@ -83,6 +89,12 @@ ActiveRecord::Schema.define(version: 2024_06_25_192103) do
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
     t.index ["name"], name: "index_roles_on_name"
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "tickets", force: :cascade do |t|

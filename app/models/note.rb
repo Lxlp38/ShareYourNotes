@@ -13,6 +13,7 @@ class Note<ActiveRecord::Base
     validates :pdf, presence: true
     validates :owner_id, presence: true
     validates :course_id, presence: true
+    has_and_belongs_to_many :tags
 
     def self.search(search)
         if search

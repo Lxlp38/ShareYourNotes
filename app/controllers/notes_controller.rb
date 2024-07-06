@@ -11,6 +11,11 @@ class NotesController < ApplicationController
     else 
       @notes = Note.where(visibility: true, suspended: false)
     end
+
+    if params[:tag].present?
+      @tag = Tag.find_by(name: params[:tag])
+      @notes = @tag.notes if @tag
+    end
   end
 
   # GET /notes
@@ -28,6 +33,8 @@ class NotesController < ApplicationController
   def new
     @note = Note.new
     @courses = Course.all
+    #variabile usata in create per aggiungere i tag
+    @tag_names = ''
     authorize! :new, @note, :message => "Not authorized as an administrator."
   end
 
@@ -43,9 +50,16 @@ class NotesController < ApplicationController
 
   # POST /notes or /notes.json
   def create
+    #ho usato tag_name perchè con tag e tags poteva creare ambiguità
     @note = Note.new(note_params)
     @note.owner_id = current_user.id
 
+    tag_names = params[:note][:tag_names].split(",").map(&:strip)
+
+    tag_names.each do |tag_name|
+      tag = Tag.find_or_create_by(name: tag_name)
+      @note.tags << tag unless @note.tags.include?(tag) # << operatore che aggiunge tag alla collezione @note.tags
+    end
     respond_to do |format|
       if @note.save
         format.html { redirect_to note_url(@note), notice: "Note was successfully created." }
@@ -88,6 +102,6 @@ class NotesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def note_params
-      params.require(:note).permit(:title, :owner_id, :course_id, { pdf: [] }, :visibility, :suspended, :filter)
+      params.require(:note).permit(:title, :owner_id, :course_id, { pdf: [] }, :visibility, :suspended, :filter, tag_ids:[])
     end
 end
