@@ -24,7 +24,15 @@
 
       <div class="form-group">
         <label class="form-label">Role:</label>
-        <p class="form-control"> <%= @user.role.nil? ? "NIL" : @user.role %> </p>
+        <p class="form-control">  <% if @user.role == 'admin' %>
+            <% idrole = "2" %>
+            <%= Role.find_by(id: idrole).name %>
+            <% elsif @user.role == 'user' %>
+            <% idrole="1" %>
+            <%= Role.find_by(id: idrole).name %>
+          <% else %>
+            <%= Role.find_by(id: @user.role).name %>
+          <% end %> </p>
       </div>
     </div>
 

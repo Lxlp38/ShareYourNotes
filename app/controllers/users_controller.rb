@@ -54,7 +54,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       if @user.role == '2'
         @user.remove_role :user
-        @user.add_role :admin
+        @user.add_role :admin 
       end
       if @user.role == '1'
         @user.remove_role :admin

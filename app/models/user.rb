@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
   rolify 
   after_create :assign_default_role
-  resourcify
-  has_and_belongs_to_many :roles, join_table: :users_roles
+  #resourcify
+  #has_and_belongs_to_many :roles, join_table: :users_roles
   
   #Mount the uploader
   mount_uploader :avatar, AvatarUploader

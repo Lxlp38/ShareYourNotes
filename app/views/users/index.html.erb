@@ -25,7 +25,15 @@
       <tr>
         <td><%= user.username %></td>
         <td><%= user.university_details_id %></td>
-        <td><%= user.role %></td>
+        <td> <% if user.role == 'admin' %>
+            <% idrole = "2" %>
+            <%= Role.find_by(id: idrole).name %></td>
+            <% elsif user.role == 'user' %>
+            <% idrole="1" %>
+            <%= Role.find_by(id: idrole).name %></td>
+          <% else %>
+            <%= Role.find_by(id: user.role).name %>
+          <% end %></td>
         <td><%= user.created_at %></td>
         <td><%= user.updated_at %></td>
         <td><%= user.email %></td>
