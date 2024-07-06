@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   resources :users
 
   match '/frequently_asked' => "application#frequently_asked" , as: 'faq', via: [:get]
+  match '/about_us' => "application#about_us" , as: 'about', via: [:get]
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: 'notes#index'

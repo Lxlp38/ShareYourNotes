@@ -18,8 +18,18 @@
         </li>
         <% end %> 
 
-        <li class="nav-item">
-          <a aria-current="page"><%= link_to "FAQs", faq_path, class:"nav-link active"%></a>
+        <li class="nav-item dropdown">
+          <a class="nav-link active dropdown-toggle rounded" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Infos
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li class="nav-item">
+              <a aria-current="page"><%= link_to "FAQs", faq_path, class:"nav-link active text-info text-dark"%></a>
+            </li>
+            <li class="nav-item">
+              <a aria-current="page"><%= link_to "About Us", about_path, class:"nav-link active text-info text-dark"%></a>
+            </li>
+          </ul>
         </li>
 
         <% if user_signed_in?%>

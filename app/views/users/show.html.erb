@@ -118,7 +118,7 @@
       <% if current_user == @user %>
         <%= link_to 'Edit', edit_user_path(@user), class:"btn btn-outline-primary m-1 me-3" %>
       <%end%>
-      <%= link_to 'Back', users_path, class:"btn btn-outline-primary m-1" %>
+      <%= link_to 'Back', notes_path, class:"btn btn-outline-primary m-1" %>
     </div>
     <% if can? :destroy, @user %>
       <%= button_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %>
