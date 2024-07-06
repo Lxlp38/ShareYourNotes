@@ -28,9 +28,9 @@
     <%#</div>%>
    
     <div class="mb-3 field">
-      <%= form.label :tag_names, "Tags (separati da virgola)" %>
-      <%= form.text_field :tag_names %>
-    </div
+      <%= form.label :tag_names, "Tags", class:"form-label" %>
+      <%= form.text_area :tag_names, class:"form-control fixed_textarea", autocomplete:"off", :rows => 3, placeholder: "Separa i tag con una virgola!" %>
+    </div>
      
 
     <div class="mb-3 field">

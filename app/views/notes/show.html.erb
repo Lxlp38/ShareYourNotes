@@ -36,6 +36,16 @@
           <strong>Course:</strong>
           <%= @note.course.name %>
         </div>
+
+        <div>
+          <!-- Notes tags -->
+          <strong>Tags:</strong>
+          <small class="text-muted">
+            <% @note.tags.all.each do |tag| %>
+                <%= "#" + tag.name%>
+            <% end %>
+          </small>
+        </div>
       </div>
 
       <!-- Reviews viewer, maybe create a partial view for it -->
