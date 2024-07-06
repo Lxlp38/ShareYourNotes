@@ -44,11 +44,10 @@
         <% end %>
       <% end %> 
       
-      <form class="d-flex">
-        <%= form_with url: "notes", method: :get do |form| %>
-          <%= form.text_field :filter, placeholder: "Search notes...", class:"form-control me-2"%>
-          <%= form.submit "Search", class:"btn btn-outline-success"%>
-        <% end %>
+      <form class="d-flex" method="get" action="<%= notes_path %>">
+      <%= text_field_tag :tag, params[:tag], placeholder: "Search notes...", class: "form-control me-2" %>
+      <%= submit_tag "Search", class: "btn btn-outline-success" %>
+    </form>
       </form>
     </div>
   </div>
