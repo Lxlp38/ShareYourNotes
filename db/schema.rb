@@ -120,7 +120,7 @@ ActiveRecord::Schema.define(version: 2024_06_25_192103) do
     t.string "username", null: false
     t.integer "university_details_id"
     t.integer "account_id"
-    t.string "role", default: "user"
+    t.string "role"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "email", default: "", null: false
