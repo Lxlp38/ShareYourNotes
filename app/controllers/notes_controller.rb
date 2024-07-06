@@ -14,7 +14,7 @@ class NotesController < ApplicationController
 
     if params[:tag].present?
       @tag = Tag.find_by(name: params[:tag])
-      @notes = @tag.notes if @tag
+      @notes = @tag.notes.where(visibility:true, suspended:false ) if @tag
     end
   end
 
