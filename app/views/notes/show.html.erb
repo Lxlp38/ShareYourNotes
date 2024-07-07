@@ -5,51 +5,50 @@
   <h3 class="my-5 text-center w-100"><i class="text-warning bg-danger p-1 rounded">!!!Notes SUSPENDED!!!</i> <br> <i class="text-warning bg-danger p-1 rounded">Admins are revisioning them...</i></h3>
 <% end %> 
 
-<div class="mx-5 mt-4 p-5 rounded border shadow bg-body">
+<div class="card border-dark mx-5 mt-4 rounded border shadow bg-body">
+
+  <div class="card-header m-0">
+    <h3 class="text-dark m-0"><i class="text-dark"><%= @note.title %></i></h3>
+  </div>
 
   <div class="d-flex flex-row">
-    <div class="w-75 row align-items-center">
+    <div class="w-75 row align-items-center p-3">
       <% if @note.pdf.present? %>
-        <div class="pdf-container ratio ratio-16x9">
+        <div class="pdf-container h-100 w-100">
           <% @note.pdf.each do |pdf| %>
             <!--<a href="<%= pdf.url %>">Scarica il PDF</a>.  Inutile, esiste già la funzione di download dell'iFrame -->
-            <iframe src="<%= pdf.url %>", class="rounded shadow bg-body" >
+            <iframe src="<%= pdf.url %>", class="rounded shadow bg-body h-100 w-100" >
             </iframe>
           <% end %>
         </div>
       <% end %>
     </div>
 
-    <div class="d-flex flex-column w-25 ps-5 pb-3">
-    
-      <div class="d-flex flex-column bb-dashed">
-        <h4 class="text-dark"><i class="text-dark"><%= @note.title %></i></h4>
-      </div>
+    <div class="d-flex flex-column w-25 ps-2">
 
-      <div class="d-flex flex-column bb-dashed mt-1">
+      <div class="d-flex flex-column mt-1 border-bottom border-dark">
         <div>
-          <strong>Owner:</strong>
-          <%= link_to @note.user.username, user_path(@note.user) %>
-        </div>
-
-        <div>
-          <strong>Course:</strong>
           <%= @note.course.name %>
         </div>
 
         <div>
+          <small>
+            <%= link_to @note.user.username, user_path(@note.user), class:"text-decoration-none text-muted" %>
+          </small>
+        </div>
+
+        <div>
           <!-- Notes tags -->
-          <strong>Tags:</strong>
           <small class="text-muted">
             <% @note.tags.all.each do |tag| %>
-                <%= "#" + tag.name%>
+              <%= link_to ("#" + tag.name), notes_path(:tag => tag.name), class:"text-decoration-none text-muted"%>
             <% end %>
           </small>
         </div>
       </div>
 
       <!-- Reviews viewer, maybe create a partial view for it -->
-      <div class="container py-3 px-0 m-0 overflow-auto hidden_scrollbar" style="height: 54vh;">
+      <div class="container py-2 px-0 m-0 overflow-auto hidden_scrollbar" style="height: 60vh;">
           <% if @reviews.present? %>
             <% @reviews.take(5).each do |review| %>
               <div class="rounded border m-1 p-3 d-flex flex-column" style="height: 15vh;">
@@ -77,42 +76,34 @@
           <% end %>
       </div>
 
-      <div class="d-flex flex-column mt-auto pt-3 bt-dashed">
-        <div class="d-flex w-100">
-          <%= link_to 'View Reviews', note_reviews_path(@note), class: "btn btn-outline-primary m-1 w-50" %>
-          <!-- Button trigger modal -->
-          <% if current_user && current_user != @note.user && !current_user.has_role?(:admin)%>
-            <a type="button" class="btn btn-outline-primary m-1 w-50" data-bs-toggle="modal" data-bs-target="#staticNoteReport">
-              Report Note
-            </a>
-            <%= render "layouts/reports/report_note_form", note_report: NoteReport.new%>
-          <% end %>
+      <% if current_user %>
+          <% if current_user != @note.user%>
+            <div class="d-flex w-100 border-top border-dark">
 
-          <% if current_user && current_user.has_role?(:admin) %>
-            <%= link_to 'Admin Edit', admin_edit_note_path(@note), class:"btn btn-warning m-1 w-50" %>
-          <% end %>
-        </div>
-
-        <div class="d-flex w-100">
-          <% if current_user %>
-            <% if current_user == @note.user%>
-              <%= link_to 'Edit', edit_note_path(@note), class:"btn btn-warning m-1 w-50" %>
-            <% else %>
               <!--<%= link_to 'Leave a Review', new_note_review_path(@note), class: "btn btn-outline-primary m-1 w-50" %>-->
               <a type="button" class="btn btn-outline-primary m-1 w-50" data-bs-toggle="modal" data-bs-target="#staticReview">
                 Leave a Review
               </a>
               <%= render "layouts/reviews/review_form", review: Review.new %>
-            <% end %>
-          <% end %>
-          <% if current_user && (current_user.has_role?(:admin) || current_user == @note.user) %> 
-            <%= button_to 'Destroy', @note, method: :delete, data: { confirm: 'Are you sure?'}, form_class: 'border-0 w-50 m-1', class: "btn btn-danger w-100" %>
-          <% end %>
-        </div>
-      </div>
-    </div>
 
+              <% if !current_user.has_role?(:admin)%>
+                <a type="button" class="btn btn-outline-primary m-1 w-50" data-bs-toggle="modal" data-bs-target="#staticNoteReport">
+                  Report Note
+                </a>
+                <%= render "layouts/reports/report_note_form", note_report: NoteReport.new%>
+              <%end%>
+
+            </div>
+        <% end %>
+      <% end %>
+
+    </div>
   </div>
+
+  <div class="card-footer">
+    <%= render "layouts/notes/note_actions", note: @note %>
+  </div>
+  
 </div>
 
 <!--<%= link_to 'Back', notes_path, class:"btn btn-primary m-5" %>--> <!-- Si può usare la navbar -->

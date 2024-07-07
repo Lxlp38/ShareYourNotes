@@ -88,6 +88,7 @@ label > input {
 
 .login_form > textarea:focus, .login_form > input:focus, .login_form > select:focus{
   outline: none;
+  background: transparent;
 }
 
 input:-webkit-autofill,
@@ -99,7 +100,8 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+  
 }
 
 body{
@@ -107,7 +109,25 @@ body{
     --padding: 1%;
     padding: 1%;
     padding-top: 3%;
+    
+    /*background: linear-gradient(-45deg, #f6eee3, #eeebcf, #fefdfa, #f5f5dc);
+    background-size: 400% 400%;
+    animation: gradient 60s ease infinite;
+    height: 100vh;*/
 } 
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .container{
     height: 100%;
 }
