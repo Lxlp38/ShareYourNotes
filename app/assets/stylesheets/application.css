@@ -18,14 +18,16 @@
  @import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Delicious+Handrawn&family=Fasthand&display=swap');
 
 
- .notes_title {
-  --mask: linear-gradient(to right, 
-      rgba(0,0,0, 1) 0,   rgba(0,0,0, 1) 80%, 
-      rgba(0,0,0, 0) 95%, rgba(0,0,0, 0) 0
-  ) 100% 50% / 100% 100% repeat-y;
-  
-  -webkit-mask: var(--mask); 
-  mask: var(--mask);
+.fade_edges {
+  background-image:
+    linear-gradient(to right, #e9ecef, rgba(0,128,128,0) 50px),
+    linear-gradient(to left , #e9ecef, rgba(0,128,128,0) 50px);
+}
+
+
+.thumb:hover img {
+  transform: scale(1.5);
+  transition: all .1s linear;
 }
 
 .delete_btn {
