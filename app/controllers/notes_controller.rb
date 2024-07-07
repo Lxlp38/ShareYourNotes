@@ -6,15 +6,19 @@ class NotesController < ApplicationController
   # GET /notes or /notes.json
   def index
     if params[:filter] && params[:filter].length > 0
-      @notes = Note.where("visibility IS true AND suspended IS false AND lower(title) LIKE ?", "%#{params[:filter].downcase}%") 
-      params.delete :filter
+      if params[:filter].include? "#"
+        @parameter = params[:filter].gsub!(/[^0-9A-Za-z]/, '').downcase
+        @tag = Tag.find_by("lower(name) LIKE ?", "%#{@parameter}%")
+        @notes = @tag.notes.where(visibility:true, suspended:false ) if @tag
+        #notice = "Found #{@notes.count} notes with tag #{params[:filter]}"
+        params.delete :filter
+      else
+        @notes = Note.where("visibility IS true AND suspended IS false AND lower(title) LIKE ?", "%#{params[:filter].downcase}%") 
+        #notice = "Found #{@notes.count} notes with input #{params[:filter]}"
+        params.delete :filter
+      end
     else 
       @notes = Note.where(visibility: true, suspended: false)
-    end
-
-    if params[:tag].present?
-      @tag = Tag.find_by(name: params[:tag])
-      @notes = @tag.notes.where(visibility:true, suspended:false ) if @tag
     end
   end
 
