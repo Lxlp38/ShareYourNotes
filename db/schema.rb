@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_07_09_124932) do
+ActiveRecord::Schema.define(version: 2024_07_09_192530) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "google_oauth2", default: "false"
@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(version: 2024_07_09_124932) do
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.string "avatar"
+    t.boolean "trusted", default: false
     t.index ["account_id"], name: "index_users_on_account_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

@@ -52,14 +52,22 @@
       <p class="form-control"> <%= @user.email.nil? ? "NIL" : @user.email %> </p>
     </div>
 
+    <!--
     <% if current_user && current_user == @user %>
       <div class="form-group w-50 ms-2">
         <label class="form-label">Encrypted password:</label>
         <p class="form-control"> <%= @user.encrypted_password.nil? ? "NIL" : @user.encrypted_password %> </p>
       </div>
     <% end %>
+    -->
+
+    <div class="form-group w-50 me-2">
+      <label class="form-label">Trusted:</label>
+      <p class="form-control"> <%= @user.trusted ? "Trusted!" : "Not trusted" %> </p>
+    </div>
   </div>
 
+  <!--
   <% if current_user && current_user == @user %>
     <div class="d-flex flex-fill">
       <div class="form-group w-50 me-2">
@@ -72,8 +80,9 @@
         <p class="form-control"> <%= @user.updated_at.nil? ? "NIL" : @user.updated_at %> </p>
       </div>
     </div>
-  <% end %>
+  <% end %>-->
 
+  <!--
   <% if current_user && current_user == @user %>
     <div class="d-flex flex-fill">
       <div class="form-group w-50 me-2">
@@ -86,7 +95,7 @@
         <p class="form-control"> <%= @user.remember_created_at.nil? ? "NIL" : @user.remember_created_at %> </p>
       </div>
     </div>
-  <% end %> 
+  <% end %> -->
 
 
   <label class="form-label">Accounts:</label>

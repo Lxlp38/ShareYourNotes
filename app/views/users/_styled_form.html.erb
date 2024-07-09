@@ -64,6 +64,14 @@
 
     </div>
 
+    <% if current_user.has_role?(:admin)%>
+      <div class="mt-3 field d-flex">
+          <div class="bg-info p-2 rounded border border-primary">
+            <%= form.check_box :trusted , class:"form-check-input shadow"%>
+            <%= form.label :trusted, "Mark as trusted", class:"form-check-label text-light" %>
+          </div>
+        </div>
+    <%end%>
 
 
     <div class="actions">
