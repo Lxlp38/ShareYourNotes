@@ -74,7 +74,7 @@ class NotesController < ApplicationController
       if @favorite.favorite 
         format.html { redirect_to request.referrer, notice: "Note was added to favorites!" }
       else
-        format.html { redirect_to request.referrer, notice: "Note was removed from favorites!" }
+        format.html { redirect_to request.referrer, alert: "Note was removed from favorites!" }
       end
     end
   end
