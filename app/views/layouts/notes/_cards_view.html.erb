@@ -70,11 +70,11 @@
                 </div>
               </div>
 
-              <div class="col-md-4 border border-3 shadow bg-body rounded">
-                <div class="thumb overflow-hidden">
+              <div class="col-md-4 border border-3 shadow bg-body rounded overflow-hidden" style="width: 7vw; height: 9.25vw;">
+                <div class="thumb">
                   <% @thumb = note.pdf[0].url(:thumbnail) %>
                   <%= link_to note do %>
-                    <img src="<%= @thumb %>" class="card-img object-fit-fill">
+                    <img src="<%= @thumb %>" class="card-img ">
                   <%end%>
                 </div>
               </div>

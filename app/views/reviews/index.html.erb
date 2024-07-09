@@ -3,34 +3,74 @@
 
 <!--<p id="notice"><%= notice %></p>-->
 
-<h1>Reviews</h1>
+<div class="m-5">
+  <h1 class="m-2">Reviews</h1>
 
-<table class="table table-dark table-striped">
-  <thead>
-    <tr>
-      <th> Title </th>
-      <th> Rating </th>
-      <th> Text </th>
-      <th> Note ID </th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @reviews.each do |review| %>
+  <!--<table class="table table-dark table-striped">
+    <thead>
       <tr>
-        <td><%= review.title %></td>
-        <td><%= render "layouts/reviews/review_stars", review: review %></td>
-        <td><%= review.text %></td>
-        <td><%= review.note_id %></td>
-        <td><%= link_to 'Show', note_review_path(review.note_id, review), class:"btn btn-primary"%></td>
-        <% if current_user && (current_user == review.user || current_user.has_role?(:admin)) %>
-          <td><%= link_to 'Edit', edit_note_review_path(review.note_id, review), class:"btn btn-warning" %></td>
-        <% end %>
-        <td><%= button_to 'Destroy', note_review_path(review.note_id, review), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger"%></td>
+        <th> Title </th>
+        <th> Rating </th>
+        <th> Text </th>
+        <th> Note ID </th>
+        <th colspan="3"></th>
       </tr>
+    </thead>
+
+    <tbody>
+      <% @reviews.each do |review| %>
+        <tr>
+          <td><%= review.title %></td>
+          <td><%= render "layouts/reviews/review_stars", review: review %></td>
+          <td><%= review.text %></td>
+          <td><%= review.note_id %></td>
+          <td><%= link_to 'Show', note_review_path(review.note_id, review), class:"btn btn-primary"%></td>
+          <% if current_user && (current_user == review.user || current_user.has_role?(:admin)) %>
+            <td><%= link_to 'Edit', edit_note_review_path(review.note_id, review), class:"btn btn-warning" %></td>
+          <% end %>
+          <td><%= button_to 'Destroy', note_review_path(review.note_id, review), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger"%></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>-->
+
+  <div class="py-2 px-0 m-0 hidden_scrollbar d-flex"style="flex-wrap: wrap;">
+    <% if @reviews.present? %>
+      <% @reviews.each do |review| %>
+        <div class="rounded border shadow m-2 p-4 d-flex flex-column" style="width: 32%;">
+
+          <h5 class="border-0 m-0 p-0"><i><%= review.title %></i></h5>
+
+          <%= render "layouts/reviews/review_stars", review: review %>
+
+          <p><%= review.text %></p>
+
+          <div class="d-flex">
+            <% if current_user && current_user != @note.user && !current_user.has_role?(:admin)%>
+              <a type="button" class="m-1" data-bs-toggle="modal" data-bs-target="#staticReviewReport">
+                Report
+              </a>
+              <% @review = review %>
+              <%= render "layouts/reports/report_review_form", review_report: ReviewReport.new %>
+            <% end %>
+
+            <% if current_user %>
+              <% if current_user.has_role?(:admin) || current_user == @user %>
+                <%= button_to note_review_path(@note, review), class:"border-0 p-0 m-1 btn btn-link text-danger text-decoration-none" , method: :delete do %>
+                    <small>Delete</small>
+                <% end %>
+                <%# button_to 'Destroy', note_review_path(@note, review), method: :delete, data: { confirm: 'Are you sure?'}, form_class: 'border-0 m-0 p-0', class: "m-1 p-0 btn btn-link text-danger text-decoration-none" %>
+                
+                <%= button_to note_review_path(@note, review, :review => {:title => review.title, :rating => review.rating, :text => review.text, :note_id => review.note_id}) ,class:"border-0 p-0 m-1 btn btn-link text-secondary text-decoration-none" , method: :patch do %>
+                    <small>Edit</small>
+                <%end%>
+              <%end%>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
     <% end %>
-  </tbody>
-</table>
+  </div>
+</div>
 
 <%= render "layouts/footer" %>
