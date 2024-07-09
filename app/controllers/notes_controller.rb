@@ -1,7 +1,7 @@
 class NotesController < ApplicationController
   before_action :authenticate_user!, only: %i[suspended_notes]
   before_action :set_note, only: %i[ show edit admin_edit update destroy ]
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show, :index_favorites]
 
   # GET /notes or /notes.json
   def index
@@ -20,6 +20,11 @@ class NotesController < ApplicationController
     else 
       @notes = Note.where(visibility: true, suspended: false)
     end
+  end
+
+  def index_favorites
+    @favorites = Favorite.where(:user_id => params[:user_id], :favorite => true).pluck(:note_id)
+    @notes = Note.where(visibility: true, suspended: false).find(@favorites)
   end
 
   # GET /notes
@@ -50,6 +55,28 @@ class NotesController < ApplicationController
   # GET /notes/1/admin_edit
   def admin_edit
     @courses = Course.all
+  end
+
+  def toggle_favorite
+    @user_id = params[:user_id]
+    @note_id = params[:note_id]
+    @favorite = Favorite.find_by(user_id: @user_id, note_id: @note_id)
+    p @favorite
+    if @favorite.nil?
+      # Add new favorite entry
+      @favorite = Favorite.create(user_id: @user_id, note_id: @note_id, favorite: true)
+    else
+      # Toggle between favorite/non favorite
+      @favorite.update(favorite: !@favorite.favorite)
+    end
+
+    respond_to do |format|
+      if @favorite.favorite 
+        format.html { redirect_to request.referrer, notice: "Note was added to favorites!" }
+      else
+        format.html { redirect_to request.referrer, notice: "Note was removed from favorites!" }
+      end
+    end
   end
 
   # POST /notes or /notes.json
@@ -90,6 +117,7 @@ class NotesController < ApplicationController
 
   # DELETE /notes/1 or /notes/1.json
   def destroy
+    Favorite.where(:note_id => @note).destroy_all #important due to foreign key constraints
     @note.destroy
 
     respond_to do |format|

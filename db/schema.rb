@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_07_06_210609) do
+ActiveRecord::Schema.define(version: 2024_07_09_124932) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "google_oauth2", default: "false"
@@ -28,6 +28,16 @@ ActiveRecord::Schema.define(version: 2024_07_06_210609) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["university_id"], name: "index_courses_on_university_id"
+  end
+
+  create_table "favorites", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "note_id", null: false
+    t.boolean "favorite"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["note_id"], name: "index_favorites_on_note_id"
+    t.index ["user_id"], name: "index_favorites_on_user_id"
   end
 
   create_table "note_reports", force: :cascade do |t|
@@ -157,6 +167,8 @@ ActiveRecord::Schema.define(version: 2024_07_06_210609) do
 
   add_foreign_key "accounts", "users"
   add_foreign_key "courses", "universities"
+  add_foreign_key "favorites", "notes"
+  add_foreign_key "favorites", "users"
   add_foreign_key "note_reports", "notes"
   add_foreign_key "notes", "courses"
   add_foreign_key "notes", "users", column: "owner_id"

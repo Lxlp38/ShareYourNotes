@@ -10,14 +10,37 @@
       </ul>
     </div>
   <% end %>
-  <label class="col-form-label">Title: </label>
-  <%= text_area_tag('review[title]', '', size: '10x5') %>
-  <label class="col-form-label"> How many star: </label>
-	<%= select_tag 'review[rating]', options_for_select(1..5) %>
-	<label class="col-form-label"> Comments: </label>
-	<%= text_area_tag('review[text]', 'Amazing movie!',size: '50x5') %>
 
-  <div class="actions">
-    <%= form.submit %>
+    <!-- Review form begin -->
+    <%= form.label :rating, class:"form-label" %>
+      <div class="mb-3 field rating">
+          <%= form.collection_radio_buttons(:rating, [[5, {:checked => review.rating == 5}],[4, {:checked => review.rating == 4}],[3, {:checked => review.rating == 3}],[2, {:checked => review.rating == 2}],[1, {:checked => review.rating <= 1}]], :first, :last) do |star| %>
+              <%= star.radio_button %>
+              <%= star.label(class: "text-white") %>
+          <% end %>
+      </div>
+
+      <div class="mb-3 field">
+          <%= form.label :title, class:"form-label" %>
+          <%= form.text_field :title, class:"form-control", autocomplete:"off"  %>
+      </div>
+
+      <div class="mb-3 field">
+          <%= form.label :text, class:"form-label" %>
+          <%= form.text_area :text, class:"form-control fixed_textarea", autocomplete:"off", :rows => 6 %>
+      </div>
+
   </div>
+      <div class="modal-footer">
+          <%= link_to note_path(@note.id) do %>
+            <button type="button" class="btn btn-primary m-1" data-bs-dismiss="modal">Back</button>
+          <%end%>
+
+          <%= form.hidden_field :note_id, :value => @note.id %>
+          <%= form.hidden_field :review_id, :value => review.id %>
+          <%= form.submit "Submit", class:"btn btn-danger m-1"%>
+      </div>
+  </div>
+
+  <!-- Review form end -->
 <% end %>

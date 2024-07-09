@@ -11,6 +11,9 @@
           <a aria-current="page"><%= link_to "Upload", new_note_path, class:"nav-link active"%></a>
         </li>
         <li class="nav-item">
+          <a aria-current="page"><%= link_to "Favorites", favorites_path(:user_id => current_user.id), class:"nav-link active"%></a>
+        </li>
+        <li class="nav-item">
           <a aria-current="page"><%= link_to "Profile", current_user, class:"nav-link active"%></a>
         </li>
         <li class="nav-item">

@@ -8,6 +8,10 @@ Rails.application.routes.draw do
   get 'notes/:id/admin_edit', to: 'notes#admin_edit', as: 'admin_edit_note'
   get 'suspended_notes', to: 'notes#suspended_notes', as: 'suspended_notes'
 
+  patch 'toggle_favorite/:note_id', to: 'notes#toggle_favorite', as: 'toggle_favorite'
+  get 'favorites', to: 'notes#index_favorites', as:'favorites'
+  #get 'toggle_preferate/:note_id', to: 'notes#toggle_preferate', as: 'toggle_preferate'
+
   resources :notes do
     resources :reviews
   end
