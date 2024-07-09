@@ -31,8 +31,14 @@
   <%= link_to "Forgot your password?", new_password_path(resource_name), class:"text-secondary fst-lighter text-decoration-none my-2" %>
 <% end %>
 
+<span type="button" class="text-secondary fst-lighter text-decoration-none my-2" data-bs-toggle="modal" data-bs-target="#appInfoModal">
+  About the website
+</span>
+
 <%= link_to "Visit as a Guest", notes_path, class:"text-secondary fst-lighter text-decoration-none my-2" %>
 
 <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
   <%= link_to "Sign up", new_registration_path(resource_name), class:"text-secondary fst-lighter text-decoration-none my-2" %>
 <% end %>
+
+<%= render "users/shared/app_info" %> 
