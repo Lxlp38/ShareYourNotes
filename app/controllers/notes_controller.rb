@@ -91,6 +91,7 @@ class NotesController < ApplicationController
       tag = Tag.find_or_create_by(name: tag_name)
       @note.tags << tag unless @note.tags.include?(tag) # << operatore che aggiunge tag alla collezione @note.tags
     end
+
     respond_to do |format|
       if @note.save
         format.html { redirect_to note_url(@note), notice: "Note was successfully created." }
@@ -104,6 +105,13 @@ class NotesController < ApplicationController
 
   # PATCH/PUT /notes/1 or /notes/1.json
   def update
+    @note.tags.destroy_all
+    tag_names = params[:note][:tag_names].split(",").map(&:strip)
+    tag_names.each do |tag_name|
+      tag = Tag.find_or_create_by(name: tag_name)
+      @note.tags << tag unless @note.tags.include?(tag) # << operatore che aggiunge tag alla collezione @note.tags
+    end
+
     respond_to do |format|
       if @note.update(note_params)
         format.html { redirect_to note_url(@note), notice: "Note was successfully updated." }

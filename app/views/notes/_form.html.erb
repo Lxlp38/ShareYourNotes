@@ -28,8 +28,13 @@
     <%#</div>%>
    
     <div class="mb-3 field">
+      <% @tags = "" %>
+      <% note.tags.each do |tag| %>
+        <% @tags += tag.name + "," %>
+      <% end %>
+      <% @tags = @tags[0...-1] %>
       <%= form.label :tag_names, "Tags", class:"form-label" %>
-      <%= form.text_area :tag_names, class:"form-control fixed_textarea", autocomplete:"off", :rows => 3, placeholder: "Separa i tag con una virgola!" %>
+      <%= form.text_area :tag_names, class:"form-control fixed_textarea", autocomplete:"off", :rows => 3, placeholder: "Separa i tag con una virgola!", value: @tags %>
     </div>
      
 

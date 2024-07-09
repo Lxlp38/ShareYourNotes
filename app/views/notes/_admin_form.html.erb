@@ -28,6 +28,16 @@
     <%#</div>%>
 
     <div class="mb-3 field">
+      <% @tags = "" %>
+      <% note.tags.each do |tag| %>
+        <% @tags += tag.name + "," %>
+      <% end %>
+      <% @tags = @tags[0...-1] %>
+      <%= form.label :tag_names, "Tags", class:"form-label" %>
+      <%= form.text_area :tag_names, class:"form-control fixed_textarea", autocomplete:"off", :rows => 3, placeholder: "Separa i tag con una virgola!", value: @tags %>
+    </div>
+
+    <div class="mb-3 field">
       <%= form.label :course_id, "Selezionare un corso", class:"form-label" %>
       <%= form.select :course_id, options_for_select(@courses.map { |c| [c.name, c.id] }, note.course_id), {},{required: 'true', autofocus: 'true', class: 'form-control'} %>
     </div>
