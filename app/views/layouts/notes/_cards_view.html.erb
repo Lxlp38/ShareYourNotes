@@ -64,7 +64,7 @@
                   <!-- Notes tags -->
                   <small>
                     <% note.tags.all.each do |tag| %>
-                        <%= link_to ("#" + tag.name), notes_path(:tag => tag.name), class:"text-decoration-none text-muted"%>
+                        <%= link_to ("#" + tag.name), notes_path(:filter => ("#" + tag.name)), class:"text-decoration-none text-muted"%>
                     <% end %>
                   </small>
                 </div>
