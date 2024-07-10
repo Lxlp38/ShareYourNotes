@@ -55,8 +55,8 @@ class User < ActiveRecord::Base
     end
 
     belongs_to :university_details, foreign_key: "university_details_id", optional: true
-    has_one :account #class_name: "Account", dependent: :destroy, :required => false
-    accepts_nested_attributes_for :account
+    has_one :account, dependent: :destroy
+    accepts_nested_attributes_for :account, allow_destroy: true
 
 
     has_many :tickets, dependent: :destroy
