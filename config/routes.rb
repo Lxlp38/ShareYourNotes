@@ -38,7 +38,13 @@ Rails.application.routes.draw do
   match '/about_us' => "application#about_us" , as: 'about', via: [:get]
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  root to: 'notes#index'
+  authenticated :user do
+    root to: 'notes#index', as: :authenticated_root
+  end
+
+  unauthenticated do
+    root to: 'pages#home', as: :unauthenticated_root
+  end
 
   #You can also override after_sign_in_path_for and after_sign_out_path_for to customize your redirect hooks.
 end

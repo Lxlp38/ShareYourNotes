@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 2024_07_09_192530) do
   create_table "favorites", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "note_id", null: false
-    t.boolean "favorite"
+    t.boolean "favorite", default: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["note_id"], name: "index_favorites_on_note_id"
