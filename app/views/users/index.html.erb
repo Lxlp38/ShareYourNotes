@@ -41,7 +41,9 @@
         <td><%= user.remember_created_at%></td>
         <td><%= link_to 'Show', user, class:"btn btn-primary"%></td>
         <td><%= link_to 'Edit', edit_user_path(user), class:"btn btn-warning"%></td>
-        <td><%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger"%></td>
+        <td><%= button_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %></td>
+              
+
       </tr>
     <% end %>
   </tbody>
