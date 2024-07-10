@@ -3,9 +3,15 @@
     <div class="collapse navbar-collapse w-50" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <%= render :partial => "layouts/header/headerAuthActions" if !user_signed_in? %>
-        <li class="nav-item">
-          <a aria-current="page"><%= link_to "Home", notes_path, class:"nav-link active"%></a>
-        </li>
+        <% if !current_user %>
+          <li class="nav-item">
+            <a aria-current="page"><%= link_to "Home", unauthenticated_root_path, class:"nav-link active"%></a>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <a aria-current="page"><%= link_to "Home", notes_path, class:"nav-link active"%></a>
+          </li>
+        <% end %>
         <% if user_signed_in?%>
         <li class="nav-item">
           <a aria-current="page"><%= link_to "Upload", new_note_path, class:"nav-link active"%></a>

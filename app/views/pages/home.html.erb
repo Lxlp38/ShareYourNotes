@@ -1,85 +1,24 @@
 <%= render "layouts/header" %>
 
-<div class="container-fluid ">
-  <div class="row d-flex align-items-center  g-5 py-5">
-    <div class="col-md-8">
-      <h1 class="display-5 fw-bold lh-1 mb-3">Benvenuti su NoteShare</h1>
-      <h4>NoteShare è il sito ideale per condividere e recensire appunti universitari. Trova gli appunti di cui hai bisogno, lascia una recensione e aiuta altri studenti a trovare i migliori contenuti!</h4>
-      <%= link_to "Esplora le Note", notes_path, class: "btn btn-primary btn-lg px-4 me-md-2" %>
-    </div>
-    <div class="col-md-4 text-right">
-      <img src="<%= asset_path 'home.jpg' %>" alt="Note" class="img-fluid">
-    </div>
-  </div>
-</div>
+<div class="mx-5">
 
-
-<% latest_notes = @notes.order(created_at: :desc).limit(4).select { |note| note.pdf.present? } %>
-<% if latest_notes.any? %>
-    <div class="container-fluid ">
-        <h3 class="text-center display-6 fw-bold"> Ultime note caricate </h3>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-            <% latest_notes.each do |note| %>
-                    <div class="col-md-3 mb-4">
-                        <div class="card border-dark shadow h-100">
-                            <div class="card-header d-flex flex-column" style="background-color: #e9ecef;">
-                                <div class="overflow-hidden m-2">
-                                    <% if note.visibility == false && note.suspended? %>
-                                        <% if note.title.length > 30 %> 
-                                            <marquee class="d-flex fade_edges border-start border-end ">
-                                            <h5 class="card-title m-0 fw-bold font-monospace"><%= link_to note.title, note_path(note), class:"text-dark text-decoration-none text-nowrap"%></h5>
-                                            </marquee>
-                                        <% else %>
-                                            <h5 class="card-title m-0 fw-bold font-monospace"><%= link_to note.title, note_path(note), class:"text-dark text-decoration-none text-nowrap"%></h5>
-                                        <% end %>
-                                    <% end %>
-                                </div>
-
-                                <div>
-                                    <% if note.user.trusted %>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="ms-2 mb-1 bi bi-star-fill text-primary " viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                    </svg>
-                                    <% end %>
-                                    <small class="card-title m-0 my-2"><%= link_to "#{note.user.username}", user_path(note.user), class:"text-secondary text-decoration-none" %> </small>
-                                </div>
-                            </div>
-
-                            <div class="card-body d-flex justify-content-between-0">
-                                <div class="d-flex w-100 flex-column flex-fill justify-content-between w-auto p-2">
-                                    <div>
-                                    <small class="card-title text-dark"><%= note.course.name %></small>
-                                    </div>
-
-                                    <div>
-                                        <small>
-                                            <% note.tags.all.each do |tag| %>
-                                                <%= link_to ("#" + tag.name), notes_path(:filter => ("#" + tag.name)), class:"text-decoration-none text-muted"%>
-                                            <% end %>
-                                        </small>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-8 border border-3 shadow bg-body rounded overflow-hidden">
-                                    <div class="thumb">
-                                        <% @thumb = note.pdf[0].url(:thumbnail) %>
-                                        <%= link_to note do %>
-                                            <img src="<%= @thumb %>" class="card-img ">
-                                        <% end %>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card-footer" style="background-color: #e9ecef;">
-                                <%= render "layouts/notes/note_actions", note: note %>
-                            </div>
-                        </div>
-                    </div>
-            <% end %>
+    <div class="row d-flex align-items-center  g-5 py-5">
+        <div class="col-md-8">
+        <h1 class="display-5 fw-bold lh-1 mb-3">Benvenuti su <i class="cedarville-cursive-regular">ShareYourNotes</i></h1>
+        <h4 class="my-4"><i class="cedarville-cursive-regular">ShareYourNotes</i> è il sito ideale per condividere e recensire appunti universitari. Trova gli appunti di cui hai bisogno, lascia una recensione e aiuta altri studenti a trovare i migliori contenuti!</h4>
+        <%= link_to "Esplora le Note", notes_path, class: "btn btn-outline-primary btn-lg px-4 me-md-2" %>
+        </div>
+        <div class="col-md-4 text-right">
+        <img src="<%= asset_path 'home.jpg' %>" alt="Note" class="img-fluid">
         </div>
     </div>
-<% end %>
 
-<div class="fixed-bottom">
-<%= render "layouts/footer" %>
+    <h3 class="text-center display-6 fw-bold"> Ultime note caricate </h3>
+    <% latest_notes = @notes.order(created_at: :desc).limit(4).select { |note| note.pdf.present? } %>
+    <% if latest_notes.any? %>
+        <% @notes = latest_notes %>
+        <%= render "layouts/notes/cards_view" %>
+    <% end %>
 </div>
+
+<%= render "layouts/footer" %>
