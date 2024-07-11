@@ -27,6 +27,8 @@ Rails.application.routes.draw do
     get '/auth/:provider/callback', to: 'users/sessions#create', as: 'omniauth_callback'
     get '/auth/failure', to: redirect('/')
     get '/signout', to: 'users/sessions#destroy', as: 'signout'
+    get 'complete_registration', to: 'users/registrations#complete_registration'
+  patch 'finish_registration', to: 'users/registrations#finish_registration'
   end
 
   delete '/users/:id', to: 'users#destroy', as: 'destroy_user'

@@ -8,46 +8,44 @@ class User < ActiveRecord::Base
   mount_uploader :avatar, AvatarUploader
   after_create :build_default_account
 
+  attr_accessor :skip_university_details_validation
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: [:github, :google_oauth2]
 
-      def self.from_omniauth(access_token)
-        data = access_token.info
-        provider = access_token.provider
-        user = User.where(email: data['email']).first
-    
-        puts "data: #{data}"
+         def self.from_omniauth(access_token)
+          data = access_token.info
+          user = User.where(email: data['email']).first
+      
+          if user
+            if user.active_for_authentication?
+              return { user: user, user_data: nil } # Utente trovato e attivo, può accedere normalmente
+            else
+              return { user: user, user_data: nil, activation_required: true } # Utente trovato ma richiede attivazione
+            end
+          else
+            username = data['name'] || data['email'].split('@').first
+            user = User.new(
+              email: data['email'],
+              username: username,
+              password: Devise.friendly_token[0, 20]
+            )
+            user.skip_university_details_validation = true
+            user.save(validate: false)
+          end
 
-        unless user
-          user = User.create(
-            username: Account.validateName(provider, data),
-            email: data['email'],
-            password: Devise.friendly_token[0,20],
-            role: 'user',
-            university_details_id: nil,
-            account_attributes: { provider.to_sym => Account.validateAttribute(provider, data)}
-          )
-          user.save!
+          { user: user, user_data: nil }
         end
-
-        if user.account[provider] == 'false'
-          user = nil
-        else
-            user.account.update(provider.to_sym => Account.validateAttribute(provider, data))
-            user.save!
-          user.save!
-        end
+      
 
         # user.username = access_token.info.name
         # #user.image = access_token.info.image
         # #user.uid = access_token.uid
         # #user.provider = access_token.provider
         # user.save
-        user
-      end
+       
 
     #has_secure_password
 
@@ -65,14 +63,28 @@ class User < ActiveRecord::Base
     has_many :user_reports, dependent: :destroy
 
     validates :username, presence: true
-    validates :email, presence: true, uniqueness: true
-    validates :password, presence: true, on: :create
+    validates :email, presence: true, uniqueness: true, if: :password_required?
+    validates :password, presence: true, on: :create, if: :password_required?
     validates :role, presence: true
-    validates :university_details_id,presence: true
+    validates :university_details_id,presence: true, unless: :skip_university_details_validation?
+
     
 
     def assign_default_role
       self.add_role(:user) if self.roles.blank?
+    end
+    
+    #def activation_required?
+    #  if User
+    #end
+
+
+    def password_required?
+      #provider.blank? # Se provider è presente, non è necessaria la password
+    end
+
+    def skip_university_details_validation?
+      skip_university_details_validation
     end
 
     private

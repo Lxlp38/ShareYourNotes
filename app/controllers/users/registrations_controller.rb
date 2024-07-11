@@ -32,6 +32,22 @@ class Users::RegistrationsController < Devise::RegistrationsController
      super
    end
 
+   def complete_registration
+    @user = current_user
+  end
+
+  def finish_registration
+    @user = current_user
+
+    if @user.update(user_params)
+      # Gestione salvataggio riuscito
+      redirect_to authenticated_root_url, notice: "Registrazione completata con successo!"
+    else
+      # Gestione errori di validazione o altri casi di fallimento
+      render :complete_registration # oppure redirect_to complete_registration_path, notice: "Errore durante la registrazione."
+    end
+  end
+
   # GET /resource/cancel
   # Forces the session data which is usually expired after sign
   # in to be expired now. This is useful if the user wants to
@@ -51,6 +67,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
      devise_parameter_sanitizer.permit(:account_update, keys: [:username, :email, :password, :current_password, university_details_id])
+  end
+  def user_params
+    params.require(:user).permit(:username, :university_details_id)
   end
 
   # The path used after sign up.
