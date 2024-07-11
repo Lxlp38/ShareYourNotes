@@ -39,11 +39,11 @@ Rails.application.routes.draw do
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   authenticated :user do
-    root to: 'notes#index', as: :authenticated_root
+    root to: 'notes#index', as: :authenticated_root, via: [:get]
   end
 
   unauthenticated do
-    root to: 'pages#home', as: :unauthenticated_root
+    root to: "application#home" , as: :unauthenticated_root, via: [:get]
   end
 
   #You can also override after_sign_in_path_for and after_sign_out_path_for to customize your redirect hooks.

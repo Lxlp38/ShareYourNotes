@@ -14,7 +14,7 @@
     </div>
 
     <h3 class="text-center display-6 fw-bold"> Ultime note caricate </h3>
-    <% latest_notes = @notes.order(created_at: :desc).limit(4).select { |note| note.pdf.present? } %>
+    <% latest_notes = Note.all.order(created_at: :desc).limit(4).select { |note| note.pdf.present? } %>
     <% if latest_notes.any? %>
         <% @notes = latest_notes %>
         <%= render "layouts/notes/cards_view" %>
