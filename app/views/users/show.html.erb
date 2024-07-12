@@ -102,8 +102,9 @@
   <div class="d-flex flex-column">
     <% @user.account.attributes.slice("github", "google_oauth2").each do |key, value| %>
     <div>
-      <strong><%= key.to_s.capitalize %>:</strong>
-      <%= value %>
+      <% name = key.to_s == "google_oauth2" ? "Google" : key.to_s %>
+      <strong><%= name.capitalize %>:</strong>
+      <%= value%>
       <% if @user == current_user %>
         <% if value == 'false' %>
           <%= link_to 'Connect', user_omniauth_authorize_path(current_user.id, key.to_sym) %>
