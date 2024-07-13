@@ -20,6 +20,19 @@ class NotesController < ApplicationController
     else 
       @notes = Note.where(visibility: true, suspended: false)
     end
+
+    case sort_by = params[:sort_by] || "created_at"
+    when "title_asc"
+      @notes = @notes.order("title ASC")
+    when "title_desc"
+      @notes = @notes.order("title DESC")
+    when "created_at_asc"
+      @notes = @notes.order("created_at ASC")
+    when "created_at_desc"
+      @notes = @notes.order("created_at DESC")
+    else
+      @notes = @notes.order("created_at ASC")
+    end
   end
 
   def index_favorites
