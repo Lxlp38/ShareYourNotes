@@ -29,7 +29,10 @@ Rails.application.routes.draw do
     get '/signout', to: 'users/sessions#destroy', as: 'signout'
     get 'complete_registration', to: 'users/registrations#complete_registration'
   patch 'finish_registration', to: 'users/registrations#finish_registration'
-  end
+  get '/auth/google_oauth2/callback', to: 'google_drive#callback'
+  get '/google_drive/authorize', to: 'google_drive#authorize'
+  post '/google_drive/upload', to: 'google_drive#upload'
+end
 
   delete '/users/:id', to: 'users#destroy', as: 'destroy_user'
   get '/users/:id/:provider/authorize', to: 'users#authorize', as: 'user_omniauth_authorize'

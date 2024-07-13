@@ -9,7 +9,7 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-google-oauth2'
 gem "omniauth-rails_csrf_protection"
-
+gem 'google-api-client', '~> 0.53.0'
 gem 'httparty'
 
 #Carriewave per la gestione degli upload

@@ -85,8 +85,7 @@ class NotesController < ApplicationController
     @note = Note.new(note_params)
     @note.owner_id = current_user.id
 
-    tag_names = params[:note][:tag_names].split(",").map(&:strip)
-
+    tag_names = params[:note][:tag_names].presence ? params[:note][:tag_names].split(",").map(&:strip) : []
     tag_names.each do |tag_name|
       tag = Tag.find_or_create_by(name: tag_name)
       @note.tags << tag unless @note.tags.include?(tag) # << operatore che aggiunge tag alla collezione @note.tags

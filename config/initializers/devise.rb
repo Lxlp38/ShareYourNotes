@@ -272,7 +272,7 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   config.omniauth :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET'], callback_path: '/users/auth/github/callback', scope: 'user:email'
-  config.omniauth :google_oauth2, ENV['GOOGLE_KEY'], ENV['GOOGLE_SECRET']
+  config.omniauth :google_oauth2, ENV['GOOGLE_KEY'], ENV['GOOGLE_SECRET'],{ scope: 'userinfo.email, userinfo.profile, drive', redirect_uri: 'http://localhost:3000/auth/google_oauth2/callback'}
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

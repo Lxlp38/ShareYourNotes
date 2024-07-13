@@ -21,7 +21,7 @@
       <%= form.label :pdf, class:"form-label" %>
       <%= form.file_field :pdf,  multiple: true, class:"form-control" %>
     </div>
-
+  <%= link_to "Select File from Google Drive", google_drive_authorize_path, method: :get %>
     <%#<div class="field">%>
     <%#  <%= form.label :owner_id %>
     <%#  <%= form.text_field :owner_id %>
