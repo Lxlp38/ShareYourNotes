@@ -21,6 +21,17 @@ ActiveRecord::Schema.define(version: 2024_07_09_192530) do
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
+  create_table "bans", force: :cascade do |t|
+    t.datetime "start", null: false
+    t.datetime "end", null: false
+    t.text "reason", null: false
+    t.boolean "active", default: true
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_bans_on_user_id"
+  end
+
   create_table "courses", force: :cascade do |t|
     t.string "name", null: false
     t.string "year", null: false
@@ -142,6 +153,7 @@ ActiveRecord::Schema.define(version: 2024_07_09_192530) do
     t.string "username", null: false
     t.integer "university_details_id"
     t.integer "account_id"
+    t.integer "ban_id"
     t.string "role", default: "user"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -153,6 +165,7 @@ ActiveRecord::Schema.define(version: 2024_07_09_192530) do
     t.string "avatar"
     t.boolean "trusted", default: false
     t.index ["account_id"], name: "index_users_on_account_id"
+    t.index ["ban_id"], name: "index_users_on_ban_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["university_details_id"], name: "index_users_on_university_details_id"
@@ -167,6 +180,7 @@ ActiveRecord::Schema.define(version: 2024_07_09_192530) do
   end
 
   add_foreign_key "accounts", "users"
+  add_foreign_key "bans", "users"
   add_foreign_key "courses", "universities"
   add_foreign_key "favorites", "notes"
   add_foreign_key "favorites", "users"
@@ -179,5 +193,6 @@ ActiveRecord::Schema.define(version: 2024_07_09_192530) do
   add_foreign_key "tickets", "users"
   add_foreign_key "user_reports", "users"
   add_foreign_key "users", "accounts"
+  add_foreign_key "users", "bans"
   add_foreign_key "users", "universities", column: "university_details_id"
 end

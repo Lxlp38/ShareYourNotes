@@ -1,9 +1,9 @@
 class User < ActiveRecord::Base
-  rolify 
+  rolify
   after_create :assign_default_role
   #resourcify
   #has_and_belongs_to_many :roles, join_table: :users_roles
-  
+
   #Mount the uploader
   mount_uploader :avatar, AvatarUploader
   after_create :build_default_account
@@ -18,8 +18,11 @@ class User < ActiveRecord::Base
          def self.from_omniauth(access_token)
           data = access_token.info
           user = User.where(email: data['email']).first
-      
+
           if user
+            # if user.isbanned?
+            #   return { user: nil, user_data: nil, banned: true, reason: user.ban.reason, expiration: user.ban.end } # Utente trovato ma bannato, non può accedere
+            # end
             if user.active_for_authentication?
               return { user: user, user_data: nil } # Utente trovato e attivo, può accedere normalmente
             else
@@ -38,14 +41,14 @@ class User < ActiveRecord::Base
 
           { user: user, user_data: nil }
         end
-      
+
 
         # user.username = access_token.info.name
         # #user.image = access_token.info.image
         # #user.uid = access_token.uid
         # #user.provider = access_token.provider
         # user.save
-       
+
 
     #has_secure_password
 
@@ -55,6 +58,10 @@ class User < ActiveRecord::Base
     belongs_to :university_details, foreign_key: "university_details_id", optional: true
     has_one :account, dependent: :destroy
     accepts_nested_attributes_for :account, allow_destroy: true
+
+    has_one :active_ban, -> { where(active: true) }, class_name: 'Ban'
+    has_many :bans, dependent: :destroy
+    accepts_nested_attributes_for :active_ban, allow_destroy: true
 
 
     has_many :tickets, dependent: :destroy
@@ -68,12 +75,12 @@ class User < ActiveRecord::Base
     validates :role, presence: true
     validates :university_details_id,presence: true, unless: :skip_university_details_validation?
 
-    
+
 
     def assign_default_role
       self.add_role(:user) if self.roles.blank?
     end
-    
+
     #def activation_required?
     #  if User
     #end
@@ -87,10 +94,28 @@ class User < ActiveRecord::Base
       skip_university_details_validation
     end
 
+    def isbanned?
+      return false if active_ban.nil?
+
+      if active_ban.end < Time.now
+        active_ban.update(active: false)
+        return false
+      else
+        return true
+      end
+    end
+
+    def ban(reason, expiration)
+      active_ban&.update(active: false) # Deactivate the current active ban if any
+      bans.create!(reason: reason, end: expiration, start: Time.now, active: true)
+    end
+
     private
 
     def build_default_account
       create_account unless account
     end
+
+
 
 end
