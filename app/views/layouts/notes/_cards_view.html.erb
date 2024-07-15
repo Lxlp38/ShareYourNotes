@@ -1,17 +1,3 @@
-<div class="d-flex justify-content-start mb-5 align-items-center">
-  <%= form_tag(notes_path, method: :get, class: 'form-inline') do %>
-    <div class="form-group me-3">
-      <%= label_tag(:sort_by, "Ordina per:", class: 'me-2') %>
-      <%= select_tag(:sort_by, options_for_select([
-        ['Title - Ascending', 'title_asc'],
-        ['Title - Descending', 'title_desc'],
-        ['Creation Date - Ascending', 'created_at_asc'],
-        ['Creation Date - Descending', 'created_at_desc'] 
-      ], params[:sort_by]), class: 'form-select', onchange: 'this.form.submit();') %>
-    </div>
-  <% end %>
-</div>
-
 <div class="row row-cols-1 row-cols-md-4 g-4">
   <% if @notes %>
     <% @notes.each do |note| %>

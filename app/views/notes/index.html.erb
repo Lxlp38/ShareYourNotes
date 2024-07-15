@@ -2,10 +2,22 @@
 
 <!--<p id="notice"><%= notice %></p>-->
 
-<div class="d-flex justify-content-between mt-5 ms-5">
+<div class="d-flex flex-column mt-5 ms-5">
   <h1>Notes</h1>
-  <div>
-    <!-- filtri -->
+  
+  <div class="d-flex justify-content-start mb-5 align-items-center">
+    <%= form_tag(notes_path, method: :get, class: 'form-inline') do %>
+      <div class="form-group me-3">
+        <%= label_tag(:sort_by, "Ordina per:", class: 'me-2') %>
+        <%= select_tag(:sort_by, options_for_select([
+          ['Title - Ascending', 'title_asc'],
+          ['Title - Descending', 'title_desc'],
+          ['Creation Date - Ascending', 'created_at_asc'],
+          ['Creation Date - Descending', 'created_at_desc']
+        ], params[:sort_by]), class: 'form-select', onchange: 'this.form.submit();') %>
+      </div>
+      <%= hidden_field_tag :filter, params[:filter] %>
+    <% end %>
   </div>
 </div>
 

@@ -5,34 +5,19 @@ class NotesController < ApplicationController
 
   # GET /notes or /notes.json
   def index
-    if params[:filter] && params[:filter].length > 0
-      if params[:filter].include? "#"
-        @parameter = params[:filter].gsub!(/[^0-9A-Za-z]/, '').downcase
+    @notes = Note.where(visibility: true, suspended: false)
+  
+    if params[:filter].present?
+      if params[:filter].include?("#")
+        @parameter = params[:filter].gsub(/[^0-9A-Za-z]/, '').downcase
         @tag = Tag.find_by("lower(name) LIKE ?", "%#{@parameter}%")
-        @notes = @tag.notes.where(visibility:true, suspended:false ) if @tag
-        #notice = "Found #{@notes.count} notes with tag #{params[:filter]}"
-        params.delete :filter
+        @notes = @tag.notes.where(visibility: true, suspended: false) if @tag
       else
-        @notes = Note.where("visibility IS true AND suspended IS false AND lower(title) LIKE ?", "%#{params[:filter].downcase}%") 
-        #notice = "Found #{@notes.count} notes with input #{params[:filter]}"
-        params.delete :filter
+        @notes = @notes.where("lower(title) LIKE ?", "%#{params[:filter].downcase}%")
       end
-    else 
-      @notes = Note.where(visibility: true, suspended: false)
     end
-
-    case sort_by = params[:sort_by] || "created_at"
-    when "title_asc"
-      @notes = @notes.order("title ASC")
-    when "title_desc"
-      @notes = @notes.order("title DESC")
-    when "created_at_asc"
-      @notes = @notes.order("created_at ASC")
-    when "created_at_desc"
-      @notes = @notes.order("created_at DESC")
-    else
-      @notes = @notes.order("created_at ASC")
-    end
+  
+    @notes = ordinamento(@notes)
   end
 
   def index_favorites
@@ -148,6 +133,20 @@ class NotesController < ApplicationController
   end
 
   private
+  def ordinamento(notes)
+    case params[:sort_by]
+    when "title_asc"
+      notes.order("title ASC")
+    when "title_desc"
+      notes.order("title DESC")
+    when "created_at_asc"
+      notes.order("created_at ASC")
+    when "created_at_desc"
+      notes.order("created_at DESC")
+    else
+      notes.order("created_at ASC")
+    end
+  end
     # Use callbacks to share common setup or constraints between actions.
     def set_note
       @note = Note.find(params[:id])
