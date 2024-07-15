@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[ show edit update destroy ]
+  before_action :set_user, only: %i[ show edit update destroy ban ]
 
   before_action :authenticate_user!
   protect_from_forgery prepend: true
@@ -23,7 +23,7 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
-    @user.build_account 
+    @user.build_account
   end
 
   # GET /users/1/edit
@@ -50,17 +50,17 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1 or /users/1.json
   def update
     @user = User.find(params[:id])
-    
+
     if @user.update(user_params)
       if @user.role == '2'
         @user.remove_role :user
-        @user.add_role :admin 
+        @user.add_role :admin
       end
       if @user.role == '1'
         @user.remove_role :admin
         @user.add_role :user
       end
-  
+
       redirect_to @user, notice: 'User was successfully updated.'
     else
       render :edit
@@ -87,6 +87,24 @@ class UsersController < ApplicationController
     end
     redirect_to user_url(@user)
   end
+
+  def ban
+    reason = params[:reason]
+    expiration = DateTime.new(
+      params[:'expiration(1i)'].to_i,
+      params[:'expiration(2i)'].to_i,
+      params[:'expiration(3i)'].to_i,
+      params[:'expiration(4i)'].to_i,
+      params[:'expiration(5i)'].to_i
+    )
+
+    if @user.ban(reason, expiration)
+      redirect_to @user, notice: 'User was successfully banned.'
+    else
+      redirect_to @user, alert: 'Failed to ban the user.'
+    end
+  end
+
 
   protected
 

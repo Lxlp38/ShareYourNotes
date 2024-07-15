@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :user_reports
   resources :review_reports
   resources :note_reports
-  
+
   get 'notes/:id/admin_edit', to: 'notes#admin_edit', as: 'admin_edit_note'
   get 'suspended_notes', to: 'notes#suspended_notes', as: 'suspended_notes'
 
@@ -34,7 +34,10 @@ Rails.application.routes.draw do
   delete '/users/:id', to: 'users#destroy', as: 'destroy_user'
   get '/users/:id/:provider/authorize', to: 'users#authorize', as: 'user_omniauth_authorize'
   get '/users/:id/:provider/unauthorize', to: 'users#authorize', as: 'user_omniauth_unauthorize'
-  resources :users
+  #put '/users/:id/ban', to: 'users#ban', as: 'ban_user'
+  resources :users do
+    put :ban, on: :member
+  end
 
   match '/frequently_asked' => "application#frequently_asked" , as: 'faq', via: [:get]
   match '/about_us' => "application#about_us" , as: 'about', via: [:get]

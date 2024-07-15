@@ -7,8 +7,19 @@ class CreaDb < ActiveRecord::Migration[6.1]
       #t.string :password_digest, null: false
       t.references :university_details, null: true, foreign_key: { to_table: :universities }
       t.references :account, null: true, foreign_key: true
+      t.references :ban, null: true, foreign_key: true
       t.string :role, :default => 'user'
-      
+
+
+      t.timestamps
+    end
+
+    create_table :bans do |t|
+      t.datetime :start, null: false
+      t.datetime :end, null: false
+      t.text :reason, null: false
+      t.boolean :active, default: true
+      t.references :user, null: false, foreign_key: true
 
       t.timestamps
     end
