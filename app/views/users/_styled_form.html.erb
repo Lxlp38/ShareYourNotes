@@ -23,6 +23,12 @@
         </div>
 
         <div class="form-group my-3">
+          <label class="form-label">Faculty:</label>
+          <% uni_details = @user.university_details_id.nil? ? "NIL" : University.find_by(id: @user.university_details_id).name %>
+          <%= form.select :university_details_id, options_for_select(University.all.map { |c| [c.name,c.id] }, @user.university_details_id),{:prompt => 'University'}, {required: true, autofocus: 'true', class:"form-control"} %>
+        </div>
+
+        <div class="form-group my-3">
           <label class="form-label">Role:</label>
           <% if current_user.has_role?(:admin) %>
             <%= form.select :role, options_for_select(Role.all.map { |r| [r.name, r.id] }, @user.role), {:prompt => @user.role}, {required: true, autofocus: 'true', class:"form-control"} %>
@@ -32,6 +38,7 @@
           <% end %>
         </div>
       </div>
+      
     
       <div class="col">
         <div class="form-group my-3">
@@ -58,6 +65,13 @@
           </div>
           
         </div>-->
+
+        <div class="form-group my-3">
+          <label class="form-label">Degree:</label>
+          <% uni_details = @user.university_details_id.nil? ? "NIL" : University.find_by(id: @user.university_details_id).name %>
+          <%= form.select :university_details_id, options_for_select(University.all.map { |c| [c.name,c.id] }, @user.university_details_id),{:prompt => 'University'}, {required: true, autofocus: 'true', class:"form-control"} %>
+        </div>
+
         <label class="form-label">Avatar:</label>
         <%= form.file_field :avatar, class:"form-control" %>
       </div>
