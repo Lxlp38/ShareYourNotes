@@ -2,19 +2,23 @@
 
 <!--<p id="notice"><%= notice %></p>-->
 
-<div class="d-flex flex-column mt-5 ms-5">
+<div class="d-flex flex-row justify-content-between mt-5 mx-5">
   <h1>Notes</h1>
   
-  <div class="d-flex justify-content-start mb-5 align-items-center">
+  <div class="mb-5">
     <%= form_tag(notes_path, method: :get, class: 'form-inline') do %>
-      <div class="form-group me-3">
-        <%= label_tag(:sort_by, "Ordina per:", class: 'me-2') %>
-        <%= select_tag(:sort_by, options_for_select([
-          ['Title - Ascending', 'title_asc'],
-          ['Title - Descending', 'title_desc'],
-          ['Creation Date - Ascending', 'created_at_asc'],
-          ['Creation Date - Descending', 'created_at_desc']
-        ], params[:sort_by]), class: 'form-select', onchange: 'this.form.submit();') %>
+      <div class="row g-1 align-items-center">
+        <div class="col-auto">
+          <%= label_tag(:sort_by, "Order by:", class: 'me-2 small text-muted') %>
+        </div>
+        <div class="col-auto">
+          <%= select_tag(:sort_by, options_for_select([
+            ['Title: A - Z', 'title_desc'],
+            ['Title: Z - A', 'title_asc'],
+            ['Least recent', 'created_at_asc'],
+            ['Most recent', 'created_at_desc']
+          ], params[:sort_by]), class: 'form-select', onchange: 'this.form.submit();') %>
+        </div>
       </div>
       <%= hidden_field_tag :filter, params[:filter] %>
     <% end %>
