@@ -1,0 +1,127 @@
+<h1>Select a File from Google Drive and Upload to Server</h1>
+<button id="pick-file">Select File</button>
+<p id="file-info"></p>
+
+<script src="https://apis.google.com/js/api.js"></script>
+<script>
+  var oauthToken;
+  var pickerApiLoaded = false;
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('pick-file').addEventListener('click', function() {
+    console.log('Button clicked, loading auth API');
+    loadAuth();
+  });
+});
+
+function loadAuth() {
+  console.log('Loading Auth API');
+  gapi.load('auth', { 'callback': onAuthApiLoad });
+}
+
+function onAuthApiLoad() {
+  console.log('Auth API loaded');
+  gapi.auth.authorize(
+    {
+      'client_id': '<%= ENV['GOOGLE_KEY'] %>',
+      'scope': 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
+      'immediate': false,
+      'redirect_uri': '<%= Rails.application.routes.url_helpers.omniauth_callback_url(provider: "google_oauth2") %>'
+    },
+    handleAuthResult
+  );
+}
+
+function handleAuthResult(authResult) {
+  if (authResult && !authResult.error) {
+    console.log('Authorization successful');
+    oauthToken = authResult.access_token;
+    if (pickerApiLoaded) {
+      createPicker();
+    } else {
+      console.log('Loading Picker API');
+      gapi.load('picker', { 'callback': onPickerApiLoad });
+    }
+  } else {
+    console.error('Error during authorization', authResult.error);
+    if (authResult.error === 'idpiframe_initialization_failed') {
+      alert('Third-party cookies might be blocked. Please enable them to continue.');
+    }
+  }
+}
+
+function onPickerApiLoad() {
+  console.log('Picker API loaded');
+  pickerApiLoaded = true;
+  if (oauthToken) {
+    createPicker();
+  }
+}
+
+function createPicker() {
+  if (pickerApiLoaded && oauthToken) {
+    console.log('Creating picker');
+    var view = new google.picker.View(google.picker.ViewId.DOCS);
+    var picker = new google.picker.PickerBuilder()
+      .enableFeature(google.picker.Feature.NAV_HIDDEN)
+      .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
+      .setOAuthToken(oauthToken)
+      .addView(view)
+      .setDeveloperKey('<%= ENV['GOOGLE_API_KEY'] %>')
+      .setCallback(pickerCallback)
+      .build();
+    picker.setVisible(true);
+    console.log('Picker should now be visible');
+  } else {
+    console.error('Picker API not loaded or OAuth token not available');
+  }
+}
+
+function pickerCallback(data) {
+  if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
+    var doc = data[google.picker.Response.DOCUMENTS][0];
+    var fileId = doc[google.picker.Document.ID];
+    console.log('File selected: ' + fileId);
+    downloadFile(fileId);
+  } else {
+    console.error('Picker action not picked', data);
+  }
+}
+
+function downloadFile(fileId) {
+  console.log('Downloading file: ' + fileId);
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://www.googleapis.com/drive/v3/files/' + fileId + '?alt=media', true);
+  xhr.setRequestHeader('Authorization', 'Bearer ' + oauthToken);
+  xhr.responseType = 'blob';
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      console.log('File downloaded successfully');
+      uploadFile(xhr.response, fileId);
+    } else {
+      console.error('Error downloading file', xhr.statusText);
+    }
+  };
+  xhr.send();
+}
+
+function uploadFile(fileBlob, fileId) {
+  console.log('Uploading file: ' + fileId);
+  var formData = new FormData();
+  formData.append('file', fileBlob, fileId);
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '<%= google_drive_upload_path %>', true);
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      document.getElementById('file-info').innerHTML = 'File uploaded successfully!';
+      console.log('File uploaded successfully');
+    } else {
+      document.getElementById('file-info').innerHTML = 'Failed to upload file.';
+      console.error('Error uploading file', xhr.statusText);
+    }
+  };
+  xhr.send(formData);
+}
+
+</script>

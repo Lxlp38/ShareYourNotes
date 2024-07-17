@@ -22,13 +22,15 @@ Rails.application.routes.draw do
       omniauth_callbacks: 'users/omniauth_callbacks'
     }
 
-  devise_scope :user do
-    get '/users/sign_out', to: 'users/sessions#destroy'
-    get '/auth/:provider/callback', to: 'users/sessions#create', as: 'omniauth_callback'
-    get '/auth/failure', to: redirect('/')
-    get '/signout', to: 'users/sessions#destroy', as: 'signout'
-    get 'complete_registration', to: 'users/registrations#complete_registration'
-  patch 'finish_registration', to: 'users/registrations#finish_registration'
+    devise_scope :user do
+      get '/users/sign_out', to: 'users/sessions#destroy'
+      get '/auth/:provider/callback', to: 'users/sessions#create', as: 'omniauth_callback'
+      get '/auth/failure', to: redirect('/')
+      get '/signout', to: 'users/sessions#destroy', as: 'signout'
+      get 'complete_registration', to: 'users/registrations#complete_registration'
+      get 'google_drive/select_file', to: 'google_drive#select_file'
+      post 'google_drive/upload', to: 'google_drive#upload'
+      patch 'finish_registration', to: 'users/registrations#finish_registration'
   end
 
   delete '/users/:id', to: 'users#destroy', as: 'destroy_user'
@@ -50,6 +52,8 @@ Rails.application.routes.draw do
   unauthenticated do
     root to: "application#home" , as: :unauthenticated_root, via: [:get]
   end
+
+  #get 'auth/google_oauth2/callback', to: 'googledrive#oauth2callback'
 
   #You can also override after_sign_in_path_for and after_sign_out_path_for to customize your redirect hooks.
 end

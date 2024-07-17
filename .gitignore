@@ -72,3 +72,4 @@ db/migrate/20240603165414_crea_db.rb
 
 # Ignore application configuration
 /config/application.yml
+/config/credentials.json
