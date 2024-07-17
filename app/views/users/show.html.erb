@@ -16,7 +16,7 @@
   -->
   
   <div class="d-flex w-100 row">
-    <div class="col">
+    <div class="col pe-0">
       <div class="form-group">
         <label class="form-label">University details:</label>
         <p class="form-control"> <%= @user.university_details_id.nil? ? "NIL" : University.find_by(id: @user.university_details_id).name %> </p>
@@ -97,7 +97,6 @@
     </div>
   <% end %> -->
 
-
   <label class="form-label">Accounts:</label>
   <div class="d-flex flex-column">
     <% @user.account.attributes.slice("github", "google_oauth2").each do |key, value| %>
@@ -133,23 +132,31 @@
     <% if can? :destroy, @user %>
       <%= button_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %>
     <% end %>
-    
-    <% if can? :ban, @user %>
-      <%= form_with url: ban_user_path(@user), method: :put, local: true do |form| %>
-        <div class="form-group">
-          <%= form.label :reason, 'Ban Reason' %>
-          <%= form.text_field :reason, required: true, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.label :expiration, 'Ban Expiration' %>
-          <%= form.datetime_select :expiration, required: true, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= form.submit 'Ban', data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
-        </div>
-      <% end %>
-    <% end %>
   </div>
+
+  <% if can? :ban, @user %>
+    <hr /> 
+    <div class="d-flex justify-content-between mb-3 mt-3">
+      
+        <%= form_with url: ban_user_path(@user), method: :put, class:"w-100", local: true do |form| %>
+          <div class="form-group mb-2">
+            <%= form.label :reason, 'Ban Reason:', class:"form-label" %>
+            <%= form.text_area :reason, class:"form-control fixed_textarea", autocomplete:"off", :rows => 3, placeholder: "Write the ban reason..." %>
+          </div>
+          <div class="form-group d-flex align-items-center">
+            <%= form.label :expiration, 'Ban Expiration:', class:"form-label m-0" %>
+            <div class="d-flex align-middle flex-fill">
+              <%= form.datetime_select :expiration, { ampm: false, order: [:day, :month, :year] }, required: true, class: "form-control form-select-sm d-flex w-100 mx-1" %>
+            </div>
+          </div>
+          <div class="form-group d-flex justify-content-end my-3">
+            <%= form.submit 'Ban', data: { confirm: 'Are you sure?' }, form_class:"m-0 p-0", class: "btn btn-danger me-0 px-4" %>
+          </div>
+        <% end %>
+
+    </div>
+  <% end %>
+
 </div>
 
 <% if @user.notes.count > 0 %>
