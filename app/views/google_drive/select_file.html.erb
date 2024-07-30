@@ -1,154 +1,98 @@
-<!--DOCTYPE html>
-<html>
-  <head>
-    <title>Google Picker Api Example</title>
-    <script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
-    <script src="https://accounts.google.com/gsi/client"></script>
-  </head>
-  <body>
-    <button onclick="pickerDialog()">Select file / Show Picker Dialog</button>
-  </body>
-  <script>
-    var clientId = '322765432524-ghi51drs3inqtbnqvfjbb2qu36omnd9c.apps.googleusercontent.com';
-    var key = 'AIzaSyCxn4CVoNa8AOWH_T3DMx5l4LDa69kfKuU';
-    var project_id = '322765432524';
-    var oauthToken;
-    var pickerApiLoaded = false;
-
-    //scope for google drive
-    var scope = 'https://www.googleapis.com/auth/drive.file';
-
-    //client library for google
-
-    function pickerDialog() {
-      loadPicker();
-    }
-
-    function loadPicker(){
-      gapi.load('auth', {'callback':onAuthApiLoad});
-      gapi.load('picker', {'callback':onPickerApiLoad});
-    }
-
-    function onAuthApiLoad(){
-      window.gapi.auth.authorize({
-        'client_id':clientId,
-        'scope':scope,
-        'immediate':false
-      },
-      handleAuthResult);
-    }
-
-    function onPickerApiLoad(){
-      pickerApiLoaded = true;
-      createPicker();
-    }
-
-    function handleAuthResult(authResult){
-      //access token
-      if(authResult && !authResult.error){
-        oauthToken = authResult.access_token;
-        createPicker();
-      }
-    }
-
-    function createPicker(){
-      if(pickerApiLoaded && oauthToken){
-        var view = new google.picker.View(google.picker.ViewId.DOCS);
-        view.setMimeTypes('image/png,img/jpeg,image/jpg');
-        var picker = new google.picker.PickerBuilder()
-        .enableFeature(google.picker.Feature.NAV_HIDDEN)
-        .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
-        .setAppId(project_id)
-        .setOAuthToken(oauthToken)
-        .addView(view)
-        .addView(new google.picker.DocsUploadView())
-        .setDeveloperKey(key)
-        .setCallback(pickerCallback)
-        .build();
-
-        picker.setVisible(true);
-      }
-    }
-
-    function pickerCallback(){
-      if(data.action == google.picker.Action.PICKED){
-        var field = data.docs[0].id;
-        alert("The user has selected" + field);
-      }
-    }
-
-  </script>
-</html-->
-
-
-
-
 <!DOCTYPE html>
 <html>
 <head>
-<title>Google Picker Api Example</title>
-<script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
-<script src="https://accounts.google.com/gsi/client"></script>
+  <title>Google Drive Integration</title>
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script>
+    let accessToken;
+
+    function handlePickerClick() {
+      google.accounts.oauth2.initTokenClient({
+        client_id: '<%= ENV['GOOGLE_CLIENT_ID'] %>',
+        scope: 'https://www.googleapis.com/auth/drive.file',
+        callback: (response) => {
+          if (response.error) {
+            console.log('Auth failed', response);
+            return;
+          }
+          accessToken = response.access_token;
+          onPickerApiLoad();
+        }
+      }).requestAccessToken();
+    }
+
+    function onPickerApiLoad() {
+      gapi.load('picker', {'callback': createPicker});
+    }
+
+    function createPicker() {
+      if (!accessToken) {
+        console.log('Access token is missing.');
+        return;
+      }
+
+      var picker = new google.picker.PickerBuilder()
+        .addView(google.picker.ViewId.DOCS)
+        .setOAuthToken(accessToken)
+        .setDeveloperKey('<%= ENV['GOOGLE_API_KEY'] %>')
+        .setCallback(pickerCallback)
+        .build();
+      picker.setVisible(true);
+    }
+
+    function pickerCallback(data) {
+      if (data.action == google.picker.Action.PICKED) {
+        var fileId = data.docs[0].id;
+        alert('File ID: ' + fileId);
+
+        // Invia il file ID al server Rails per l'upload
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/google_drive/upload';
+
+        // Aggiungi il token di autenticità
+      var authenticityToken = '<%= form_authenticity_token %>';
+      var tokenField = document.createElement('input');
+      tokenField.type = 'hidden';
+      tokenField.name = '<%= request_forgery_protection_token %>';
+      tokenField.value = authenticityToken;
+
+        var fileField = document.createElement('input');
+        fileField.type = 'hidden';
+        fileField.name = 'file_id';
+        fileField.value = fileId;
+        
+        var accessTokenField = document.createElement('input');
+        accessTokenField.type = 'hidden';
+        accessTokenField.name = 'access_token';
+        accessTokenField.value = accessToken;
+
+        form.appendChild(tokenField);
+        form.appendChild(fileField);
+        form.appendChild(accessTokenField);
+        document.body.appendChild(form);
+        form.submit();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const pickButton = document.getElementById('pick');
+      if (pickButton) {
+        pickButton.addEventListener('click', handlePickerClick);
+      }
+    });
+
+    document.addEventListener('turbolinks:load', () => {
+      const pickButton = document.getElementById('pick');
+      if (pickButton) {
+        pickButton.addEventListener('click', handlePickerClick);
+      }
+    });
+  </script>
 </head>
 <body>
-<button onclick="loadPicker()">Select file / Show Picker Dialog</button>
+  <h1>Google Drive Integration</h1>
+  <button id="pick">Select File</button>
 </body>
-<script>
-var clientId = '322765432524-ghi51drs3inqtbnqvfjbb2qu36omnd9c.apps.googleusercontent.com';
-var key = 'AIzaSyCxn4CVoNa8AOWH_T3DMx5l4LDa69kfKuU';
-var project_id = '322765432524';
-var oauthToken;
-var pickerApiLoaded = false;
-var scope = 'https://www.googleapis.com/auth/drive.file';
-
-function loadPicker() {
-    gapi.load('auth', {'callback': onAuthApiLoad});
-    gapi.load('picker', {'callback': onPickerApiLoad});
-}
-
-function onAuthApiLoad() {
-    window.gapi.auth.authorize({
-        'client_id': clientId,
-        'scope': scope,
-        'immediate': false
-    }, handleAuthResult);
-}
-
-function onPickerApiLoad() {
-    pickerApiLoaded = true;
-    createPicker();
-}
-
-function handleAuthResult(authResult) {
-    if (authResult && !authResult.error) {
-        oauthToken = authResult.access_token;
-        createPicker();
-    }
-}
-
-function createPicker() {
-    if (pickerApiLoaded && oauthToken) {
-        var view = new google.picker.View(google.picker.ViewId.DOCS);
-        view.setMimeTypes('image/png,image/jpeg,image/jpg');
-        var picker = new google.picker.PickerBuilder()
-            .enableFeature(google.picker.Feature.NAV_HIDDEN)
-            .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
-            .setAppId(project_id)
-            .setOAuthToken(oauthToken)
-            .addView(view)
-            .addView(new google.picker.DocsUploadView())
-            .setDeveloperKey(key)
-            .setCallback(pickerCallback)
-            .build();
-        picker.setVisible(true);
-    }
-}
-
-function pickerCallback(data) {
-    if (data.action == google.picker.Action.PICKED) {
-        var fileId = data.docs[0].id;
-        alert("The user has selected " + fileId);
-    }
-}
-</script>
 </html>
