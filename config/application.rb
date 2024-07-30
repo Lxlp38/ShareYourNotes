@@ -18,5 +18,8 @@ module ShareYourNotes
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    
+    # Aggiungi questa riga per impostare l'header Cross-Origin-Opener-Policy
+    #config.action_dispatch.default_headers['Cross-Origin-Opener-Policy'] = 'same-origin-allow-popups'
   end
 end
