@@ -79,9 +79,10 @@
                       <% end %>
                       <%# button_to 'Destroy', note_review_path(@note, review), method: :delete, data: { confirm: 'Are you sure?'}, form_class: 'border-0 m-0 p-0', class: "m-1 p-0 btn btn-link text-danger text-decoration-none" %>
                       
-                      <%= button_to note_review_path(@note, review, :review => {:title => review.title, :rating => review.rating, :text => review.text, :note_id => review.note_id}) ,class:"border-0 p-0 m-1 btn btn-link text-secondary text-decoration-none" , method: :patch do %>
+                      <%= link_to edit_note_review_path(@note, review) ,class:"border-0 p-0 m-1 btn btn-link text-secondary text-decoration-none"  do %>
                           <small>Edit</small>
                       <%end%>
+                      
                     <%end%>
                   <% end %>
                 </div>

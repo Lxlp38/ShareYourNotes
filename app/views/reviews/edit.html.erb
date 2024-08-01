@@ -14,9 +14,10 @@
     <% end %>
   
     <!-- Review form begin -->
-    <div class="mb-3 field rating">
-      <%= form.label :rating, class: "form-label" %>
-      <%= form.collection_radio_buttons(:rating, [[5, 5], [4, 4], [3, 3], [2, 2], [1, 1]], :first, :last) do |star| %>
+    
+    <%= form.label :rating, class: "form-label" %>
+    <div class="mb-3 field rating">  
+    <%= form.collection_radio_buttons(:rating, [[5, 5], [4, 4], [3, 3], [2, 2], [1, 1]], :first, :last) do |star| %>
         <%= star.radio_button %>
         <%= star.label(class: "text-white") %>
       <% end %>
