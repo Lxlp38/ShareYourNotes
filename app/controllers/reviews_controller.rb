@@ -22,15 +22,20 @@ class ReviewsController < ApplicationController
     @review = Review.new
   end
 
-  # GET /reviews/1/edit
   def edit
     @note = Note.find(params[:note_id])
+    @review = @note.reviews.find(params[:id])
   end
 
+  # GET /reviews/1/edit
+  #def edit
+  #  @note = Note.find(params[:note_id])
+  #end
+
   # PATCH/PUT /reviews/1 or /reviews/1.json
-  def edit_review
-    @review = Review.find(params[:review_id])
-  end
+  #def edit_review
+  #  @review = Review.find(params[:review_id])
+  #end
 
   # POST /reviews or /reviews.json
   def create
@@ -53,7 +58,7 @@ class ReviewsController < ApplicationController
   def update
     respond_to do |format|
       if @review.update(review_params)
-        format.html { redirect_to request.referrer, notice: "Review was successfully updated." }
+        format.html { redirect_to note_reviews_path, notice: "Review was successfully updated." }
         format.json { render :show, status: :ok, location: @review }
       else
         format.html { render :edit, status: :unprocessable_entity }

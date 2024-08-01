@@ -1,7 +1,42 @@
 <%= render "layouts/header" %>
 <h1>Editing Review</h1>
 
-<%= render 'form', review: @review %>
+<%= form_with(model: [@note, @review], local: true) do |form| %>
+    <% if @review.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@review.errors.count, "error") %> prohibited this review from being saved:</h2>
+        <ul>
+          <% @review.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  
+    <!-- Review form begin -->
+    <div class="mb-3 field rating">
+      <%= form.label :rating, class: "form-label" %>
+      <%= form.collection_radio_buttons(:rating, [[5, 5], [4, 4], [3, 3], [2, 2], [1, 1]], :first, :last) do |star| %>
+        <%= star.radio_button %>
+        <%= star.label(class: "text-white") %>
+      <% end %>
+    </div>
+  
+    <div class="mb-3 field">
+      <%= form.label :title, class: "form-label" %>
+      <%= form.text_field :title, class: "form-control", autocomplete: "off" %>
+    </div>
+  
+    <div class="mb-3 field">
+      <%= form.label :text, class: "form-label" %>
+      <%= form.text_area :text, class: "form-control fixed_textarea", autocomplete: "off", rows: 6 %>
+    </div>
+  
+    <div class="modal-footer">
+      <%= link_to 'Back', note_path(@note.id), class: "btn btn-primary m-1", data: { bs_dismiss: 'modal' } %>
+      <%= form.submit "Submit", class: "btn btn-danger m-1" %>
+    </div>
+  <% end %>
 
 <%# link_to 'Show', @review %>
 <%# link_to 'Back', reviews_path %>

@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   #get 'toggle_preferate/:note_id', to: 'notes#toggle_preferate', as: 'toggle_preferate'
 
   resources :notes do
-    resources :reviews
+    resources :reviews 
   end
 
   devise_for :users, controllers: {
@@ -40,7 +40,7 @@ Rails.application.routes.draw do
   resources :users do
     put :ban, on: :member
   end
-
+ 
   match '/frequently_asked' => "application#frequently_asked" , as: 'faq', via: [:get]
   match '/about_us' => "application#about_us" , as: 'about', via: [:get]
 
