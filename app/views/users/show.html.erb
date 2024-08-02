@@ -171,8 +171,32 @@
 
 <% if @user.notes.count > 0 %>
   <h1 class="mx-5 mt-5 text-dark"><i class="text-info">@<%= @user.username %></i>'s - Personal Notes</h1>
+
   <div class="mx-5 mb-5 p-5 rounded border shadow bg-body">
-    <%= render "layouts/notes/cards_view" %>
+    <div class="mb-5">
+      <%= form_tag(user_path(@user), method: :get, class: 'form-inline') do %>
+        <div class="row g-1 align-items-center">
+          <div class="col-auto">
+            <%= label_tag(:sort_by, "Order by:", class: 'me-2 small text-muted') %>
+          </div>
+          <div class="col-auto">
+            <%= select_tag(:sort_by, options_for_select([
+              ['Title: A - Z', 'title_asc'],
+              ['Title: Z - A', 'title_desc'],
+              ['Least recent', 'created_at_asc'],
+              ['Most recent', 'created_at_desc']
+            ], params[:sort_by]), class: 'form-select', onchange: 'this.form.submit();') %>
+          </div>
+        </div>
+        <%= hidden_field_tag :filter, params[:filter] %>
+      <% end %>
+    </div>
+
+    <% if @notes.any? %>
+      <%= render "layouts/notes/cards_view" %>
+    <% else %>
+      <p>No notes available.</p>
+    <% end %>
   </div>
 <% end %>
 

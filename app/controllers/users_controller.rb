@@ -13,11 +13,29 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     #authorize! :show, @user, :message => "Not authorized as an administrator."
+    
     if current_user == @user
       @notes = @user.notes
     else
       @notes = @user.notes.where(visibility: true)
     end
+  
+    # Add sorting logic here
+    case params[:sort_by]
+    when 'title_desc'
+      @notes = @notes.order(title: :desc)
+    when 'title_asc'
+      @notes = @notes.order(title: :asc)
+    when 'created_at_asc'
+      @notes = @notes.order(created_at: :asc)
+    when 'created_at_desc'
+      @notes = @notes.order(created_at: :desc)
+    else
+      @notes = @notes.order(created_at: :desc)  # default sorting
+    end
+  
+    # Apply the limit and PDF presence filter
+    @notes = @notes.limit(4).select { |note| note.pdf.present? }
   end
 
   # GET /users/new
