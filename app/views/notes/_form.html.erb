@@ -43,12 +43,12 @@
      
     <div class="mb-3 field">
       <%= form.label :university_id, "Selezionare una università", class:"form-label" %>
-      <%= form.select :university_id, options_for_select(@universities.map { |c| [c.name,c.id] }, note.university_id),{}, {required: 'true', autofocus: 'true', class:"text-muted bg-transparent w-100 border-0 m-2"} %>
+      <%= form.select :university_id, options_for_select(@universities.map { |c| [c.name,c.id] }, note.university_id),{}, {required: 'true', autofocus: 'true', class:"text-muted bg-transparent w-100 border-0 m-2", id: 'university_id'} %>
     </div>
 
     <div class="mb-3 field">
       <%= form.label :course_id, "Selezionare un corso", class:"form-label" %>
-      <%= form.select :course_id, options_for_select(@courses.map { |c| [c.name, c.id] }, note.course_id), {},{required: 'true', autofocus: 'true', class: 'form-control'} %>
+      <%= form.select :course_id, options_for_select(@courses.map { |c| [c.name, c.id] }, note.course_id), {},{required: 'true', autofocus: 'true', class: 'form-control', id: 'course_id'} %>
     </div>
 
     <div class="d-flex justify-content-between">
@@ -69,3 +69,34 @@
     </div>
   <% end %>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var universitySelect = document.getElementById('university_id');
+  var courseSelect = document.getElementById('course_id');
+  
+  universitySelect.addEventListener('change', function() {
+    var universityId = this.value;
+    if (universityId) {
+      fetch(`/notes/courses_by_university?university_id=${universityId}`)
+        .then(response => response.json())
+        .then(data => {
+          courseSelect.innerHTML = '<option value="">Seleziona un corso</option>'; // Reset and add default option
+          if (data.length > 0) {
+            data.forEach(function(course) {
+              var option = new Option(course.name, course.id);
+              courseSelect.add(option);
+            });
+          } else {
+            courseSelect.innerHTML += '<option value="">Nessun corso disponibile</option>';
+          }
+        })
+        .catch(error => {
+          console.error('Errore:', error);
+          courseSelect.innerHTML = '<option value="">Errore nel caricamento dei corsi</option>';
+        });
+    } else {
+      courseSelect.innerHTML = '<option value="">Seleziona un corso</option>';
+    }
+  });
+});</script>

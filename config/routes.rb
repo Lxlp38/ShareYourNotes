@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get 'favorites', to: 'notes#index_favorites', as:'favorites'
   #get 'toggle_preferate/:note_id', to: 'notes#toggle_preferate', as: 'toggle_preferate'
 
+    get 'notes/courses_by_university', to: 'notes#courses_by_university'
   resources :notes do
     resources :reviews 
   end

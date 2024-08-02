@@ -40,11 +40,19 @@ class NotesController < ApplicationController
   def new
     @note = Note.new
     @universities = University.all
-    @courses = Course.all
+    @courses = Course.where(university_id: @note.university_id)
     #variabile usata in create per aggiungere i tag
     @tag_names = ''
     authorize! :new, @note, :message => "Not authorized as an administrator."
   end
+
+  
+
+    def courses_by_university
+      @courses = Course.where(university_id: params[:university_id])
+      render json: @courses
+    end
+  
 
   # GET /notes/1/edit
   def edit
