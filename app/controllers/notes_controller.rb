@@ -39,6 +39,7 @@ class NotesController < ApplicationController
   # GET /notes/new
   def new
     @note = Note.new
+    @universities = University.all
     @courses = Course.all
     #variabile usata in create per aggiungere i tag
     @tag_names = ''
@@ -154,6 +155,6 @@ class NotesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def note_params
-      params.require(:note).permit(:title, :owner_id, :course_id, { pdf: [] }, :visibility, :suspended, :filter, tag_ids:[])
+      params.require(:note).permit(:title, :owner_id, :course_id, :university_id, { pdf: [] }, :visibility, :suspended, :filter, tag_ids:[])
     end
 end

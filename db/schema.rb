@@ -67,11 +67,13 @@ ActiveRecord::Schema.define(version: 2024_07_09_192530) do
     t.string "tags"
     t.boolean "visibility"
     t.integer "course_id", null: false
+    t.integer "university_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "suspended", default: false
     t.index ["course_id"], name: "index_notes_on_course_id"
     t.index ["owner_id"], name: "index_notes_on_owner_id"
+    t.index ["university_id"], name: "index_notes_on_university_id"
   end
 
   create_table "notes_tags", id: false, force: :cascade do |t|
@@ -186,6 +188,7 @@ ActiveRecord::Schema.define(version: 2024_07_09_192530) do
   add_foreign_key "favorites", "users"
   add_foreign_key "note_reports", "notes"
   add_foreign_key "notes", "courses"
+  add_foreign_key "notes", "universities"
   add_foreign_key "notes", "users", column: "owner_id"
   add_foreign_key "review_reports", "reviews"
   add_foreign_key "reviews", "notes"

@@ -41,6 +41,10 @@
       <%= form.text_area :tag_names, class:"form-control fixed_textarea", autocomplete:"off", :rows => 3, placeholder: "Separa i tag con una virgola!", value: @tags %>
     </div>
      
+    <div class="mb-3 field">
+      <%= form.label :university_id, "Selezionare una università", class:"form-label" %>
+      <%= form.select :university_id, options_for_select(@universities.map { |c| [c.name,c.id] }, note.university_id),{}, {required: 'true', autofocus: 'true', class:"text-muted bg-transparent w-100 border-0 m-2"} %>
+    </div>
 
     <div class="mb-3 field">
       <%= form.label :course_id, "Selezionare un corso", class:"form-label" %>

@@ -3,7 +3,8 @@ class Note<ActiveRecord::Base
     
     mount_uploaders :pdf, PdfUploader
     serialize :pdf, JSON # If you use SQLite, add this line
-
+    
+    belongs_to :university
     belongs_to :course
     belongs_to :user, class_name: "User", foreign_key: "owner_id"
     has_many :reviews, dependent: :destroy

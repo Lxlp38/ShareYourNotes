@@ -63,6 +63,7 @@ class CreaDb < ActiveRecord::Migration[6.1]
       t.string :tags
       t.boolean :visibility
       t.references :course, null: false, foreign_key: true
+      t.references :university, null: false, foreign_key: true
 
       t.timestamps
     end
