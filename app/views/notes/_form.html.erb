@@ -43,7 +43,7 @@
      
     <div class="mb-3 field">
       <%= form.label :university_id, "Selezionare una università", class:"form-label" %>
-      <%= form.select :university_id, options_for_select(@universities.map { |c| [c.name,c.id] }, note.university_id),{}, {required: 'true', autofocus: 'true', class:"text-muted bg-transparent w-100 border-0 m-2", id: 'university_id'} %>
+      <%= form.select :university_id, options_for_select(@universities.map { |c| [c.name,c.id] }, note.university_id),{}, {required: 'true', autofocus: 'true', class:'form-control', id: 'university_id'} %>
     </div>
 
     <div class="mb-3 field">
