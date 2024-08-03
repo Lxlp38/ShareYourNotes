@@ -6,7 +6,11 @@ class NotesController < ApplicationController
   # GET /notes or /notes.json
   def index
     @notes = Note.where(visibility: true, suspended: false)
-  
+   
+    if params[:filter_university] == "true"
+      @notes = @notes.where(university_id: current_user.university_details_id)
+    end
+
     if params[:filter].present?
       if params[:filter].include?("#")
         @parameter = params[:filter].gsub(/[^0-9A-Za-z]/, '').downcase
@@ -57,11 +61,13 @@ class NotesController < ApplicationController
   # GET /notes/1/edit
   def edit
     @courses = Course.all
+    @universities = University.all
   end
 
   # GET /notes/1/admin_edit
   def admin_edit
     @courses = Course.all
+    @universities = University.all
   end
 
   def toggle_favorite

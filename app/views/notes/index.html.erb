@@ -5,6 +5,11 @@
 <div class="d-flex flex-row justify-content-between mt-5 mx-5">
   <h1>Notes</h1>
   
+  <%= form_tag(notes_path, method: :get) do %>
+    <%= hidden_field_tag :filter_university, params[:filter_university] == "true" ? "false" : "true" %>
+    <%= submit_tag params[:filter_university] == "true" ? "Tutte" : "Attinenti" %>
+  <% end %>
+
   <div class="mb-5">
     <%= form_tag(notes_path, method: :get, class: 'form-inline') do %>
       <div class="row g-1 align-items-center">
