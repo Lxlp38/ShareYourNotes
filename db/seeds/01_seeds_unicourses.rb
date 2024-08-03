@@ -66,7 +66,7 @@ if response.code == 200
         courses_universities[uni.code] = uni.id
     end
 
-    existing_course_names=Set.new(Course.pluck(:name))
+    existing_course_names=Set.new(Course.pluck(:name, :university_id))
     #University.find_by(code: course['AteneoCOD']).id,
 
     for i in 1..datapages
@@ -76,15 +76,16 @@ if response.code == 200
 
         data.each do |course|
             course_name=course['CorsoNOME']
-            next if existing_course_names.include?(course_name)
+            university_id= courses_universities[course['AteneoCOD'].to_s]
+            next if existing_course_names.include?([course_name,university_id])
 
-            existing_course_names.add(course_name)
+            existing_course_names.add([course_name,university_id])
 
             courses << {
                 id: course['_id'],
                 name: course_name,
                 year: course['AnnoA'],
-                university_id: courses_universities[course['AteneoCOD'].to_s],
+                university_id: university_id,
                 created_at: timenow,
                 updated_at: timenow
             }
