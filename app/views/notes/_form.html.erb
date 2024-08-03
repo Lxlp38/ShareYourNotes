@@ -41,9 +41,15 @@
       <%= form.text_area :tag_names, class:"form-control fixed_textarea", autocomplete:"off", :rows => 3, placeholder: "Separa i tag con una virgola!", value: @tags %>
     </div>
      
-    <div class="mb-3 field">
+    <div class="form-group">
       <%= form.label :university_id, "Selezionare una università", class:"form-label" %>
-      <%= form.select :university_id, options_for_select(@universities.map { |c| [c.name,c.id] }, note.university_id),{}, {required: 'true', autofocus: 'true', class:'form-control', id: 'university_id'} %>
+      <input type="text" class="form-control" placeholder="Università" list="list-university" id="input-datalist">
+      <datalist id="list-university">
+        <% @universities.each do |university| %>
+          <option value="<%= university.name %>" data-id="<%= university.id %>"></option>
+        <% end %>
+      </datalist>
+      <%= form.hidden_field :university_id, id: 'university_id' %>
     </div>
 
     <div class="mb-3 field">
@@ -72,19 +78,29 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  var universitySelect = document.getElementById('university_id');
-  var courseSelect = document.getElementById('course_id');
-  
-  universitySelect.addEventListener('change', function() {
-    var universityId = this.value;
+  const inputDatalist = document.getElementById('input-datalist');
+  const universityIdField = document.getElementById('university_id');
+  const courseSelect = document.getElementById('course_id');
+
+  inputDatalist.addEventListener('input', function() {
+    const options = document.querySelectorAll('#list-university option');
+    options.forEach(option => {
+      if (option.value === inputDatalist.value) {
+        universityIdField.value = option.getAttribute('data-id');
+        updateCourseSelect(option.getAttribute('data-id'));
+      }
+    });
+  });
+
+  function updateCourseSelect(universityId) {
     if (universityId) {
       fetch(`/notes/courses_by_university?university_id=${universityId}`)
         .then(response => response.json())
         .then(data => {
-          courseSelect.innerHTML = '<option value="">Seleziona un corso</option>'; // Reset and add default option
+          courseSelect.innerHTML = '<option value="">Seleziona un corso</option>';
           if (data.length > 0) {
             data.forEach(function(course) {
-              var option = new Option(course.name, course.id);
+              const option = new Option(course.name, course.id);
               courseSelect.add(option);
             });
           } else {
@@ -93,10 +109,11 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
           console.error('Errore:', error);
-          courseSelect.innerHTML = '<option value="">Errore nel caricamento dei corsi</option>';
+          courseSelect.innerHTML = '<option value="">Errore </option>';
         });
     } else {
       courseSelect.innerHTML = '<option value="">Seleziona un corso</option>';
     }
-  });
-});</script>
+  }
+});
+</script>

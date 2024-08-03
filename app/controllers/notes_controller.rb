@@ -52,10 +52,10 @@ class NotesController < ApplicationController
 
   
 
-    def courses_by_university
-      @courses = Course.where(university_id: params[:university_id])
-      render json: @courses
-    end
+  def courses_by_university
+    @courses = Course.where(university_id: params[:university_id])
+    render json: @courses
+  end
   
 
   # GET /notes/1/edit
