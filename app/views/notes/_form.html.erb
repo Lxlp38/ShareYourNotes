@@ -1,3 +1,5 @@
+<script src="https://apis.google.com/js/api.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <div class="mx-5 p-5 rounded border shadow bg-body">
   <%= form_with(model: note) do |form| %>
     <% if note.errors.any? %>
@@ -27,9 +29,14 @@
     <%#  <%= form.text_field :owner_id %>
     <%#</div>%>
    
-    <div class="mx-5 mt-5">
-      <%= link_to 'Select File', google_drive_select_file_path, class: "btn btn-primary" %>
+    <div class="mb-3 field">
+      <%= form.label :google_drive_file, "Select File from Google Drive", class:"form-label" %>
+      <div class="input-group">
+        <input type="text" id="google_drive_file_name" class="form-control" placeholder="Select a file from Google Drive" readonly>
+        <button id="pick">Select File</button>
       </div>
+      <%= form.hidden_field :google_drive_file_id, id: 'google_drive_file_id' %>
+    </div>
 
     <div class="mb-3 field">
       <% @tags = "" %>
@@ -106,14 +113,92 @@ document.addEventListener('DOMContentLoaded', function() {
           } else {
             courseSelect.innerHTML += '<option value="">Nessun corso disponibile</option>';
           }
-        })
-        .catch(error => {
-          console.error('Errore:', error);
-          courseSelect.innerHTML = '<option value="">Errore </option>';
         });
-    } else {
-      courseSelect.innerHTML = '<option value="">Seleziona un corso</option>';
     }
   }
 });
+    let accessToken;
+
+    function handlePickerClick() {
+      google.accounts.oauth2.initTokenClient({
+        client_id: '<%= ENV['GOOGLE_CLIENT_ID'] %>',
+        scope: 'https://www.googleapis.com/auth/drive.file',
+        callback: (response) => {
+          if (response.error) {
+            console.log('Auth failed', response);
+            return;
+          }
+          accessToken = response.access_token;
+          onPickerApiLoad();
+        }
+      }).requestAccessToken();
+    }
+
+    function onPickerApiLoad() {
+      gapi.load('picker', {'callback': createPicker});
+    }
+
+    function createPicker() {
+      if (!accessToken) {
+        console.log('Access token is missing.');
+        return;
+      }
+
+      var picker = new google.picker.PickerBuilder()
+        .addView(google.picker.ViewId.DOCS)
+        .setOAuthToken(accessToken)
+        .setDeveloperKey('<%= ENV['GOOGLE_API_KEY'] %>')
+        .setCallback(pickerCallback)
+        .build();
+      picker.setVisible(true);
+    }
+
+    function pickerCallback(data) {
+      if (data.action == google.picker.Action.PICKED) {
+        var fileId = data.docs[0].id;
+        alert('File ID: ' + fileId);
+
+        // Invia il file ID al server Rails per l'upload
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/google_drive/upload';
+
+        // Aggiungi il token di autenticità
+      var authenticityToken = '<%= form_authenticity_token %>';
+      var tokenField = document.createElement('input');
+      tokenField.type = 'hidden';
+      tokenField.name = '<%= request_forgery_protection_token %>';
+      tokenField.value = authenticityToken;
+
+        var fileField = document.createElement('input');
+        fileField.type = 'hidden';
+        fileField.name = 'file_id';
+        fileField.value = fileId;
+        
+        var accessTokenField = document.createElement('input');
+        accessTokenField.type = 'hidden';
+        accessTokenField.name = 'access_token';
+        accessTokenField.value = accessToken;
+
+        form.appendChild(tokenField);
+        form.appendChild(fileField);
+        form.appendChild(accessTokenField);
+        document.body.appendChild(form);
+        form.submit();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const pickButton = document.getElementById('pick');
+      if (pickButton) {
+        pickButton.addEventListener('click', handlePickerClick);
+      }
+    });
+
+    document.addEventListener('turbolinks:load', () => {
+      const pickButton = document.getElementById('pick');
+      if (pickButton) {
+        pickButton.addEventListener('click', handlePickerClick);
+      }
+    });
 </script>

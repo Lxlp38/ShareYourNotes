@@ -1,3 +1,5 @@
+<script src="https://apis.google.com/js/api.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <%= render "layouts/header" %>
 <!--<p id="notice"><%= notice %></p>-->
 
@@ -51,6 +53,10 @@
           </small>
         </div>
       </div>
+      <div>
+      <button id="uploadToDrive" clss='btn btn-primary'>Upload File</button>
+      </div>
+      
 
       <!-- Reviews viewer, maybe create a partial view for it -->
       <div class="container py-2 px-0 m-0 overflow-auto hidden_scrollbar" style="height: 60vh;">
@@ -120,6 +126,61 @@
   </div>
   
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const uploadButton = document.getElementById('uploadToDrive');
+    uploadButton.addEventListener('click', handleAuthClick);
+  });
+
+  let accessToken;
+
+  function handleAuthClick() {
+    google.accounts.oauth2.initTokenClient({
+      client_id: '<%= ENV['GOOGLE_CLIENT_ID'] %>',
+      scope: 'https://www.googleapis.com/auth/drive.file',
+      callback: (response) => {
+        if (response.error) {
+          console.error('Auth failed', response.error);
+          return;
+        }
+        accessToken = response.access_token;
+        uploadFileToDrive();
+      }
+    }).requestAccessToken();
+  }
+
+  function uploadFileToDrive() {
+    const fileUrl = "<%= @note.pdf.first.url %>"; // URL del PDF da caricare
+
+    fetch(fileUrl)
+      .then(response => response.blob())
+      .then(blob => {
+        const metadata = {
+          name: "<%= @note.title %>", // Nome del file nel Drive
+          mimeType: 'application/pdf'
+        };
+
+        const formData = new FormData();
+        formData.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+        formData.append('file', blob);
+
+        fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+          method: 'POST',
+          headers: new Headers({ 'Authorization': 'Bearer ' + accessToken }),
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.id) {
+            alert('File uploaded successfully: ' + data.name);
+          } else {
+            alert('Upload failed.');
+          }
+        })
+        .catch(error => console.error('Error:', error));
+      });
+  }
+</script>
 
 <!--<%= link_to 'Back', notes_path, class:"btn btn-primary m-5" %>--> <!-- Si può usare la navbar -->
 
