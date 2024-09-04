@@ -84,121 +84,139 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const inputDatalist = document.getElementById('input-datalist');
-  const universityIdField = document.getElementById('university_id');
-  const courseSelect = document.getElementById('course_id');
+var init = false;
 
-  inputDatalist.addEventListener('input', function() {
-    const options = document.querySelectorAll('#list-university option');
-    options.forEach(option => {
-      if (option.value === inputDatalist.value) {
-        universityIdField.value = option.getAttribute('data-id');
-        updateCourseSelect(option.getAttribute('data-id'));
-      }
+function initialize()
+{
+  if(init == false)
+  {
+    init = true;
+    
+    const inputDatalist = document.getElementById('input-datalist');
+    const universityIdField = document.getElementById('university_id');
+    const courseSelect = document.getElementById('course_id');
+
+    inputDatalist.addEventListener('input', function() {
+      const options = document.querySelectorAll('#list-university option');
+      options.forEach(option => {
+        if (option.value === inputDatalist.value) {
+          universityIdField.value = option.getAttribute('data-id');
+          updateCourseSelect(option.getAttribute('data-id'));
+        }
+      });
     });
-  });
 
-  function updateCourseSelect(universityId) {
-    if (universityId) {
-      fetch(`/notes/courses_by_university?university_id=${universityId}`)
-        .then(response => response.json())
-        .then(data => {
-          courseSelect.innerHTML = '<option value="">Seleziona un corso</option>';
-          if (data.length > 0) {
-            data.forEach(function(course) {
-              const option = new Option(course.name, course.id);
-              courseSelect.add(option);
-            });
-          } else {
-            courseSelect.innerHTML += '<option value="">Nessun corso disponibile</option>';
-          }
-        });
+    function updateCourseSelect(universityId) {
+      if (universityId) {
+        fetch(`/notes/courses_by_university?university_id=${universityId}`)
+          .then(response => response.json())
+          .then(data => {
+            courseSelect.innerHTML = '<option value="">Seleziona un corso</option>';
+            if (data.length > 0) {
+              data.forEach(function(course) {
+                const option = new Option(course.name, course.id);
+                courseSelect.add(option);
+              });
+            } else {
+              courseSelect.innerHTML += '<option value="">Nessun corso disponibile</option>';
+            }
+          });
+      }
+    }
+
+    const pickButton = document.getElementById('pick');
+    if (pickButton) {
+      pickButton.addEventListener('click', handlePickerClick);
     }
   }
+}
+
+if(document.getElementById('input-datalist') && document.getElementById('university_id') && document.getElementById('course_id'))
+{
+  initialize();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  initialize();
 });
-    let accessToken;
 
-    function handlePickerClick() {
-      google.accounts.oauth2.initTokenClient({
-        client_id: '<%= ENV['GOOGLE_CLIENT_ID'] %>',
-        scope: 'https://www.googleapis.com/auth/drive.file',
-        callback: (response) => {
-          if (response.error) {
-            console.log('Auth failed', response);
-            return;
-          }
-          accessToken = response.access_token;
-          onPickerApiLoad();
-        }
-      }).requestAccessToken();
-    }
+let accessToken;
 
-    function onPickerApiLoad() {
-      gapi.load('picker', {'callback': createPicker});
-    }
-
-    function createPicker() {
-      if (!accessToken) {
-        console.log('Access token is missing.');
+function handlePickerClick() {
+  google.accounts.oauth2.initTokenClient({
+    client_id: '<%= ENV['GOOGLE_CLIENT_ID'] %>',
+    scope: 'https://www.googleapis.com/auth/drive.file',
+    callback: (response) => {
+      if (response.error) {
+        console.log('Auth failed', response);
         return;
       }
-
-      var picker = new google.picker.PickerBuilder()
-        .addView(google.picker.ViewId.DOCS)
-        .setOAuthToken(accessToken)
-        .setDeveloperKey('<%= ENV['GOOGLE_API_KEY'] %>')
-        .setCallback(pickerCallback)
-        .build();
-      picker.setVisible(true);
+      accessToken = response.access_token;
+      onPickerApiLoad();
     }
+  }).requestAccessToken();
+}
 
-    function pickerCallback(data) {
-      if (data.action == google.picker.Action.PICKED) {
-        var fileId = data.docs[0].id;
-        alert('File ID: ' + fileId);
+function onPickerApiLoad() {
+  gapi.load('picker', {'callback': createPicker});
+}
 
-        // Invia il file ID al server Rails per l'upload
-        var form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '/google_drive/upload';
+function createPicker() {
+  if (!accessToken) {
+    console.log('Access token is missing.');
+    return;
+  }
 
-        // Aggiungi il token di autenticità
-      var authenticityToken = '<%= form_authenticity_token %>';
-      var tokenField = document.createElement('input');
-      tokenField.type = 'hidden';
-      tokenField.name = '<%= request_forgery_protection_token %>';
-      tokenField.value = authenticityToken;
+  var picker = new google.picker.PickerBuilder()
+    .addView(google.picker.ViewId.DOCS)
+    .setOAuthToken(accessToken)
+    .setDeveloperKey('<%= ENV['GOOGLE_API_KEY'] %>')
+    .setCallback(pickerCallback)
+    .build();
+  picker.setVisible(true);
+}
 
-        var fileField = document.createElement('input');
-        fileField.type = 'hidden';
-        fileField.name = 'file_id';
-        fileField.value = fileId;
-        
-        var accessTokenField = document.createElement('input');
-        accessTokenField.type = 'hidden';
-        accessTokenField.name = 'access_token';
-        accessTokenField.value = accessToken;
+function pickerCallback(data) {
+  if (data.action == google.picker.Action.PICKED) {
+    var fileId = data.docs[0].id;
+    alert('File ID: ' + fileId);
 
-        form.appendChild(tokenField);
-        form.appendChild(fileField);
-        form.appendChild(accessTokenField);
-        document.body.appendChild(form);
-        form.submit();
-      }
-    }
+    // Invia il file ID al server Rails per l'upload
+    var form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/google_drive/upload';
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const pickButton = document.getElementById('pick');
-      if (pickButton) {
-        pickButton.addEventListener('click', handlePickerClick);
-      }
-    });
+    // Aggiungi il token di autenticità
+  var authenticityToken = '<%= form_authenticity_token %>';
+  var tokenField = document.createElement('input');
+  tokenField.type = 'hidden';
+  tokenField.name = '<%= request_forgery_protection_token %>';
+  tokenField.value = authenticityToken;
 
-    document.addEventListener('turbolinks:load', () => {
-      const pickButton = document.getElementById('pick');
-      if (pickButton) {
-        pickButton.addEventListener('click', handlePickerClick);
-      }
-    });
+    var fileField = document.createElement('input');
+    fileField.type = 'hidden';
+    fileField.name = 'file_id';
+    fileField.value = fileId;
+    
+    var accessTokenField = document.createElement('input');
+    accessTokenField.type = 'hidden';
+    accessTokenField.name = 'access_token';
+    accessTokenField.value = accessToken;
+
+    form.appendChild(tokenField);
+    form.appendChild(fileField);
+    form.appendChild(accessTokenField);
+    document.body.appendChild(form);
+    form.submit();
+  }
+}
+
+document.addEventListener('turbolinks:load', () => {
+  const pickButton = document.getElementById('pick');
+  if (pickButton) {
+    pickButton.addEventListener('click', handlePickerClick);
+  }
+});
 </script>
+
+
