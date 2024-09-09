@@ -83,8 +83,10 @@
   <% end %>
 </div>
 
+
 <script>
 var init = false;
+var GOOGLE_API_KEY = '<%= ENV['GOOGLE_API_KEY'] %>';
 
 function initialize()
 {
@@ -126,7 +128,7 @@ function initialize()
 
     const pickButton = document.getElementById('pick');
     if (pickButton) {
-      pickButton.addEventListener('click', handlePickerClick);
+      pickButton.addEventListener('click', handleAuthClick);
     }
   }
 }
@@ -140,83 +142,121 @@ document.addEventListener('DOMContentLoaded', function() {
   initialize();
 });
 
-let accessToken;
+// Authorization scopes required by the API; multiple scopes can be
+  // included, separated by spaces.
+  const SCOPES = 'https://www.googleapis.com/auth/drive.readonly';
 
-function handlePickerClick() {
-  google.accounts.oauth2.initTokenClient({
-    client_id: '<%= ENV['GOOGLE_CLIENT_ID'] %>',
-    scope: 'https://www.googleapis.com/auth/drive.file',
-    callback: (response) => {
-      if (response.error) {
-        console.log('Auth failed', response);
-        return;
+  // TODO(developer): Set to client ID and API key from the Developer Console
+  const CLIENT_ID = '322765432524-ghi51drs3inqtbnqvfjbb2qu36omnd9c.apps.googleusercontent.com';
+  const API_KEY = 'AIzaSyCxn4CVoNa8AOWH_T3DMx5l4LDa69kfKuU';
+
+  let tokenClient;
+  let accessToken = null;
+  let pickerInited = false;
+  let gisInited = false;
+
+
+  /**
+   * Callback after api.js is loaded.
+   */
+  function gapiLoaded() {
+    gapi.load('client:picker', initializePicker);
+  }
+
+  /**
+   * Callback after the API client is loaded. Loads the
+   * discovery doc to initialize the API.
+   */
+  async function initializePicker() {
+    await gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest');
+    pickerInited = true;
+  }
+
+  /**
+   * Callback after Google Identity Services are loaded.
+   */
+  function gisLoaded() {
+    tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: CLIENT_ID,
+      scope: SCOPES,
+      callback: '', // defined later
+    });
+    gisInited = true;
+  }
+
+  /**
+   *  Sign in the user upon button click.
+   */
+  function handleAuthClick() {
+    tokenClient.callback = async (response) => {
+      if (response.error !== undefined) {
+        throw (response);
       }
       accessToken = response.access_token;
-      onPickerApiLoad();
+      await createPicker();
+    };
+
+    if (accessToken === null) {
+      // Prompt the user to select a Google Account and ask for consent to share their data
+      // when establishing a new session.
+      tokenClient.requestAccessToken({prompt: 'consent'});
+    } else {
+      // Skip display of account chooser and consent dialog for an existing session.
+      tokenClient.requestAccessToken({prompt: ''});
     }
-  }).requestAccessToken();
-}
-
-function onPickerApiLoad() {
-  gapi.load('picker', {'callback': createPicker});
-}
-
-function createPicker() {
-  if (!accessToken) {
-    console.log('Access token is missing.');
-    return;
   }
 
-  var picker = new google.picker.PickerBuilder()
-    .addView(google.picker.ViewId.DOCS)
-    .setOAuthToken(accessToken)
-    .setDeveloperKey('<%= ENV['GOOGLE_API_KEY'] %>')
-    .setCallback(pickerCallback)
-    .build();
-  picker.setVisible(true);
-}
-
-function pickerCallback(data) {
-  if (data.action == google.picker.Action.PICKED) {
-    var fileId = data.docs[0].id;
-    alert('File ID: ' + fileId);
-
-    // Invia il file ID al server Rails per l'upload
-    var form = document.createElement('form');
-    form.method = 'POST';
-    form.action = '/google_drive/upload';
-
-    // Aggiungi il token di autenticità
-  var authenticityToken = '<%= form_authenticity_token %>';
-  var tokenField = document.createElement('input');
-  tokenField.type = 'hidden';
-  tokenField.name = '<%= request_forgery_protection_token %>';
-  tokenField.value = authenticityToken;
-
-    var fileField = document.createElement('input');
-    fileField.type = 'hidden';
-    fileField.name = 'file_id';
-    fileField.value = fileId;
-    
-    var accessTokenField = document.createElement('input');
-    accessTokenField.type = 'hidden';
-    accessTokenField.name = 'access_token';
-    accessTokenField.value = accessToken;
-
-    form.appendChild(tokenField);
-    form.appendChild(fileField);
-    form.appendChild(accessTokenField);
-    document.body.appendChild(form);
-    form.submit();
+  /**
+   *  Create and render a Picker object for searching images.
+   */
+  function createPicker() {
+    const view = new google.picker.View(google.picker.ViewId.PDFS);
+    view.setMimeTypes('application/pdf');
+    const picker = new google.picker.PickerBuilder()
+        .setDeveloperKey(API_KEY)
+        .setOAuthToken(accessToken)
+        .addView(view)
+        .setCallback(pickerCallback)
+        .build();
+    picker.setVisible(true);
   }
-}
 
-document.addEventListener('turbolinks:load', () => {
-  const pickButton = document.getElementById('pick');
-  if (pickButton) {
-    pickButton.addEventListener('click', handlePickerClick);
+  /**
+   * Displays the file details of the user's selection.
+   * @param {object} data - Containers the user selection from the picker
+   */
+  async function pickerCallback(data) {
+    if (data.action === google.picker.Action.PICKED) {
+      let text = `Picker response: \n${JSON.stringify(data, null, 2)}\n`;
+      const doc = data[google.picker.Response.DOCUMENTS][0];
+      const fileId = doc[google.picker.Document.ID];
+      const fileName = doc[google.picker.Document.NAME];
+      const { body } = await gapi.client.drive.files.get({ fileId, alt: 'media' });
+      const blob = new Blob([new Uint8Array(body.length).map((_, i) => body.charCodeAt(i))])
+      const formData = new FormData();
+          
+      formData.append('file_content', blob, fileName); 
+      formData.append('file_name', fileName);
+      formData.append('file_id', fileId);
+      formData.append('authenticity_token', '<%= form_authenticity_token %>');
+      formData.append('access_token', accessToken);
+
+      fetch('/google_drive/upload', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('File successfully uploaded:', data);
+      })
+      .catch(error => {
+        console.error('Error uploading file:', error);
+      });
+    }
   }
-});
+  
 </script>
+<script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+<script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
 
 
