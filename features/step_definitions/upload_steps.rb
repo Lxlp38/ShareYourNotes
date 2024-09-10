@@ -1,13 +1,7 @@
 # features/step_definitions/upload_steps.rb
 
-Given("I am logged in") do
-  visit '/users/sign_in'
-  fill_in 'Email', with: 'apa.1713337@studenti.uniroma1.it'
-  fill_in 'Password', with: 'Admin@2'
-  click_button 'Log In'
-  
-  # Verifica che il login sia avvenuto correttamente controllando la presenza di un elemento della pagina che appare solo dopo il login
-  expect(page).to have_content('Logout')
+Given (/^Login functionality - login\.feature$/) do
+
 end
 
 Given("I am on the home page") do

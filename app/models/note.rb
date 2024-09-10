@@ -11,7 +11,7 @@ class Note<ActiveRecord::Base
     has_many :note_reports, dependent: :destroy
 
     validates :title, presence: true
-    validates :pdf, presence: true
+    validates :pdf, presence: false
     validates :owner_id, presence: true
     validates :course_id, presence: true
     has_and_belongs_to_many :tags

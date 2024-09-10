@@ -74,7 +74,6 @@ class NotesController < ApplicationController
     @user_id = params[:user_id]
     @note_id = params[:note_id]
     @favorite = Favorite.find_by(user_id: @user_id, note_id: @note_id)
-    p @favorite
     if @favorite.nil?
       # Add new favorite entry
       @favorite = Favorite.create(user_id: @user_id, note_id: @note_id, favorite: true)

@@ -21,7 +21,7 @@
     
     <div class="mb-3 field">
       <%= form.label :pdf, class:"form-label" %>
-      <%= form.file_field :pdf,  multiple: true, class:"form-control" %>
+      <%= form.file_field :pdf,  multiple: false, class:"form-control" %>
     </div>
 
     <%#<div class="field">%>
@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const { body } = await gapi.client.drive.files.get({ fileId, alt: 'media' });
       const blob = new Blob([new Uint8Array(body.length).map((_, i) => body.charCodeAt(i))])
       const formData = new FormData();
-          
+
       formData.append('file_content', blob, fileName); 
       formData.append('file_name', fileName);
       formData.append('file_id', fileId);
