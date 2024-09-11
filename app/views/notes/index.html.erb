@@ -4,13 +4,8 @@
 
 <div class="d-flex flex-row justify-content-between mt-5 mx-5">
   <h1>Notes</h1>
-  
-  <%= form_tag(notes_path, method: :get) do %>
-    <%= hidden_field_tag :filter_university, params[:filter_university] == "true" ? "false" : "true" %>
-    <%= submit_tag params[:filter_university] == "true" ? "Tutte" : "Attinenti" %>
-  <% end %>
 
-  <div class="mb-5">
+  <div class="mb-5 d-flex">
     <%= form_tag(notes_path, method: :get, class: 'form-inline') do %>
       <div class="row g-1 align-items-center">
         <div class="col-auto">
@@ -27,6 +22,11 @@
       </div>
       <%= hidden_field_tag :filter, params[:filter] %>
     <% end %>
+
+    <%= form_tag(notes_path, method: :get, class: 'm-0 p-0 ms-2') do %>
+    <%= hidden_field_tag :filter_university, params[:filter_university] == "true" ? "false" : "true" %>
+    <%= submit_tag params[:filter_university] == "true" ? "All Notes" : "Relevant", class:"btn border border-tertiary" %>
+  <% end %>
   </div>
 </div>
 
