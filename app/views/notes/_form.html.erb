@@ -33,7 +33,7 @@
       <%= form.label :google_drive_file, "Select File from Google Drive", class:"form-label" %>
       <div class="input-group">
         <input type="text" id="google_drive_file_name" class="form-control" placeholder="Select a file from Google Drive" readonly>
-        <input type="button" id="pick" value="Drive">
+        <input type="button" class="input-group-text px-2" id="pick" value="Google Drive">
       </div>
       <%= form.hidden_field :google_drive_file_id, id: 'google_drive_file_id' %>
     </div>
