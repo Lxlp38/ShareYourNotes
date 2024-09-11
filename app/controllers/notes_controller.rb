@@ -96,7 +96,6 @@ class NotesController < ApplicationController
     #ho usato tag_name perchè con tag e tags poteva creare ambiguità
     @note = Note.new(note_params)
     @note.owner_id = current_user.id
-
     tag_names = params[:note][:tag_names].split(",").map(&:strip)
 
     tag_names.each do |tag_name|

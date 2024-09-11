@@ -21,14 +21,14 @@ class GoogleDriveController < ApplicationController
 
 
     # TODO: creare la nota e salvare quello che serve. Il file viene già caricato dal FE al BE, qui sopra c'è il fileId, fileName e il suo contenuto (salvato in upload)
-    @note = Note.new(title: file_name, university_id: 1, course_id: 1, owner_id: current_user.id, visibility: 1, suspended: false)
-    @note.pdf = [File.open(file_path)]
+    #@note = Note.new(title: file_name, university_id: :universityID, course_id: :courseID, owner_id: current_user.id, visibility: :visibilityParams, suspended: false)
+    #@note.pdf = [File.open(file_path)]
 
     respond_to do |format|
-      if @note.save
-        File.delete(file_path) if File.exist?(file_path)
+      if true #@note.save
+        #File.delete(file_path) if File.exist?(file_path)
 
-        format.html { redirect_to @note, notice: 'File was successfully uploaded.' }
+        #format.html { redirect_to note_url(@note), notice: 'File was successfully uploaded.' }
         format.json { render json: { message: 'File was successfully uploaded.', file: file_name } }
       else
         format.html { render :new }

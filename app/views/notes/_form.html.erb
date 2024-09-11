@@ -21,7 +21,7 @@
     
     <div class="mb-3 field">
       <%= form.label :pdf, class:"form-label" %>
-      <%= form.file_field :pdf,  multiple: false, class:"form-control" %>
+      <%= form.file_field :pdf,  multiple: true, class:"form-control", id: "pdf_id" %>
     </div>
 
     <%#<div class="field">%>
@@ -33,7 +33,7 @@
       <%= form.label :google_drive_file, "Select File from Google Drive", class:"form-label" %>
       <div class="input-group">
         <input type="text" id="google_drive_file_name" class="form-control" placeholder="Select a file from Google Drive" readonly>
-        <button id="pick">Select File</button>
+        <input type="button" id="pick" value="Drive">
       </div>
       <%= form.hidden_field :google_drive_file_id, id: 'google_drive_file_id' %>
     </div>
@@ -231,8 +231,11 @@ document.addEventListener('DOMContentLoaded', function() {
       const doc = data[google.picker.Response.DOCUMENTS][0];
       const fileId = doc[google.picker.Document.ID];
       const fileName = doc[google.picker.Document.NAME];
+
       const { body } = await gapi.client.drive.files.get({ fileId, alt: 'media' });
       const blob = new Blob([new Uint8Array(body.length).map((_, i) => body.charCodeAt(i))])
+      const file = new File([blob], fileName, { type: 'application/pdf' });
+
       const formData = new FormData();
 
       formData.append('file_content', blob, fileName); 
@@ -252,6 +255,11 @@ document.addEventListener('DOMContentLoaded', function() {
       .catch(error => {
         console.error('Error uploading file:', error);
       });
+      
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file)
+      document.getElementById('pdf_id').files = dataTransfer.files;
+      document.getElementById('google_drive_file_name').value = fileName;
     }
   }
   
