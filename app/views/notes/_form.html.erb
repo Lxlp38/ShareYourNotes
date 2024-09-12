@@ -50,7 +50,12 @@
      
     <div class="mb-3 form-group">
       <%= form.label :university_id, "Selezionare una università", class:"form-label" %>
-      <input type="text" class="form-control" placeholder="Università" list="list-university" id="input-datalist" value="<%= @universities.find(note.university_id).name %>">
+      <% if note.university_id %>
+        <% university_name = @universities.find(note.university_id).name %>
+        <input type="text" class="form-control" placeholder="Università" list="list-university" id="input-datalist" value="<%= university_name %>">
+      <% else %>
+        <input type="text" class="form-control" placeholder="Università" list="list-university" id="input-datalist">
+      <% end %>
       <datalist id="list-university">
         <% @universities.each do |university| %>
           <option value="<%= university.name %>" data-id="<%= university.id %>"></option>
