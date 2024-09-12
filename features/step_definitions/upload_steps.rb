@@ -1,12 +1,11 @@
 # features/step_definitions/upload_steps.rb
 
-Given (/^Login functionality - login\.feature$/) do
+Given /^Login functionality - login\.feature$/ do
 
 end
 
 Given("I am on the home page") do
   visit '/'
-  puts page.html
 end
 
 When('I click on the {string} link') do |link_text|

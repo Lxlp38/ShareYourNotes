@@ -18,16 +18,6 @@
     </div>
 
     <div class="mb-3 field">
-      <%= form.label :pdf, class:"form-label", :disabled => true %>
-      <%= form.file_field :pdf,  multiple: true, class:"form-control", :disabled => true %>
-    </div>
-
-    <%#<div class="field">%>
-    <%#  <%= form.label :owner_id %>
-    <%#  <%= form.text_field :owner_id %>
-    <%#</div>%>
-
-    <div class="mb-3 field">
       <% @tags = "" %>
       <% note.tags.each do |tag| %>
         <% @tags += tag.name + "," %>
@@ -37,9 +27,25 @@
       <%= form.text_area :tag_names, class:"form-control fixed_textarea", autocomplete:"off", :rows => 3, placeholder: "Separa i tag con una virgola!", value: @tags %>
     </div>
 
+    <div class="mb-3 form-group">
+      <%= form.label :university_id, "Selezionare una università", class:"form-label" %>
+      <% if note.university_id %>
+        <% university_name = @universities.find(note.university_id).name %>
+        <input type="text" class="form-control" placeholder="Università" list="list-university" id="input-datalist" value="<%= university_name %>">
+      <% else %>
+        <input type="text" class="form-control" placeholder="Università" list="list-university" id="input-datalist">
+      <% end %>
+      <datalist id="list-university">
+        <% @universities.each do |university| %>
+          <option value="<%= university.name %>" data-id="<%= university.id %>"></option>
+        <% end %>
+      </datalist>
+      <%= form.hidden_field :university_id, id: 'university_id' %>
+    </div>
+
     <div class="mb-3 field">
       <%= form.label :course_id, "Selezionare un corso", class:"form-label" %>
-      <%= form.select :course_id, options_for_select(@courses.map { |c| [c.name, c.id] }, note.course_id), {},{required: 'true', autofocus: 'true', class: 'form-control'} %>
+      <%= form.select :course_id, options_for_select(@courses.map { |c| [c.name, c.id] }, note.course_id), {},{required: 'true', autofocus: 'true', class: 'form-control', id: 'course_id'} %>
     </div>
 
     <div class="d-flex justify-content-between">
@@ -81,3 +87,61 @@
 </div>
 
 <%= button_to 'Admin Destroy', note_path(note), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger m-5" %>
+
+
+<script>
+var init = false;
+var GOOGLE_API_KEY = '<%= ENV['GOOGLE_API_KEY'] %>';
+
+function initialize()
+{
+  if(init == false)
+  {
+    init = true;
+    
+    const inputDatalist = document.getElementById('input-datalist');
+    const universityIdField = document.getElementById('university_id');
+    const courseSelect = document.getElementById('course_id');
+
+    inputDatalist.addEventListener('input', function() {
+      const options = document.querySelectorAll('#list-university option');
+      options.forEach(option => {
+        if (option.value === inputDatalist.value) {
+          universityIdField.value = option.getAttribute('data-id');
+          updateCourseSelect(option.getAttribute('data-id'));
+        }
+      });
+    });
+
+    function updateCourseSelect(universityId) {
+      if (universityId) {
+        fetch(`/notes/courses_by_university?university_id=${universityId}`)
+          .then(response => response.json())
+          .then(data => {
+            courseSelect.innerHTML = '<option value="">Seleziona un corso</option>';
+            if (data.length > 0) {
+              data.forEach(function(course) {
+                const option = new Option(course.name, course.id);
+                courseSelect.add(option);
+              });
+            } else {
+              courseSelect.innerHTML += '<option value="">Nessun corso disponibile</option>';
+            }
+          });
+      }
+    }
+  }
+}
+
+if(document.getElementById('input-datalist') && document.getElementById('university_id') && document.getElementById('course_id'))
+{
+  initialize();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  initialize();
+});
+  
+</script>
+
+
