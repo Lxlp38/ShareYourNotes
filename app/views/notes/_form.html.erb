@@ -48,9 +48,9 @@
       <%= form.text_area :tag_names, class:"form-control fixed_textarea", autocomplete:"off", :rows => 3, placeholder: "Separa i tag con una virgola!", value: @tags %>
     </div>
      
-    <div class="form-group">
+    <div class="mb-3 form-group">
       <%= form.label :university_id, "Selezionare una università", class:"form-label" %>
-      <input type="text" class="form-control" placeholder="Università" list="list-university" id="input-datalist">
+      <input type="text" class="form-control" placeholder="Università" list="list-university" id="input-datalist" value="<%= @universities.find(note.university_id).name %>">
       <datalist id="list-university">
         <% @universities.each do |university| %>
           <option value="<%= university.name %>" data-id="<%= university.id %>"></option>

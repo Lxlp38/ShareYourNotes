@@ -23,7 +23,7 @@
     <% end %>
     <% if current_user == @user && !current_user.has_role?(:admin) %>
     <%# button_to 'Destroy', note_path(note), method: :delete, data: { confirm: 'Are you sure?'}, form_class: 'border-0 w-25 m-1', class: "btn btn-outline-danger btn-sm w-100" %>
-    <%= button_to note_path(note), method: :delete do %>
+    <%= button_to note_path(note), class: 'm-0 p-0 border-0 bg-transparent', method: :delete do %>
         <span class="btn btn-outline-dark border-0 rounded-circle m-1">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-x" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M6.146 6.146a.5.5 0 0 1 .708 0L8 7.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 8l1.147 1.146a.5.5 0 0 1-.708.708L8 8.707 6.854 9.854a.5.5 0 0 1-.708-.708L7.293 8 6.146 6.854a.5.5 0 0 1 0-.708"/>

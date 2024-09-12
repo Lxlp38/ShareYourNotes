@@ -5,7 +5,17 @@ class NotesController < ApplicationController
 
   # GET /notes or /notes.json
   def index
-    @notes = Note.where(visibility: true, suspended: false)
+    if params[:notes_per_page].nil?
+      params[:notes_per_page] = 20
+    end
+
+    if params[:page_index].nil?
+      params[:page_index] = 1
+    end
+
+    notes_per_page = params[:notes_per_page].to_i
+    page_index = params[:page_index].to_i
+    @notes = Note.where(visibility: true, suspended: false).limit(notes_per_page).offset(notes_per_page * (page_index-1)) 
    
     if params[:filter_university] == "true"
       @notes = @notes.where(university_id: current_user.university_details_id)
@@ -15,9 +25,9 @@ class NotesController < ApplicationController
       if params[:filter].include?("#")
         @parameter = params[:filter].gsub(/[^0-9A-Za-z]/, '').downcase
         @tag = Tag.find_by("lower(name) LIKE ?", "%#{@parameter}%")
-        @notes = @tag.notes.where(visibility: true, suspended: false) if @tag
+        @notes = @tag.notes.where(visibility: true, suspended: false).limit(notes_per_page).offset(notes_per_page * (page_index-1))  if @tag
       else
-        @notes = @notes.where("lower(title) LIKE ?", "%#{params[:filter].downcase}%")
+        @notes = @notes.where("lower(title) LIKE ?", "%#{params[:filter].downcase}%").limit(notes_per_page).offset(notes_per_page * (page_index-1)) 
       end
     end
   
@@ -167,6 +177,6 @@ class NotesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def note_params
-      params.require(:note).permit(:title, :owner_id, :course_id, :university_id, { pdf: [] }, :visibility, :suspended, :filter, tag_ids:[])
+      params.require(:note).permit(:title, :owner_id, :course_id, :university_id, { pdf: [] }, :visibility, :suspended, :filter, :page_index, :notes_per_page, tag_ids:[])
     end
 end

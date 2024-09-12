@@ -93,6 +93,20 @@
           </div>
         </div>
       <%end%>
-    <%end%>  
+    <%end%>
   <%end%>
+</div>
+
+<div class="d-flex justify-content-center mt-4">
+  <% note_count =  Note.where(visibility: true, suspended: false).count %>
+  <% if params[:notes_per_page] && params[:notes_per_page].to_i > 0 %>
+    <% (0...(note_count / params[:notes_per_page].to_i + 1)).each do |index| %>
+      <% index += 1 %>
+      <% if index == params[:page_index].to_i %>
+        <p class="btn btn-disabled border-0 text-secondary"> <%= index %> </p>
+      <% else %>
+        <%= link_to (index).to_s, notes_path(:page_index => index, :notes_per_page => params[:notes_per_page], :filter => params[:filter]), class:"btn border-0 text-primary"%>
+      <% end %>
+    <% end %>
+  <% end %>
 </div>

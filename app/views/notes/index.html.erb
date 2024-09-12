@@ -6,7 +6,23 @@
   <h1>Notes</h1>
 
   <div class="mb-5 d-flex">
+
     <%= form_tag(notes_path, method: :get, class: 'form-inline') do %>
+      <div class="row g-1 align-items-center">
+        <div class="col-auto">
+          <%= label_tag(:notes_per_page, "Notes per Page:", class: 'me-2 small text-muted') %>
+        </div>
+        <div class="col-auto">
+          <%= select_tag(:notes_per_page, options_for_select([
+            "4", "8", "16", "20", "24", "32", "64"
+          ], params[:notes_per_page]), class: 'form-select', onchange: 'this.form.submit();') %>
+        </div>
+      </div>
+      <%= hidden_field_tag :filter, params[:filter] %>
+      <%# hidden_field_tag :filter_university, params[:filter_university] == "true" ? "false" : "true" %>
+    <% end %>
+
+    <%= form_tag(notes_path, method: :get, class: 'form-inline ms-5') do %>
       <div class="row g-1 align-items-center">
         <div class="col-auto">
           <%= label_tag(:sort_by, "Order by:", class: 'me-2 small text-muted') %>
@@ -21,12 +37,14 @@
         </div>
       </div>
       <%= hidden_field_tag :filter, params[:filter] %>
+      <%= hidden_field_tag :notes_per_page, params[:notes_per_page] %>
     <% end %>
 
-    <%= form_tag(notes_path, method: :get, class: 'm-0 p-0 ms-2') do %>
-    <%= hidden_field_tag :filter_university, params[:filter_university] == "true" ? "false" : "true" %>
-    <%= submit_tag params[:filter_university] == "true" ? "All Notes" : "Relevant", class:"btn border border-tertiary" %>
-  <% end %>
+    <%= form_tag(notes_path, method: :get, class: 'm-0 p-0 ms-1') do %>
+      <%= hidden_field_tag :filter_university, params[:filter_university] == "true" ? "false" : "true" %>
+      <%= hidden_field_tag :notes_per_page, params[:notes_per_page] %>
+      <%= submit_tag params[:filter_university] == "true" ? "All Notes" : "Relevant", class:"btn border border-tertiary" %>
+    <% end %>
   </div>
 </div>
 
