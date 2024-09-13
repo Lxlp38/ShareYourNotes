@@ -14,6 +14,7 @@ Feature: Write a Review
   Scenario: Write a review
     When I click on a note
     And I click the 'Leave a Review' button
+    And I select the rating of 5 stars
     And I fill in the "Title" field with "Bellissima nota"
     And I fill in the "Text" field with "Nota motlo utile"
     And I click on the "Submit" button

@@ -8,6 +8,11 @@ When("I click the 'Leave a Review' button") do
     expect(page).to have_selector('#staticReview.modal.show', visible: true)  
 end
 
+And("I select the rating of 5 stars") do
+  within('#staticReview.modal.show') do
+    page.execute_script("document.getElementById('review_rating_5').click()")
+  end
+end
 
 When("I fill in the {string} field with {string}") do |field, content|
     fill_in field, with: content
