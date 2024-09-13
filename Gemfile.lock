@@ -121,12 +121,6 @@ GEM
       rexml (~> 3.0)
       webrick (~> 1.7)
     cucumber-tag-expressions (4.1.0)
-    database_cleaner (2.0.2)
-      database_cleaner-active_record (>= 2, < 3)
-    database_cleaner-active_record (2.2.0)
-      activerecord (>= 5.a)
-      database_cleaner-core (~> 2.0.0)
-    database_cleaner-core (2.0.1)
     date (3.3.4)
     declarative (0.0.20)
     devise (4.9.4)
@@ -446,7 +440,6 @@ DEPENDENCIES
   capybara (>= 3.26)
   carrierwave (~> 3.0)
   cucumber-rails
-  database_cleaner
   devise
   figaro
   google-api-client (~> 0.53.0)
