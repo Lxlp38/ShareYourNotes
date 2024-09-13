@@ -1,7 +1,7 @@
 require 'rspec/expectations'
 
 Given("I am on the login page") do
-  visit new_user_session_path  # Assicurati che `new_user_session_path` sia il percorso corretto per la pagina di login
+  visit new_user_session_path 
 end
 
 When('I fill in the login {string} with {string}') do |field, value|

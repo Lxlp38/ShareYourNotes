@@ -9,6 +9,8 @@
 puts "\n\n\nRicorda! Per caricare tutti i seed usa il comando 'rake db:seed:all'!\n\n\n"
 
 User.destroy_all
+Note.destroy_all
+
 
 more_users=[
     {:username => 'Admin1', :email => 'dellaratta.1994569@studenti.uniroma1.it',
@@ -29,6 +31,31 @@ more_users.each do |user|
 end 
 
 p "Created #{User.count} Users"
+
+# Creare una nota con un PDF
+user = User.first  # O seleziona l'utente a cui vuoi associare la nota
+course = Course.first  # Trova il corso corretto
+university = University.find_by(name: 'Università degli Studi di Catania')
+
+file_path = Rails.root.join('db', 'seeds', 'notes', 'Lezione 7_Il bilancio.pdf')
+
+if File.exist?(file_path)
+  note = Note.create!(
+    title: 'Il bilancio',
+    course: course,
+    university: university,
+    user: user,
+    pdf: [File.open(file_path)],  # Carica il PDF
+    owner_id: user.id,
+    visibility: true
+  )
+  p "Nota creata con il pdf: #{note.title}"
+else
+  p "PDF file not found at #{file_path}"
+end
+
+p "Created #{Note.count} Notes"
+
 
 # Course.destroy_all
 
