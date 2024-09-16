@@ -15,11 +15,7 @@ class NotesController < ApplicationController
 
     notes_per_page = params[:notes_per_page].to_i
     page_index = params[:page_index].to_i
-    @notes = Note.where(visibility: true, suspended: false).limit(notes_per_page).offset(notes_per_page * (page_index-1)) 
-   
-    if params[:filter_university] == "true"
-      @notes = @notes.where(university_id: current_user.university_details_id)
-    end
+    @notes = Note.where(visibility: true, suspended: false).limit(notes_per_page).offset(notes_per_page * (page_index-1))
 
     if params[:filter].present?
       if params[:filter].include?("#")
@@ -27,10 +23,14 @@ class NotesController < ApplicationController
         @tag = Tag.find_by("lower(name) LIKE ?", "%#{@parameter}%")
         @notes = @tag.notes.where(visibility: true, suspended: false).limit(notes_per_page).offset(notes_per_page * (page_index-1))  if @tag
       else
-        @notes = @notes.where("lower(title) LIKE ?", "%#{params[:filter].downcase}%").limit(notes_per_page).offset(notes_per_page * (page_index-1)) 
+        @notes = @notes.where("lower(title) LIKE ?", "%#{params[:filter].downcase}%").limit(notes_per_page).offset(notes_per_page * (page_index-1))
       end
     end
-  
+
+    if params[:filter_university] == "true"
+      @notes = @notes.where(university_id: current_user.university_details_id)
+    end
+
     @notes = ordinamento(@notes)
   end
 
@@ -60,13 +60,13 @@ class NotesController < ApplicationController
     authorize! :new, @note, :message => "Not authorized as an administrator."
   end
 
-  
+
 
   def courses_by_university
     @courses = Course.where(university_id: params[:university_id])
     render json: @courses
   end
-  
+
 
   # GET /notes/1/edit
   def edit
@@ -93,7 +93,7 @@ class NotesController < ApplicationController
     end
 
     respond_to do |format|
-      if @favorite.favorite 
+      if @favorite.favorite
         format.html { redirect_to request.referrer, notice: "Note was added to favorites!" }
       else
         format.html { redirect_to request.referrer, alert: "Note was removed from favorites!" }

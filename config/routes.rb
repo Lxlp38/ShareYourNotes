@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
     get 'notes/courses_by_university', to: 'notes#courses_by_university'
   resources :notes do
-    resources :reviews 
+    resources :reviews
   end
 
   devise_for :users, controllers: {
@@ -43,7 +43,7 @@ Rails.application.routes.draw do
     put :ban, on: :member
     post :sban
   end
- 
+
   match '/frequently_asked' => "application#frequently_asked" , as: 'faq', via: [:get]
   match '/about_us' => "application#about_us" , as: 'about', via: [:get]
 
@@ -59,4 +59,8 @@ Rails.application.routes.draw do
   #get 'auth/google_oauth2/callback', to: 'googledrive#oauth2callback'
 
   #You can also override after_sign_in_path_for and after_sign_out_path_for to customize your redirect hooks.
+
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
+
+
 end
