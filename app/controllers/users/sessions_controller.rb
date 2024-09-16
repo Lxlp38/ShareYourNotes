@@ -10,10 +10,16 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
-    @user=User.where(:email => params[:email])    
-    if @user.isbanned?
-      flash[:error] = "This account has been banned.\nReason: #{result[:reason]}.\nExpiration: #{result[:expiration]}"
-      redirect_to new_user_session_url and return
+    @users=params[:user]
+    email=@users[:email]
+    @user=User.where(:email => email)
+    @ban=Ban.where(:user_id => @user.ids)    
+    if @ban.active == true
+      respond_to do |format|
+        format.html { redirect_to new_user_session_path, warning: "you are banned." }
+        format.json { head :no_content }
+      end
+      return
     end
       
     super
