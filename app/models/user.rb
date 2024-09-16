@@ -81,9 +81,7 @@ class User < ActiveRecord::Base
       self.add_role(:user) if self.roles.blank?
     end
 
-    #def activation_required?
-    #  if User
-    #end
+    
 
 
     def password_required?

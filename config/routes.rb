@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   get 'notes/:id/admin_edit', to: 'notes#admin_edit', as: 'admin_edit_note'
   get 'suspended_notes', to: 'notes#suspended_notes', as: 'suspended_notes'
+  get 'banned_users', to: 'users#banned_users', as: 'banned_users'
 
   patch 'toggle_favorite/:note_id', to: 'notes#toggle_favorite', as: 'toggle_favorite'
   get 'favorites', to: 'notes#index_favorites', as:'favorites'
@@ -40,6 +41,7 @@ Rails.application.routes.draw do
   #put '/users/:id/ban', to: 'users#ban', as: 'ban_user'
   resources :users do
     put :ban, on: :member
+    post :sban
   end
  
   match '/frequently_asked' => "application#frequently_asked" , as: 'faq', via: [:get]

@@ -9,15 +9,28 @@ class UsersController < ApplicationController
     @users = User.all
   end
 
+  def banned_users
+    user_ids = Ban.where("active = ? AND end > ?", true, Date.today).pluck(:user_id)
+    @users = User.where(id: user_ids)
+  end
+
   # GET /users/1 or /users/1.json
   def show
+    if params[:notes_per_page].nil?
+      params[:notes_per_page] = 4
+    end
+
+    if params[:page_index].nil?
+      params[:page_index] = 1
+    end
+
     @user = User.find(params[:id])
     #authorize! :show, @user, :message => "Not authorized as an administrator."
     
     if current_user == @user
       @notes = @user.notes
     else
-      @notes = @user.notes.where(visibility: true)
+      @notes = @user.notes.where(visibility: true, suspended: false)
     end
   
     # Add sorting logic here
@@ -33,9 +46,11 @@ class UsersController < ApplicationController
     else
       @notes = @notes.order(created_at: :desc)  # default sorting
     end
+
+    @notes = @notes.limit(params[:notes_per_page].to_i + 1).offset(params[:notes_per_page].to_i * (params[:page_index].to_i - 1))
   
     # Apply the limit and PDF presence filter
-    @notes = @notes.limit(4).select { |note| note.pdf.present? }
+    #@notes = @notes.limit(4).select { |note| note.pdf.present? }
   end
 
   # GET /users/new
@@ -94,6 +109,16 @@ class UsersController < ApplicationController
       format.json { head :no_content }
     end
   end
+  def sban
+    @users = User.find(params[:user_id])
+    @ban=Ban.where(:user_id => @users.id)
+    @ban.update(active: false)
+
+    respond_to do |format|
+      format.html { redirect_to banned_users_path, notice: "User was successfully sbanned." }
+      format.json { head :no_content }
+    end
+  end
 
   def authorize
     @user = current_user
@@ -136,7 +161,7 @@ class UsersController < ApplicationController
 #      if params[:user][:password].blank?
 #        params.require(:user).permit(:username, :university_details_id, :account_id, :role, :email, :reset_password_sent_at, :remember_created_at)
 #      else
-        params.require(:user).permit(:username, :university_details_id, :account_id, :password, :role, :created_at, :updated_at, :email, :encrypted_password, :reset_password_sent_at, :remember_created_at, :avatar, :trusted, account_attributes: [:id, :github, :google_oauth2],   pdf: [] )
+        params.require(:user).permit(:username, :university_details_id, :account_id, :password, :role, :created_at, :updated_at, :email, :encrypted_password, :reset_password_sent_at, :remember_created_at, :avatar, :trusted, :page_index, :notes_per_page, account_attributes: [:id, :github, :google_oauth2],   pdf: [])
       #end
     end
 end

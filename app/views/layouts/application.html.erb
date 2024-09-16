@@ -54,8 +54,9 @@
 
     <% if alert %>
       <script type="text/javascript">
-        toastr.danger("<%= alert %>");
+        toastr.warning("<%= alert %>", "Warning");
       </script>
     <% end %>
+    
   </body>
-</html-->
+</html>

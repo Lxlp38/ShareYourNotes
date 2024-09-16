@@ -99,7 +99,7 @@
   <% end %> -->
 
 
-  <!--<label class="form-label">Accounts:</label>
+  <label class="form-label">Accounts:</label>
   <div class="d-flex flex-column">
     <% @user.account.attributes.slice("github", "google_oauth2").each do |key, value| %>
     <div>
@@ -115,7 +115,7 @@
       <% end %>
     </div>
     <% end %>
-  </div>-->
+  </div>
 
 
   <div class="d-flex justify-content-between mt-3">
@@ -175,7 +175,7 @@
   <h1 class="mx-5 mt-5 text-dark"><i class="text-info">@<%= @user.username %></i>'s - Personal Notes</h1>
 
   <div class="mx-5 mb-5 p-5 rounded border shadow bg-body">
-    <div class="mb-5">
+    <div class="d-flex mb-5">
       <%= form_tag(user_path(@user), method: :get, class: 'form-inline') do %>
         <div class="row g-1 align-items-center">
           <div class="col-auto">
@@ -193,19 +193,29 @@
         <%= hidden_field_tag :filter, params[:filter] %>
         <%= hidden_field_tag :notes_per_page, params[:notes_per_page] %>
       <% end %>
+
+      <%= form_tag(user_path(@user), method: :get, class: 'ms-4 form-inline') do %>
+        <div class="row g-1 align-items-center">
+          <div class="col-auto">
+            <%= label_tag(:notes_per_page, "Notes per Page:", class: 'me-2 small text-muted') %>
+          </div>
+          <div class="col-auto">
+            <%= select_tag(:notes_per_page, options_for_select([
+              "4", "8", "16", "20", "24", "32", "64"
+            ], params[:notes_per_page]), class: 'form-select', onchange: 'this.form.submit();') %>
+          </div>
+        </div>
+        <%= hidden_field_tag :filter, params[:filter] %>
+        <%# hidden_field_tag :filter_university, params[:filter_university] == "true" ? "false" : "true" %>
+      <% end %>
     </div>
 
-    <% params[:notes_per_page] = 1024 %>
-    <% params[:page_index] = 1 %>
     <% if @notes.any? %>
-      <%= render "layouts/notes/cards_view" %>
+      <%= render "layouts/notes/cards_view", redirect_to: "user" %>
     <% else %>
       <p>No notes available.</p>
     <% end %>
   </div>
 <% end %>
-
-
-
 
 <%= render "layouts/footer" %>

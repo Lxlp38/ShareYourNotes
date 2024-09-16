@@ -10,6 +10,12 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
+    @user=User.where(:email => params[:email])    
+    if @user.isbanned?
+      flash[:error] = "This account has been banned.\nReason: #{result[:reason]}.\nExpiration: #{result[:expiration]}"
+      redirect_to new_user_session_url and return
+    end
+      
     super
   end
 
@@ -18,6 +24,16 @@ class Users::SessionsController < Devise::SessionsController
     super
   end
 
+  def isbanned?
+    return false if active_ban.nil?
+
+    if active_ban.end < Time.now
+      active_ban.update(active: false)
+      return false
+    else
+      return true
+    end
+  end
   # protected
 
   # If you have extra params to permit, append them to the sanitizer.
@@ -25,3 +41,4 @@ class Users::SessionsController < Devise::SessionsController
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
 end
+ 

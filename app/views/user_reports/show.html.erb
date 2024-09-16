@@ -4,7 +4,7 @@
 
 <h1 class="mt-5 mx-5"> Report details page </h1>
 <div class="mx-5 p-5 rounded border shadow bg-body">
-    <h3 class="bt-dashed w-100"> Note details: </h3>
+    
     <% @user = User.find(@user_report.user_id) %>
     <strong>User/link:</strong><%= link_to @user.username, user_path(@user) %>
     <br>

@@ -3,7 +3,7 @@
 <!--<p id="notice"><%= notice %></p>-->
 <p id="notice text-success bg-dark"></p>
 
-<h1>Registered Users&Admins</h1>
+<h1>Banned Users</h1>
 
 <table class="table table-dark table-striped">
   <thead>
@@ -41,7 +41,7 @@
         <td><%= user.remember_created_at%></td>
         <td><%= link_to 'Show', user, class:"btn btn-primary"%></td>
         <td><%= link_to 'Edit', edit_user_path(user), class:"btn btn-warning"%></td>
-        <td><%= button_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %></td>
+        <td><%= button_to 'Sban', user_sban_path(user), method: :post, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %></td>
               
 
       </tr>
