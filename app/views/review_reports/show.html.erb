@@ -1,6 +1,33 @@
-<p id="notice"><%= notice %></p>
+<%= render "layouts/header" %>
 
-<%= link_to 'Edit', edit_review_report_path(@review_report) %> |
-<%= link_to 'Back', review_reports_path %>
+<!--<p id="notice"><%= notice %></p>-->
+
+<h1 class="mt-5 mx-5"> Report details page </h1>
+<div class="mx-5 p-5 rounded border shadow bg-body">
+    <h3 class="bt-dashed w-100"> Note details: </h3>
+    <% @review = Review.find(@review_report.review_id) %>
+    <% @note = Note.find(@review.note_id) %>
+    <strong>Review title/link:</strong><%= link_to @review.title, note_path(@note) %>
+    <br>
+    <strong>Review id:</strong><%= @review_report.review_id %>
+
+    <h3 class="bt-dashed w-100"> Subject: </h3>
+    <h1> <%= @review_report.subject %> </h1>
+
+    <h3 class="bt-dashed w-100"> Details: </h3>
+    <p> <%= @review_report.report %> </p>
+    <% if current_user.has_role?(:admin) %>
+    <%= button_to 'Destroy', @note_report, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger"%>
+    <%end%>
+    </div>
+
+<div class="m-5">
+  <% if current_user.has_role?(:admin) %>
+    
+    <%= link_to 'Back', note_reports_path, class: "btn btn-primary"%>
+  <% else %>
+    <%= link_to 'Back', note_path, class: "btn btn-primary"%>
+  <% end %>
+</div>
 
 <%= render "layouts/footer" %>

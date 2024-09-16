@@ -1,15 +1,32 @@
 <%= render "layouts/header" %>
 
-<div class="d-flex flex-column">
-    <h1> <%= @user_report.subject %> </h1>
-    <p> <%= @user_report.report %> </p>
+<!--<p id="notice"><%= notice %></p>-->
 
+<h1 class="mt-5 mx-5"> Report details page </h1>
+<div class="mx-5 p-5 rounded border shadow bg-body">
+    <h3 class="bt-dashed w-100"> Note details: </h3>
     <% @user = User.find(@user_report.user_id) %>
-    <%= link_to @user.username, user_path(@user) %>
+    <strong>User/link:</strong><%= link_to @user.username, user_path(@user) %>
+    <br>
+    <strong>User id:</strong><%= @user_report.user_id %>
 
-    <%= button_to 'Destroy', @user_report, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger"%>
+    <h3 class="bt-dashed w-100"> Subject: </h3>
+    <h1> <%= @user_report.subject %> </h1>
+
+    <h3 class="bt-dashed w-100"> Details: </h3>
+    <p> <%= @user_report.report %> </p>
+    <% if current_user.has_role?(:admin) %>
+    <%= button_to 'Destroy', @note_report, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger"%>
+    <%end%>
+    </div>
+
+<div class="m-5">
+  <% if current_user.has_role?(:admin) %>
+    
+    <%= link_to 'Back', user_reports_path, class: "btn btn-primary"%>
+  <% else %>
+    <%= link_to 'Back', user_path, class: "btn btn-primary"%>
+  <% end %>
 </div>
-
-<%= link_to 'Back', user_reports_path, class:"btn btn-primary" %>
 
 <%= render "layouts/footer" %>
