@@ -36,12 +36,12 @@
 
         <div class="form-group my-3">
           <label class="form-label">Role:</label>
+          <% role_name = (@user.has_role? :admin) ? 'admin' : 'user' %>
           <% if current_user.has_role?(:admin) %>
-            <% role_name = (@user.has_role? :admin) ? 'admin' : 'user' %>
             <%= form.select :role, options_for_select(Role.all.map { |r| [r.name, r.id] }, Role.find_by(name: role_name).id ), {:prompt => @user.role}, {required: true, autofocus: 'true', class:"form-control"} %>
             <%# form.text_field :role, :value => (@user.role.nil? ? "user" : @user.role), class: "form-control" %>
           <% else %>
-            <p class="form-control"> <%= @user.role.nil? ? "NIL" : @user.role %> </p>
+            <p class="form-control"> <%= role_name %> </p>
           <% end %>
         </div>
       </div>
