@@ -99,9 +99,16 @@
 
 <% if defined? redirect_to %>
   <div class="d-flex justify-content-center mt-4">
-    <% note_count =  Note.where(visibility: true, suspended: false).count %>
+    <% if !defined? note_count %>
+      <% note_count =  Note.where(visibility: true, suspended: false).count %>
+    <% end %>
     <% if params[:notes_per_page] && params[:notes_per_page].to_i > 0 %>
-      <% (0...(note_count / params[:notes_per_page].to_i + 1)).each do |index| %>
+      <% num = note_count / params[:notes_per_page].to_i %>
+      <% mod = note_count % params[:notes_per_page].to_i %>
+      <% if mod != 0 %>
+        <% num += 1 %>
+      <% end %>
+      <% (0...num).each do |index| %>
         <% index += 1 %>
         <% if index == params[:page_index].to_i %>
           <p class="btn btn-disabled border-0 text-secondary"> <%= index %> </p>
@@ -109,7 +116,7 @@
           <% if redirect_to == "user" %>
             <%= link_to (index).to_s, user_path(:user_id => current_user.id, :page_index => index, :notes_per_page => params[:notes_per_page], :sort_by => params[:sort_by]), class:"btn border-0 text-primary"%>
           <% elsif redirect_to == "home" %>
-            <%= link_to (index).to_s, notes_path(:page_index => index, :notes_per_page => params[:notes_per_page], :filter => params[:filter]), class:"btn border-0 text-primary"%>
+            <%= link_to (index).to_s, notes_path(:page_index => index, :notes_per_page => params[:notes_per_page], :filter => params[:filter], :sort_by => params[:sort_by], :filter_university => params[:filter_university]), class:"btn border-0 text-primary"%>
           <% end %>
         <% end %>
       <% end %>

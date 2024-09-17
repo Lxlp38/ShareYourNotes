@@ -15,7 +15,7 @@ class NotesController < ApplicationController
 
     notes_per_page = params[:notes_per_page].to_i
     page_index = params[:page_index].to_i
-    @notes = Note.where(visibility: true, suspended: false).limit(notes_per_page).offset(notes_per_page * (page_index-1))
+    @notes = Note.where(visibility: true, suspended: false)
 
     if params[:filter].present?
       if params[:filter].include?("#")
@@ -27,11 +27,15 @@ class NotesController < ApplicationController
       end
     end
 
-    if params[:filter_university] == "true"
-      @notes = @notes.where(university_id: current_user.university_details_id)
+    if !current_user.nil?
+      if params[:filter_university] == "true"
+        @notes = @notes.where(university_id: current_user.university_details_id)
+      end
     end
 
     @notes = ordinamento(@notes)
+
+    @notes = @notes.each_slice(notes_per_page).to_a[page_index-1]
   end
 
   def index_favorites
@@ -159,9 +163,9 @@ class NotesController < ApplicationController
   def ordinamento(notes)
     case params[:sort_by]
     when "title_asc"
-      notes.order("title ASC")
+      notes.order("LOWER(title) ASC")
     when "title_desc"
-      notes.order("title DESC")
+      notes.order("LOWER(title) DESC")
     when "created_at_asc"
       notes.order("created_at ASC")
     when "created_at_desc"
@@ -169,6 +173,7 @@ class NotesController < ApplicationController
     else
       notes.order("created_at ASC")
     end
+
   end
     # Use callbacks to share common setup or constraints between actions.
     def set_note

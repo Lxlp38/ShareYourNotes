@@ -19,7 +19,8 @@
         </div>
       </div>
       <%= hidden_field_tag :filter, params[:filter] %>
-      <%# hidden_field_tag :filter_university, params[:filter_university] == "true" ? "false" : "true" %>
+      <%= hidden_field_tag :sort_by, params[:sort_by] %>
+      <%= hidden_field_tag :filter_university, params[:filter_university] %>
     <% end %>
 
     <%= form_tag(notes_path, method: :get, class: 'form-inline ms-5') do %>
@@ -29,8 +30,8 @@
         </div>
         <div class="col-auto">
           <%= select_tag(:sort_by, options_for_select([
-            ['Title: A - Z', 'title_desc'],
-            ['Title: Z - A', 'title_asc'],
+            ['Title: A - Z', 'title_asc'],
+            ['Title: Z - A', 'title_desc'],
             ['Least recent', 'created_at_asc'],
             ['Most recent', 'created_at_desc']
           ], params[:sort_by]), class: 'form-select', onchange: 'this.form.submit();') %>
@@ -38,11 +39,14 @@
       </div>
       <%= hidden_field_tag :filter, params[:filter] %>
       <%= hidden_field_tag :notes_per_page, params[:notes_per_page] %>
+      <%= hidden_field_tag :filter_university, params[:filter_university] %>
     <% end %>
 
-    <%= form_tag(notes_path, method: :get, class: 'm-0 p-0 ms-1') do %>
-      <%= hidden_field_tag :filter_university, params[:filter_university] == "true" ? "false" : "true" %>
+    <%= form_tag(notes_path, method: :get, class: 'form-inline ms-5') do %>
+      <%= hidden_field_tag :filter, params[:filter] %>
       <%= hidden_field_tag :notes_per_page, params[:notes_per_page] %>
+      <%= hidden_field_tag :sort_by, params[:sort_by] %>
+      <%= hidden_field_tag :filter_university, params[:filter_university] == "true" ? "false" : "true" %>
       <%= submit_tag params[:filter_university] == "true" ? "All Notes" : "Relevant", class:"btn border border-tertiary" %>
     <% end %>
   </div>

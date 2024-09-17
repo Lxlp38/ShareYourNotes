@@ -26,7 +26,7 @@ class GoogleDriveController < ApplicationController
 
     respond_to do |format|
       if true #@note.save
-        #File.delete(file_path) if File.exist?(file_path)
+        File.delete(file_path) if File.exist?(file_path)
 
         #format.html { redirect_to note_url(@note), notice: 'File was successfully uploaded.' }
         format.json { render json: { message: 'File was successfully uploaded.', file: file_name } }

@@ -16,7 +16,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def handle_auth(kind)
     if kind=="Google"
       x="Google"
-    else 
+    else
       x="Github"
     end
     auth_data = request.env['omniauth.auth']
@@ -26,13 +26,20 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if email && @user.university_details_id.present?
       if x=="Google"
         if @user.account.google_oauth2=="false"
-          flash[:alert] = "This account requires google activation before signing in."
+          flash[:warning] = "This account requires google activation before signing in."
           redirect_to new_user_session_url and return
         end
       else
         if @user.account.github=="false"
+          puts  "gdgdgdgdgdggdgdgdgdd"
+          puts  "gdgdgdgdgdggdgdgdgdd"
+          puts  "gdgdgdgdgdggdgdgdgdd"
+          puts  "gdgdgdgdgdggdgdgdgdd"
+          puts  "gdgdgdgdgdggdgdgdgdd"
+          puts  "gdgdgdgdgdggdgdgdgdd"
+          puts  "gdgdgdgdgdggdgdgdgdd"
           flash[:warning] = "This account requires github activation before signing in."
-          redirect_to new_user_session_url and return 
+          redirect_to new_user_session_url and return
         end
       end
     end
@@ -46,7 +53,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       else
         if x == 'Google'
           @user.account.google_oauth2 = "true"
-        else 
+        else
           @user.account.github = "true"
         end
         sign_in @user

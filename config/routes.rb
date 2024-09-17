@@ -29,6 +29,8 @@ Rails.application.routes.draw do
       get '/auth/:provider/callback', to: 'users/sessions#create', as: 'omniauth_callback'
       get '/auth/failure', to: redirect('/')
       get '/signout', to: 'users/sessions#destroy', as: 'signout'
+      get 'users/passwords/new', to: 'users/passwords#new', as:"new_password"
+      get 'users/passwords/edit', to: 'users/passwords#edit', as:"edit_password"
       get 'complete_registration', to: 'users/registrations#complete_registration'
       get 'google_drive/select_file', to: 'google_drive#select_file'
       post 'google_drive/upload', to: 'google_drive#upload'

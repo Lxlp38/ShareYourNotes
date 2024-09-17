@@ -1,5 +1,5 @@
 <!-- app/views/users/registrations/complete_registration.html.erb -->
-
+<div class="container-fluid">
 <h2>Completa la Registrazione</h2>
 
 <%= form_for @user, url: finish_registration_path, method: :patch do |f| %>
@@ -15,17 +15,62 @@
     <%= f.text_field :username, class: "form-control" %>
   </div>
 
-  <div class="login_form d-flex my-4">
-    <div class="align-middle m-2">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-mortarboard" viewBox="0 0 16 16">
-        <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917zM8 8.46 1.758 5.965 8 3.052l6.242 2.913z"/>
-        <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46z"/>
-      </svg>
+    <div class="mb-3 form-group d-flex">
+    <div class="col container-fluid">
+      <div class="row" style="align-content: start">
+      <%= f.label :university_id, "Selezionare una università", class:"form-label" %><br>
+      </div>
+      <div class="row">
+      <% if @user.university_details_id %>
+        <% university_name = @universities.find(@user.university_details).name %>
+        <input type="text" class="form-control" placeholder="Università" list="list-university" id="input-datalist" value="<%= university_name %>">
+      <% else %>
+        <input type="text" class="form-control" placeholder="Università" list="list-university" id="input-datalist">
+      <% end %>
+      <datalist id="list-university">
+        <% University.all.each do |university| %>
+          <option value="<%= university.name %>" data-id="<%= university.id %>"></option>
+        <% end %>
+      </datalist>
+      <%= f.hidden_field :university_details_id, id: 'university_details' %>
     </div>
-    <%= f.select :university_details_id, options_for_select(University.all.map { |c| [c.name, c.id] }, @user.university_details_id), { prompt: 'University' }, { required: true, autofocus: true, class: "text-muted bg-transparent w-100 border-0 m-2" } %>
+    </div>
+  </div>
   </div>
 
   <div class="form-group">
     <%= f.submit "Completa Registrazione", class: "btn btn-primary" %>
   </div>
+
 <% end %>
+</div>
+<script>
+let init=false;
+
+function initialize(){
+  if(init == false)
+  {
+    init = true;
+    
+    const inputDatalist = document.getElementById('input-datalist');
+    const universityIdField = document.getElementById('university_details');
+    
+
+    inputDatalist.addEventListener('input', function() {
+      const options = document.querySelectorAll('#list-university option');
+      options.forEach(option => {
+        if (option.value === inputDatalist.value) {
+          universityIdField.value = option.getAttribute('data-id');
+          
+        }
+      });
+    });
+  }
+}
+
+
+if(document.getElementById('input-datalist') && document.getElementById('university_details'))
+{
+  initialize();
+}
+</script>

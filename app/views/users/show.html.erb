@@ -211,7 +211,12 @@
     </div>
 
     <% if @notes.any? %>
-      <%= render "layouts/notes/cards_view", redirect_to: "user" %>
+        <% if @user == current_user %>
+          <% ncount = @user.notes.count %>
+        <% else %>
+          <% ncount = @user.notes.where(visibility: true, suspended: false).count %>
+        <% end %>
+      <%= render "layouts/notes/cards_view", note_count: ncount, redirect_to: "user" %>
     <% else %>
       <p>No notes available.</p>
     <% end %>
