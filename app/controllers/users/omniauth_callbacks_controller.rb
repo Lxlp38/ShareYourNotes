@@ -31,13 +31,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         end
       else
         if @user.account.github=="false"
-          puts  "gdgdgdgdgdggdgdgdgdd"
-          puts  "gdgdgdgdgdggdgdgdgdd"
-          puts  "gdgdgdgdgdggdgdgdgdd"
-          puts  "gdgdgdgdgdggdgdgdgdd"
-          puts  "gdgdgdgdgdggdgdgdgdd"
-          puts  "gdgdgdgdgdggdgdgdgdd"
-          puts  "gdgdgdgdgdggdgdgdgdd"
           flash[:warning] = "This account requires github activation before signing in."
           redirect_to new_user_session_url and return
         end
@@ -56,6 +49,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         else
           @user.account.github = "true"
         end
+        @user.account.save
         sign_in @user
         redirect_to complete_registration_path
       end
