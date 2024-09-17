@@ -210,7 +210,8 @@
       <% end %>
     </div>
 
-    <% if @notes.any? %>
+
+    <% if @notes && @notes.any? %>
         <% if @user == current_user %>
           <% ncount = @user.notes.count %>
         <% else %>
